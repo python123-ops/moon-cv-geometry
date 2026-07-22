@@ -1,0 +1,115 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "cxh04/moon-cv-geometry/core"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn abs(Double) -> Double
+
+pub fn almost_equal(Double, Double, eps? : Double) -> Bool
+
+pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
+
+pub fn distance2(Point2, Point2) -> Double
+
+pub fn identity3() -> Mat3
+
+pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> Mat34
+
+pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Double, Double, Double)) -> Mat3
+
+pub fn reprojection_error(Point2, Point2) -> Double
+
+pub fn square(Double) -> Double
+
+// Errors
+pub(all) suberror GeometryError {
+  DegenerateInput(String)
+  NotEnoughPoints(String)
+} derive(Eq, @debug.Debug)
+
+// Types and methods
+pub(all) struct Mat3 {
+  m00 : Double
+  m01 : Double
+  m02 : Double
+  m10 : Double
+  m11 : Double
+  m12 : Double
+  m20 : Double
+  m21 : Double
+  m22 : Double
+} derive(Eq, @debug.Debug)
+pub fn Mat3::det(Self) -> Double
+pub fn Mat3::inverse(Self) -> Self raise GeometryError
+pub fn Mat3::mul(Self, Self) -> Self
+pub fn Mat3::mul_vec3(Self, Vec3) -> Vec3
+pub fn Mat3::transpose(Self) -> Self
+
+pub(all) struct Mat34 {
+  m00 : Double
+  m01 : Double
+  m02 : Double
+  m03 : Double
+  m10 : Double
+  m11 : Double
+  m12 : Double
+  m13 : Double
+  m20 : Double
+  m21 : Double
+  m22 : Double
+  m23 : Double
+} derive(Eq, @debug.Debug)
+pub fn Mat34::transform_point(Self, Point3) -> Point3
+
+pub(all) struct Point2 {
+  x : Double
+  y : Double
+} derive(Eq, @debug.Debug)
+pub fn Point2::minus(Self, Self) -> Vec2
+pub fn Point2::new(x~ : Double, y~ : Double) -> Self
+pub fn Point2::to_vec(Self) -> Vec2
+pub fn Point2::translate(Self, Vec2) -> Self
+
+pub(all) struct Point3 {
+  x : Double
+  y : Double
+  z : Double
+} derive(Eq, @debug.Debug)
+pub fn Point3::new(x~ : Double, y~ : Double, z~ : Double) -> Self
+pub fn Point3::to_vec(Self) -> Vec3
+
+pub(all) struct Vec2 {
+  x : Double
+  y : Double
+} derive(Eq, @debug.Debug)
+pub fn Vec2::add(Self, Self) -> Self
+pub fn Vec2::dot(Self, Self) -> Double
+pub fn Vec2::new(x~ : Double, y~ : Double) -> Self
+pub fn Vec2::norm(Self) -> Double
+pub fn Vec2::norm2(Self) -> Double
+pub fn Vec2::normalize(Self) -> Self raise GeometryError
+pub fn Vec2::scale(Self, Double) -> Self
+pub fn Vec2::sub(Self, Self) -> Self
+
+pub(all) struct Vec3 {
+  x : Double
+  y : Double
+  z : Double
+} derive(Eq, @debug.Debug)
+pub fn Vec3::add(Self, Self) -> Self
+pub fn Vec3::cross(Self, Self) -> Self
+pub fn Vec3::dot(Self, Self) -> Double
+pub fn Vec3::new(x~ : Double, y~ : Double, z~ : Double) -> Self
+pub fn Vec3::norm(Self) -> Double
+pub fn Vec3::norm2(Self) -> Double
+pub fn Vec3::normalize(Self) -> Self raise GeometryError
+pub fn Vec3::scale(Self, Double) -> Self
+pub fn Vec3::sub(Self, Self) -> Self
+
+// Type aliases
+
+// Traits
+
