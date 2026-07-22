@@ -1,0 +1,6 @@
+moon-cv-geometry
+Copyright 2026 python123-ops
+
+This project is an original MoonBit implementation prepared for OSC2026. It uses
+standard public-domain mathematical formulas for camera and projective geometry.
+No third-party implementation source code is included.

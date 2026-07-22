@@ -1,0 +1,8 @@
+import {
+  "cxh04/moon-cv-geometry/camera",
+  "cxh04/moon-cv-geometry/core",
+}
+
+options(
+  "is-main": true,
+)

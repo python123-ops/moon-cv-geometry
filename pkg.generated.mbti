@@ -1,0 +1,88 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "cxh04/moon-cv-geometry"
+
+import {
+  "cxh04/moon-cv-geometry/camera",
+  "cxh04/moon-cv-geometry/core",
+  "cxh04/moon-cv-geometry/multiview",
+  "cxh04/moon-cv-geometry/ransac",
+}
+
+// Values
+pub fn almost_equal(Double, Double, eps? : Double) -> Bool
+
+pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
+
+pub fn distort_point(@core.Point2, @camera.Distortion) -> @core.Point2
+
+pub fn epipolar_residual(@multiview.FundamentalMatrix, @core.Point2, @core.Point2) -> Double
+
+pub fn estimate_essential_from_fundamental(@multiview.FundamentalMatrix, @core.Mat3, @core.Mat3) -> @multiview.EssentialMatrix
+
+pub fn estimate_fundamental_from_translation(@core.Vec3) -> @multiview.FundamentalMatrix
+
+pub fn estimate_fundamental_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : @ransac.RansacConfig) -> @ransac.RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError
+
+pub fn estimate_homography_from_four(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> @multiview.Homography raise @core.GeometryError
+
+pub fn estimate_homography_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : @ransac.RansacConfig) -> @ransac.RansacResult[@multiview.Homography] raise @core.GeometryError
+
+pub fn homography_reprojection_error(@multiview.Homography, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn identity3() -> @core.Mat3
+
+pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> @core.Mat34
+
+pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Double, Double, Double)) -> @core.Mat3
+
+pub fn normalized_to_pixel(@core.Point2, @camera.CameraIntrinsics) -> @core.Point2
+
+pub fn pixel_to_normalized(@core.Point2, @camera.CameraIntrinsics) -> @core.Point2
+
+pub fn project_point(@core.Point3, @camera.CameraIntrinsics, distortion? : @camera.Distortion) -> @core.Point2 raise @core.GeometryError
+
+pub fn project_point_with_pose(@core.Point3, @camera.CameraIntrinsics, @camera.CameraPose, distortion? : @camera.Distortion) -> @core.Point2 raise @core.GeometryError
+
+pub fn reprojection_error(@core.Point2, @core.Point2) -> Double
+
+pub fn undistort_point_iterative(@core.Point2, @camera.Distortion, iterations? : Int) -> @core.Point2
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+pub using @camera {type CameraIntrinsics}
+
+pub using @camera {type CameraPose}
+
+pub using @camera {type Distortion}
+
+pub using @multiview {type EssentialMatrix}
+
+pub using @multiview {type FundamentalMatrix}
+
+pub using @core {type GeometryError}
+
+pub using @multiview {type Homography}
+
+pub using @ransac {type InlierMask}
+
+pub using @core {type Mat3}
+
+pub using @core {type Mat34}
+
+pub using @core {type Point2}
+
+pub using @core {type Point3}
+
+pub using @ransac {type RansacConfig}
+
+pub using @ransac {type RansacResult}
+
+pub using @core {type Vec2}
+
+pub using @core {type Vec3}
+
+// Traits
+

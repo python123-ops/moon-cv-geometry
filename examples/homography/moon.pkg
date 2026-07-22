@@ -1,0 +1,8 @@
+import {
+  "cxh04/moon-cv-geometry/core",
+  "cxh04/moon-cv-geometry/multiview",
+}
+
+options(
+  "is-main": true,
+)

@@ -1,0 +1,40 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "cxh04/moon-cv-geometry/ransac"
+
+import {
+  "cxh04/moon-cv-geometry/core",
+  "cxh04/moon-cv-geometry/multiview",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn estimate_fundamental_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : RansacConfig) -> RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError
+
+pub fn estimate_homography_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : RansacConfig) -> RansacResult[@multiview.Homography] raise @core.GeometryError
+
+// Errors
+
+// Types and methods
+pub(all) struct InlierMask {
+  values : Array[Bool]
+} derive(Eq, @debug.Debug)
+
+pub(all) struct RansacConfig {
+  iterations : Int
+  threshold : Double
+  min_inliers : Int
+  seed : UInt
+} derive(Eq, @debug.Debug)
+pub fn RansacConfig::new(iterations? : Int, threshold? : Double, min_inliers? : Int, seed? : UInt) -> Self
+
+pub(all) struct RansacResult[T] {
+  model : T
+  inliers : InlierMask
+  inlier_count : Int
+  score : Double
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+
