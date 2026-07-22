@@ -1,8 +1,6 @@
 import {
-  "cxh04/moon-cv-geometry/camera",
-  "cxh04/moon-cv-geometry/core",
+  "python123-ops/moon-cv-geometry/camera",
+  "python123-ops/moon-cv-geometry/core",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")

@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "cxh04/moon-cv-geometry/multiview"
+package "python123-ops/moon-cv-geometry/multiview"
 
 import {
-  "cxh04/moon-cv-geometry/core",
   "moonbitlang/core/debug",
+  "python123-ops/moon-cv-geometry/core",
 }
 
 // Values
@@ -25,6 +25,10 @@ pub fn point_line_distance(@core.Vec3, @core.Point2) -> Double raise @core.Geome
 
 pub fn sampson_error(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
 
+pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> TriangulatedPoint raise @core.GeometryError
+
+pub fn triangulation_is_well_conditioned(TriangulatedPoint, max_separation? : Double) -> Bool
+
 // Errors
 
 // Types and methods
@@ -43,6 +47,11 @@ pub(all) struct Homography {
 } derive(Eq, @debug.Debug)
 pub fn Homography::apply(Self, @core.Point2) -> @core.Point2 raise @core.GeometryError
 pub fn Homography::new(matrix~ : @core.Mat3) -> Self
+
+pub(all) struct TriangulatedPoint {
+  point : @core.Point3
+  separation : Double
+} derive(Eq, @debug.Debug)
 
 // Type aliases
 

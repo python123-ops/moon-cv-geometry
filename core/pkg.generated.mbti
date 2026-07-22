@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "cxh04/moon-cv-geometry/core"
+package "python123-ops/moon-cv-geometry/core"
 
 import {
   "moonbitlang/core/debug",
@@ -14,6 +14,8 @@ pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
 
 pub fn distance2(Point2, Point2) -> Double
 
+pub fn distance3(Point3, Point3) -> Double
+
 pub fn identity3() -> Mat3
 
 pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> Mat34
@@ -21,6 +23,8 @@ pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double
 pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Double, Double, Double)) -> Mat3
 
 pub fn point2_from_homogeneous(Vec3) -> Point2 raise GeometryError
+
+pub fn rect2_from_points(ArrayView[Point2]) -> Rect2 raise GeometryError
 
 pub fn reprojection_error(Point2, Point2) -> Double
 
@@ -81,8 +85,34 @@ pub(all) struct Point3 {
   y : Double
   z : Double
 } derive(Eq, @debug.Debug)
+pub fn Point3::minus(Self, Self) -> Vec3
 pub fn Point3::new(x~ : Double, y~ : Double, z~ : Double) -> Self
 pub fn Point3::to_vec(Self) -> Vec3
+pub fn Point3::translate(Self, Vec3) -> Self
+
+pub(all) struct Ray3 {
+  origin : Point3
+  direction : Vec3
+} derive(Eq, @debug.Debug)
+pub fn Ray3::closest_midpoint(Self, Self) -> Point3 raise GeometryError
+pub fn Ray3::closest_separation(Self, Self) -> Double raise GeometryError
+pub fn Ray3::new(origin~ : Point3, direction~ : Vec3) -> Self raise GeometryError
+pub fn Ray3::point_at(Self, Double) -> Point3
+
+pub(all) struct Rect2 {
+  min : Point2
+  max : Point2
+} derive(Eq, @debug.Debug)
+pub fn Rect2::area(Self) -> Double
+pub fn Rect2::center(Self) -> Point2
+pub fn Rect2::contains(Self, Point2) -> Bool
+pub fn Rect2::expand(Self, Double) -> Self raise GeometryError
+pub fn Rect2::from_center_size(center~ : Point2, width~ : Double, height~ : Double) -> Self raise GeometryError
+pub fn Rect2::height(Self) -> Double
+pub fn Rect2::intersection(Self, Self) -> Self?
+pub fn Rect2::new(min~ : Point2, max~ : Point2) -> Self raise GeometryError
+pub fn Rect2::union(Self, Self) -> Self
+pub fn Rect2::width(Self) -> Double
 
 pub(all) struct Vec2 {
   x : Double

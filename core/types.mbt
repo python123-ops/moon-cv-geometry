@@ -78,3 +78,15 @@ pub(all) struct Mat34 {
   m22 : Double
   m23 : Double
 } derive(Debug, Eq)
+
+///|
+pub(all) struct Ray3 {
+  origin : Point3
+  direction : Vec3
+} derive(Debug, Eq)
+
+///|
+pub(all) struct Rect2 {
+  min : Point2
+  max : Point2
+} derive(Debug, Eq)

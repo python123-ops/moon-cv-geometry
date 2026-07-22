@@ -1,15 +1,89 @@
-name: ci
+name: Check and Test
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+  workflow_dispatch:
 
 jobs:
   moonbit:
-    runs-on: ubuntu-latest
+    name: MoonBit (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
     steps:
-      - uses: actions/checkout@v4
-      - uses: moonbitlang/setup-moonbit@v1
-      - run: moon check --target all
-      - run: moon test --target all
-      - run: moon info
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup MoonBit on Unix
+        if: runner.os != 'Windows'
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Setup MoonBit on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$HOME\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Setup native compiler on Ubuntu
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc libssl-dev
+
+      - name: Setup native compiler on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install gcc openssl
+
+      - name: Setup native compiler on Windows
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          path-type: inherit
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-openssl
+
+      - name: Post install
+        run: |
+          moon version --all
+          moon update
+
+      - name: Format gate
+        run: |
+          moon fmt --check
+
+      - name: Check all targets
+        run: |
+          moon check --target all --deny-warn
+
+      - name: Test all targets
+        run: |
+          moon test --target all --deny-warn
+
+      - name: Interface gate
+        run: |
+          moon info
+          git diff --exit-code -- '*.mbti'
+
+      - name: Package gate
+        run: |
+          moon package

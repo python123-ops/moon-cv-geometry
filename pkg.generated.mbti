@@ -1,17 +1,19 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "cxh04/moon-cv-geometry"
+package "python123-ops/moon-cv-geometry"
 
 import {
-  "cxh04/moon-cv-geometry/camera",
-  "cxh04/moon-cv-geometry/core",
-  "cxh04/moon-cv-geometry/multiview",
-  "cxh04/moon-cv-geometry/ransac",
+  "python123-ops/moon-cv-geometry/camera",
+  "python123-ops/moon-cv-geometry/core",
+  "python123-ops/moon-cv-geometry/multiview",
+  "python123-ops/moon-cv-geometry/ransac",
 }
 
 // Values
 pub fn almost_equal(Double, Double, eps? : Double) -> Bool
 
 pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
+
+pub fn distance3(@core.Point3, @core.Point3) -> Double
 
 pub fn distort_point(@core.Point2, @camera.Distortion) -> @core.Point2
 
@@ -49,7 +51,13 @@ pub fn project_point(@core.Point3, @camera.CameraIntrinsics, distortion? : @came
 
 pub fn project_point_with_pose(@core.Point3, @camera.CameraIntrinsics, @camera.CameraPose, distortion? : @camera.Distortion) -> @core.Point2 raise @core.GeometryError
 
+pub fn rect2_from_points(ArrayView[@core.Point2]) -> @core.Rect2 raise @core.GeometryError
+
 pub fn reprojection_error(@core.Point2, @core.Point2) -> Double
+
+pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> @multiview.TriangulatedPoint raise @core.GeometryError
+
+pub fn triangulation_is_well_conditioned(@multiview.TriangulatedPoint, max_separation? : Double) -> Bool
 
 pub fn undistort_point_iterative(@core.Point2, @camera.Distortion, iterations? : Int) -> @core.Point2
 
@@ -74,6 +82,8 @@ pub using @core {type GeometryError}
 
 pub using @multiview {type Homography}
 
+pub using @camera {type ImageSize}
+
 pub using @ransac {type InlierMask}
 
 pub using @core {type Mat3}
@@ -87,6 +97,12 @@ pub using @core {type Point3}
 pub using @ransac {type RansacConfig}
 
 pub using @ransac {type RansacResult}
+
+pub using @core {type Ray3}
+
+pub using @core {type Rect2}
+
+pub using @multiview {type TriangulatedPoint}
 
 pub using @core {type Vec2}
 

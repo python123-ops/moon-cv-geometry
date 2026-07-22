@@ -32,6 +32,16 @@ pub fn Point3::to_vec(p : Point3) -> Vec3 {
 }
 
 ///|
+pub fn Point3::translate(p : Point3, v : Vec3) -> Point3 {
+  Point3::new(x=p.x + v.x, y=p.y + v.y, z=p.z + v.z)
+}
+
+///|
+pub fn Point3::minus(a : Point3, b : Point3) -> Vec3 {
+  Vec3::new(x=a.x - b.x, y=a.y - b.y, z=a.z - b.z)
+}
+
+///|
 pub fn Vec2::add(a : Vec2, b : Vec2) -> Vec2 {
   Vec2::new(x=a.x + b.x, y=a.y + b.y)
 }
@@ -120,6 +130,11 @@ pub fn Vec3::normalize(v : Vec3) -> Vec3 raise GeometryError {
 
 ///|
 pub fn distance2(a : Point2, b : Point2) -> Double {
+  a.minus(b).norm()
+}
+
+///|
+pub fn distance3(a : Point3, b : Point3) -> Double {
   a.minus(b).norm()
 }
 

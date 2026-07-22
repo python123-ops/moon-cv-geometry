@@ -24,9 +24,32 @@ test "field-of-view helpers round trip focal length" {
   let hfov = horizontal_fov(k, width=1000.0)
   let vfov = vertical_fov(k, height=800.0)
   assert_true(
-    @core.almost_equal(focal_from_fov(sensor_extent=1000.0, fov_radians=hfov), 500.0),
+    @core.almost_equal(
+      focal_from_fov(sensor_extent=1000.0, fov_radians=hfov),
+      500.0,
+    ),
   )
   assert_true(
-    @core.almost_equal(focal_from_fov(sensor_extent=800.0, fov_radians=vfov), 400.0),
+    @core.almost_equal(
+      focal_from_fov(sensor_extent=800.0, fov_radians=vfov),
+      400.0,
+    ),
   )
+}
+
+///|
+test "viewport helpers expose image bounds and scaled intrinsics" {
+  let size = ImageSize::new(width=640, height=480)
+  let rect = size.as_rect()
+  assert_true(rect.contains(@core.Point2::new(x=320.0, y=240.0)))
+  assert_false(rect.contains(@core.Point2::new(x=641.0, y=240.0)))
+  let k = CameraIntrinsics::for_centered_image(focal=600.0, size)
+  assert_true(@core.almost_equal(k.cx, 320.0))
+  assert_true(@core.almost_equal(k.cy, 240.0))
+  let half = k.scaled(scale_x=0.5, scale_y=0.5)
+  assert_true(@core.almost_equal(half.fx, 300.0))
+  assert_true(@core.almost_equal(half.cx, 160.0))
+  let m = half.as_matrix()
+  assert_true(@core.almost_equal(m.m00, 300.0))
+  assert_true(@core.almost_equal(m.m22, 1.0))
 }

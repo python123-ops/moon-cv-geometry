@@ -1,8 +1,6 @@
 import {
-  "cxh04/moon-cv-geometry/core",
-  "cxh04/moon-cv-geometry/multiview",
+  "python123-ops/moon-cv-geometry/core",
+  "python123-ops/moon-cv-geometry/multiview",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")

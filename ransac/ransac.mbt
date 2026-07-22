@@ -35,7 +35,10 @@ pub fn InlierMask::length(mask : InlierMask) -> Int {
 }
 
 ///|
-pub fn InlierMask::is_inlier(mask : InlierMask, index : Int) -> Bool raise @core.GeometryError {
+pub fn InlierMask::is_inlier(
+  mask : InlierMask,
+  index : Int,
+) -> Bool raise @core.GeometryError {
   if index < 0 || index >= mask.values.length() {
     raise @core.GeometryError::DegenerateInput("inlier index is out of range")
   }

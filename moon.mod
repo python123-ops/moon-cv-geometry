@@ -1,4 +1,4 @@
-name = "cxh04/moon-cv-geometry"
+name = "python123-ops/moon-cv-geometry"
 
 version = "0.1.0"
 

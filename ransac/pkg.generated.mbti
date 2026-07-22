@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "cxh04/moon-cv-geometry/ransac"
+package "python123-ops/moon-cv-geometry/ransac"
 
 import {
-  "cxh04/moon-cv-geometry/core",
-  "cxh04/moon-cv-geometry/multiview",
   "moonbitlang/core/debug",
+  "python123-ops/moon-cv-geometry/core",
+  "python123-ops/moon-cv-geometry/multiview",
 }
 
 // Values

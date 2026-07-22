@@ -49,3 +49,22 @@ test "homography handles projective four-point mapping" {
     assert_true(homography_reprojection_error(h, src[i], dst[i]) < 0.000000001)
   }
 }
+
+///|
+test "triangulate from two bearing rays" {
+  let target = @core.Point3::new(x=0.0, y=0.0, z=2.0)
+  let left = @core.Ray3::new(
+    origin=@core.Point3::new(x=0.0, y=0.0, z=0.0),
+    direction=target.minus(@core.Point3::new(x=0.0, y=0.0, z=0.0)),
+  )
+  let right_origin = @core.Point3::new(x=1.0, y=0.0, z=0.0)
+  let right = @core.Ray3::new(
+    origin=right_origin,
+    direction=target.minus(right_origin),
+  )
+  let result = triangulate_from_rays(left, right)
+  assert_true(@core.distance3(result.point, target) < 0.000000001)
+  assert_true(
+    triangulation_is_well_conditioned(result, max_separation=0.000000001),
+  )
+}

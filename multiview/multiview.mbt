@@ -24,6 +24,12 @@ pub(all) struct EssentialMatrix {
 } derive(Debug, Eq)
 
 ///|
+pub(all) struct TriangulatedPoint {
+  point : @core.Point3
+  separation : Double
+} derive(Debug, Eq)
+
+///|
 pub fn EssentialMatrix::new(matrix~ : @core.Mat3) -> EssentialMatrix {
   { matrix, }
 }
@@ -243,4 +249,22 @@ pub fn estimate_essential_from_fundamental(
   k_right : @core.Mat3,
 ) -> EssentialMatrix {
   EssentialMatrix::new(matrix=k_right.transpose().mul(f.matrix).mul(k_left))
+}
+
+///|
+pub fn triangulate_from_rays(
+  left : @core.Ray3,
+  right : @core.Ray3,
+) -> TriangulatedPoint raise @core.GeometryError {
+  let point = left.closest_midpoint(right)
+  let separation = left.closest_separation(right)
+  { point, separation }
+}
+
+///|
+pub fn triangulation_is_well_conditioned(
+  result : TriangulatedPoint,
+  max_separation? : Double = 0.001,
+) -> Bool {
+  result.separation <= max_separation
 }

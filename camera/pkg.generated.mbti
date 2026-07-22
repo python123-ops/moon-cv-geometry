@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "cxh04/moon-cv-geometry/camera"
+package "python123-ops/moon-cv-geometry/camera"
 
 import {
-  "cxh04/moon-cv-geometry/core",
   "moonbitlang/core/debug",
+  "python123-ops/moon-cv-geometry/core",
 }
 
 // Values
@@ -37,7 +37,11 @@ pub(all) struct CameraIntrinsics {
   cy : Double
   skew : Double
 } derive(Eq, @debug.Debug)
+pub fn CameraIntrinsics::as_matrix(Self) -> @core.Mat3
+pub fn CameraIntrinsics::for_centered_image(focal~ : Double, ImageSize, skew? : Double) -> Self raise @core.GeometryError
 pub fn CameraIntrinsics::new(fx~ : Double, fy~ : Double, cx~ : Double, cy~ : Double, skew? : Double) -> Self
+pub fn CameraIntrinsics::principal_point(Self) -> @core.Point2
+pub fn CameraIntrinsics::scaled(Self, scale_x~ : Double, scale_y~ : Double) -> Self raise @core.GeometryError
 
 pub(all) struct CameraPose {
   world_to_camera : @core.Mat34
@@ -54,6 +58,13 @@ pub(all) struct Distortion {
 } derive(Eq, @debug.Debug)
 pub fn Distortion::brown_conrady(k1? : Double, k2? : Double, p1? : Double, p2? : Double, k3? : Double) -> Self
 pub fn Distortion::none() -> Self
+
+pub(all) struct ImageSize {
+  width : Int
+  height : Int
+} derive(Eq, @debug.Debug)
+pub fn ImageSize::as_rect(Self) -> @core.Rect2 raise @core.GeometryError
+pub fn ImageSize::new(width~ : Int, height~ : Int) -> Self raise @core.GeometryError
 
 // Type aliases
 

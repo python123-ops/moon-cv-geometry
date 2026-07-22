@@ -1,8 +1,8 @@
 # moon-cv-geometry
 
-moonbit视觉几何基石 is a small MoonBit library for camera and multi-view geometry.
+moonbit视觉几何基石 is a MoonBit library for camera and multi-view geometry.
 It focuses on the reusable geometry layer beneath calibration, AR, SLAM demos,
-panorama stitching, and robot localization experiments.
+panorama stitching, and robot-localization experiments.
 
 The project deliberately does not implement image loading, filters, feature
 detectors, neural vision, GIS geometry, game rendering, or a general-purpose
@@ -11,7 +11,7 @@ linear algebra framework.
 ## Install
 
 ```bash
-moon add cxh04/moon-cv-geometry
+moon add python123-ops/moon-cv-geometry
 ```
 
 ## Minimal Example
@@ -29,9 +29,9 @@ test "project a 3D camera point" {
 
 ## Packages
 
-- `core`: `Point2`, `Point3`, `Vec2`, `Vec3`, `Mat3`, `Mat34`, small fixed-size operations, and geometric errors.
-- `camera`: pinhole intrinsics, camera pose, Brown-Conrady distortion, projection, and bearing rays.
-- `multiview`: four-point projective homography, epipolar residual/distance/Sampson error, fundamental and essential matrix helpers.
+- `core`: `Point2`, `Point3`, `Vec2`, `Vec3`, `Ray3`, `Rect2`, `Mat3`, `Mat34`, fixed-size operations, and geometric errors.
+- `camera`: image size helpers, pinhole intrinsics, camera pose, Brown-Conrady distortion, projection, and bearing rays.
+- `multiview`: four-point projective homography, epipolar residual/distance/Sampson error, triangulation from bearing rays, and fundamental/essential matrix helpers.
 - `ransac`: deterministic RANSAC configuration and estimators for homography and a stereo-oriented fundamental matrix baseline.
 
 ## Examples
@@ -62,15 +62,20 @@ texts and documentation. No third-party source code is copied into this reposito
 
 ## Roadmap
 
-- `0.1.x`: stabilize fixed-size geometry, camera projection, four-point homography, epipolar constraints, and deterministic RANSAC.
-- `0.2.x`: normalized DLT over more than four correspondences, eight-point fundamental matrix estimation, triangulation, and stronger numerical conditioning.
+- `0.1.x`: stabilize fixed-size geometry, camera projection, image viewport helpers, triangulation from rays, four-point homography, epipolar constraints, and deterministic RANSAC.
+- `0.2.x`: normalized DLT over more than four correspondences, eight-point fundamental matrix estimation, cheirality checks, and stronger numerical conditioning.
 - Later: PnP, bundle-adjustment-friendly residual helpers, and optional adapters to mature MoonBit numeric packages.
 
 ## Validation
 
 ```bash
-moon check --target all
-moon test --target all
-moon fmt
+moon fmt --check
+moon check --target all --deny-warn
+moon test --target all --deny-warn
 moon info
+moon package
 ```
+
+The current MoonBit CLI exposes warning denial on `moon check` and `moon test`.
+For formatting and interface generation, CI uses `moon fmt --check` and
+`moon info` followed by a generated-interface diff check.
