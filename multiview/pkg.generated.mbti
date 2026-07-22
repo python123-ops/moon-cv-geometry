@@ -1,0 +1,50 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "cxh04/moon-cv-geometry/multiview"
+
+import {
+  "cxh04/moon-cv-geometry/core",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn epipolar_distance(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn epipolar_line_in_right(FundamentalMatrix, @core.Point2) -> @core.Vec3
+
+pub fn epipolar_residual(FundamentalMatrix, @core.Point2, @core.Point2) -> Double
+
+pub fn estimate_essential_from_fundamental(FundamentalMatrix, @core.Mat3, @core.Mat3) -> EssentialMatrix
+
+pub fn estimate_fundamental_from_translation(@core.Vec3) -> FundamentalMatrix
+
+pub fn estimate_homography_from_four(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Homography raise @core.GeometryError
+
+pub fn homography_reprojection_error(Homography, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn point_line_distance(@core.Vec3, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn sampson_error(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+// Errors
+
+// Types and methods
+pub(all) struct EssentialMatrix {
+  matrix : @core.Mat3
+} derive(Eq, @debug.Debug)
+pub fn EssentialMatrix::new(matrix~ : @core.Mat3) -> Self
+
+pub(all) struct FundamentalMatrix {
+  matrix : @core.Mat3
+} derive(Eq, @debug.Debug)
+pub fn FundamentalMatrix::new(matrix~ : @core.Mat3) -> Self
+
+pub(all) struct Homography {
+  matrix : @core.Mat3
+} derive(Eq, @debug.Debug)
+pub fn Homography::apply(Self, @core.Point2) -> @core.Point2 raise @core.GeometryError
+pub fn Homography::new(matrix~ : @core.Mat3) -> Self
+
+// Type aliases
+
+// Traits
+
