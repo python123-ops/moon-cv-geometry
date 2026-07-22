@@ -4,6 +4,19 @@ pub fn Point2::to_vec(p : Point2) -> Vec2 {
 }
 
 ///|
+pub fn Point2::to_homogeneous(p : Point2) -> Vec3 {
+  Vec3::new(x=p.x, y=p.y, z=1.0)
+}
+
+///|
+pub fn point2_from_homogeneous(v : Vec3) -> Point2 raise GeometryError {
+  if abs(v.z) <= 0.000000000001 {
+    raise GeometryError::DegenerateInput("homogeneous point has zero scale")
+  }
+  Point2::new(x=v.x / v.z, y=v.y / v.z)
+}
+
+///|
 pub fn Point2::translate(p : Point2, v : Vec2) -> Point2 {
   Point2::new(x=p.x + v.x, y=p.y + v.y)
 }

@@ -39,6 +39,8 @@ pub fn normalized_to_pixel(@core.Point2, @camera.CameraIntrinsics) -> @core.Poin
 
 pub fn pixel_to_normalized(@core.Point2, @camera.CameraIntrinsics) -> @core.Point2
 
+pub fn point2_from_homogeneous(@core.Vec3) -> @core.Point2 raise @core.GeometryError
+
 pub fn project_point(@core.Point3, @camera.CameraIntrinsics, distortion? : @camera.Distortion) -> @core.Point2 raise @core.GeometryError
 
 pub fn project_point_with_pose(@core.Point3, @camera.CameraIntrinsics, @camera.CameraPose, distortion? : @camera.Distortion) -> @core.Point2 raise @core.GeometryError

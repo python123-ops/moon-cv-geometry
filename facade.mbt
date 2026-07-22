@@ -12,6 +12,7 @@ pub using @core {
   identity3,
   mat3_from_rows,
   mat34_from_rows,
+  point2_from_homogeneous,
   reprojection_error,
 }
 

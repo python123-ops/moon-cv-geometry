@@ -23,3 +23,13 @@ test "singular matrix raises an explicit error" {
     _ => fail("expected singular matrix error")
   }
 }
+
+///|
+test "homogeneous point conversion checks scale" {
+  let p = Point2::new(x=3.0, y=-2.0)
+  let h = p.to_homogeneous()
+  assert_true(almost_equal(h.z, 1.0))
+  let recovered = point2_from_homogeneous(Vec3::new(x=6.0, y=-4.0, z=2.0))
+  assert_true(almost_equal(recovered.x, p.x))
+  assert_true(almost_equal(recovered.y, p.y))
+}

@@ -20,6 +20,8 @@ pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double
 
 pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Double, Double, Double)) -> Mat3
 
+pub fn point2_from_homogeneous(Vec3) -> Point2 raise GeometryError
+
 pub fn reprojection_error(Point2, Point2) -> Double
 
 pub fn square(Double) -> Double
@@ -70,6 +72,7 @@ pub(all) struct Point2 {
 } derive(Eq, @debug.Debug)
 pub fn Point2::minus(Self, Self) -> Vec2
 pub fn Point2::new(x~ : Double, y~ : Double) -> Self
+pub fn Point2::to_homogeneous(Self) -> Vec3
 pub fn Point2::to_vec(Self) -> Vec2
 pub fn Point2::translate(Self, Vec2) -> Self
 
