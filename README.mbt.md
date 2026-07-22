@@ -43,6 +43,8 @@ moon run examples/homography
 moon run examples/fundamental_ransac
 ```
 
+See `examples/README.md` for the short purpose of each example.
+
 ## Ecosystem Position
 
 Before implementation, related mooncakes.io packages were checked. The closest

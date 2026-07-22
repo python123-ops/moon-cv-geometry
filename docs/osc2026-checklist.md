@@ -9,7 +9,8 @@
   GitHub history uses `python123-ops <python123-ops@users.noreply.github.com>`;
   GitLink history uses `python123 <15564209090@163.com>`.
 - Mooncakes module: `cxh04/moon-cv-geometry@0.1.0`.
-- MoonBit source scale: about 1.1k `.mbt` lines in the first acceptance build.
+- MoonBit source scale: about 1.1k `.mbt` lines in the first acceptance build,
+  plus checked interfaces and runnable examples.
 - Tests: fixed-size math, camera projection/distortion, projective homography,
   epipolar residuals, and deterministic RANSAC.
 - Documentation: README, algorithm notes, numerical conventions, RANSAC notes,
