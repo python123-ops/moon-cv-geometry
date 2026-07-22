@@ -27,7 +27,11 @@ pub fn estimate_homography_from_four(ArrayView[@core.Point2], ArrayView[@core.Po
 
 pub fn estimate_homography_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : @ransac.RansacConfig) -> @ransac.RansacResult[@multiview.Homography] raise @core.GeometryError
 
+pub fn focal_from_fov(sensor_extent~ : Double, fov_radians~ : Double) -> Double raise @core.GeometryError
+
 pub fn homography_reprojection_error(@multiview.Homography, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn horizontal_fov(@camera.CameraIntrinsics, width~ : Double) -> Double raise @core.GeometryError
 
 pub fn identity3() -> @core.Mat3
 
@@ -48,6 +52,8 @@ pub fn project_point_with_pose(@core.Point3, @camera.CameraIntrinsics, @camera.C
 pub fn reprojection_error(@core.Point2, @core.Point2) -> Double
 
 pub fn undistort_point_iterative(@core.Point2, @camera.Distortion, iterations? : Int) -> @core.Point2
+
+pub fn vertical_fov(@camera.CameraIntrinsics, height~ : Double) -> Double raise @core.GeometryError
 
 // Errors
 

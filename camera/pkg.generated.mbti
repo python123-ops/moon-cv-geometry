@@ -11,6 +11,10 @@ pub fn bearing_from_pixel(@core.Point2, CameraIntrinsics, distortion? : Distorti
 
 pub fn distort_point(@core.Point2, Distortion) -> @core.Point2
 
+pub fn focal_from_fov(sensor_extent~ : Double, fov_radians~ : Double) -> Double raise @core.GeometryError
+
+pub fn horizontal_fov(CameraIntrinsics, width~ : Double) -> Double raise @core.GeometryError
+
 pub fn normalized_to_pixel(@core.Point2, CameraIntrinsics) -> @core.Point2
 
 pub fn pixel_to_normalized(@core.Point2, CameraIntrinsics) -> @core.Point2
@@ -20,6 +24,8 @@ pub fn project_point(@core.Point3, CameraIntrinsics, distortion? : Distortion) -
 pub fn project_point_with_pose(@core.Point3, CameraIntrinsics, CameraPose, distortion? : Distortion) -> @core.Point2 raise @core.GeometryError
 
 pub fn undistort_point_iterative(@core.Point2, Distortion, iterations? : Int) -> @core.Point2
+
+pub fn vertical_fov(CameraIntrinsics, height~ : Double) -> Double raise @core.GeometryError
 
 // Errors
 

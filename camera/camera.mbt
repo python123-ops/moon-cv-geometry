@@ -120,6 +120,45 @@ pub fn pixel_to_normalized(
 }
 
 ///|
+pub fn focal_from_fov(
+  sensor_extent~ : Double,
+  fov_radians~ : Double,
+) -> Double raise @core.GeometryError {
+  if sensor_extent <= 0.0 || fov_radians <= 0.0 {
+    raise @core.GeometryError::DegenerateInput(
+      "sensor extent and fov must be positive",
+    )
+  }
+  sensor_extent / (2.0 * @math.tan(fov_radians / 2.0))
+}
+
+///|
+pub fn horizontal_fov(
+  intrinsics : CameraIntrinsics,
+  width~ : Double,
+) -> Double raise @core.GeometryError {
+  if intrinsics.fx <= 0.0 || width <= 0.0 {
+    raise @core.GeometryError::DegenerateInput(
+      "fx and image width must be positive",
+    )
+  }
+  2.0 * @math.atan(width / (2.0 * intrinsics.fx))
+}
+
+///|
+pub fn vertical_fov(
+  intrinsics : CameraIntrinsics,
+  height~ : Double,
+) -> Double raise @core.GeometryError {
+  if intrinsics.fy <= 0.0 || height <= 0.0 {
+    raise @core.GeometryError::DegenerateInput(
+      "fy and image height must be positive",
+    )
+  }
+  2.0 * @math.atan(height / (2.0 * intrinsics.fy))
+}
+
+///|
 pub fn project_point(
   camera_point : @core.Point3,
   intrinsics : CameraIntrinsics,

@@ -1,3 +1,4 @@
 import {
   "cxh04/moon-cv-geometry/core",
+  "moonbitlang/core/math" @math,
 }

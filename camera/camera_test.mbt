@@ -17,3 +17,16 @@ test "distortion iterative inverse returns near original coordinate" {
   let recovered = undistort_point_iterative(distorted, d, iterations=8)
   assert_true(@core.reprojection_error(p, recovered) < 0.000001)
 }
+
+///|
+test "field-of-view helpers round trip focal length" {
+  let k = CameraIntrinsics::new(fx=500.0, fy=400.0, cx=320.0, cy=240.0)
+  let hfov = horizontal_fov(k, width=1000.0)
+  let vfov = vertical_fov(k, height=800.0)
+  assert_true(
+    @core.almost_equal(focal_from_fov(sensor_extent=1000.0, fov_radians=hfov), 500.0),
+  )
+  assert_true(
+    @core.almost_equal(focal_from_fov(sensor_extent=800.0, fov_radians=vfov), 400.0),
+  )
+}

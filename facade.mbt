@@ -22,11 +22,14 @@ pub using @camera {
   type CameraPose,
   type Distortion,
   distort_point,
+  focal_from_fov,
+  horizontal_fov,
   normalized_to_pixel,
   pixel_to_normalized,
   project_point,
   project_point_with_pose,
   undistort_point_iterative,
+  vertical_fov,
 }
 
 ///|
