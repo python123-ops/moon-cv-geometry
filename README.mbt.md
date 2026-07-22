@@ -1,0 +1,74 @@
+# moon-cv-geometry
+
+moonbit视觉几何基石 is a small MoonBit library for camera and multi-view geometry.
+It focuses on the reusable geometry layer beneath calibration, AR, SLAM demos,
+panorama stitching, and robot localization experiments.
+
+The project deliberately does not implement image loading, filters, feature
+detectors, neural vision, GIS geometry, game rendering, or a general-purpose
+linear algebra framework.
+
+## Install
+
+```bash
+moon add cxh04/moon-cv-geometry
+```
+
+## Minimal Example
+
+```mbt check
+///|
+test "project a 3D camera point" {
+  let k = @camera.CameraIntrinsics::new(fx=500.0, fy=500.0, cx=320.0, cy=240.0)
+  let p = @core.Point3::new(x=1.0, y=2.0, z=4.0)
+  let pixel = @camera.project_point(p, k)
+  assert_true(@core.almost_equal(pixel.x, 445.0))
+  assert_true(@core.almost_equal(pixel.y, 490.0))
+}
+```
+
+## Packages
+
+- `core`: `Point2`, `Point3`, `Vec2`, `Vec3`, `Mat3`, `Mat34`, small fixed-size operations, and geometric errors.
+- `camera`: pinhole intrinsics, camera pose, Brown-Conrady distortion, projection, and bearing rays.
+- `multiview`: four-point projective homography, epipolar residual/distance/Sampson error, fundamental and essential matrix helpers.
+- `ransac`: deterministic RANSAC configuration and estimators for homography and a stereo-oriented fundamental matrix baseline.
+
+## Examples
+
+```bash
+moon run examples/project_point
+moon run examples/undistort
+moon run examples/homography
+moon run examples/fundamental_ransac
+```
+
+## Ecosystem Position
+
+Before implementation, related mooncakes.io packages were checked. The closest
+neighbors are general linear algebra (`Luna-Flow/linear-algebra`, `xunyoyo/linalg`,
+`AdUhTkJm/nummoon`), computational/GIS geometry (`CMoonBack/computational-geometry`,
+`cn-xjr/moongeokit`), rendering or game geometry (`mizchi/geom`, `Luna-Flow/geometry3d`),
+and image processing (`PingGuoMiaoMiao/MoonVision`). This library stays in the
+camera and multi-view geometry layer to avoid duplicating those packages.
+
+## Source Note
+
+The implementation is original MoonBit code for OSC2026. The API and algorithms
+use standard projective-geometry formulas commonly described in computer-vision
+texts and documentation. No third-party source code is copied into this repository.
+
+## Roadmap
+
+- `0.1.x`: stabilize fixed-size geometry, camera projection, four-point homography, epipolar constraints, and deterministic RANSAC.
+- `0.2.x`: normalized DLT over more than four correspondences, eight-point fundamental matrix estimation, triangulation, and stronger numerical conditioning.
+- Later: PnP, bundle-adjustment-friendly residual helpers, and optional adapters to mature MoonBit numeric packages.
+
+## Validation
+
+```bash
+moon check --target all
+moon test --target all
+moon fmt
+moon info
+```
