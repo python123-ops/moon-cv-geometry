@@ -1,7 +1,8 @@
 # OSC2026 Self-check
 
-- Public repository: planned as `https://github.com/python123-ops/moon-cv-geometry`
-  and a same-name GitLink mirror.
+- Public repositories:
+  `https://github.com/python123-ops/moon-cv-geometry` and
+  `https://gitlink.org.cn/python123/moon-cv-geometry`.
 - Default branch: `main` after release preparation.
 - License: Apache-2.0.
 - Contributor identity: single author, `python123-ops <python123-ops@users.noreply.github.com>`.
