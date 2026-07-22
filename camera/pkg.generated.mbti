@@ -1,0 +1,55 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "cxh04/moon-cv-geometry/camera"
+
+import {
+  "cxh04/moon-cv-geometry/core",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn bearing_from_pixel(@core.Point2, CameraIntrinsics, distortion? : Distortion) -> @core.Vec3 raise @core.GeometryError
+
+pub fn distort_point(@core.Point2, Distortion) -> @core.Point2
+
+pub fn normalized_to_pixel(@core.Point2, CameraIntrinsics) -> @core.Point2
+
+pub fn pixel_to_normalized(@core.Point2, CameraIntrinsics) -> @core.Point2
+
+pub fn project_point(@core.Point3, CameraIntrinsics, distortion? : Distortion) -> @core.Point2 raise @core.GeometryError
+
+pub fn project_point_with_pose(@core.Point3, CameraIntrinsics, CameraPose, distortion? : Distortion) -> @core.Point2 raise @core.GeometryError
+
+pub fn undistort_point_iterative(@core.Point2, Distortion, iterations? : Int) -> @core.Point2
+
+// Errors
+
+// Types and methods
+pub(all) struct CameraIntrinsics {
+  fx : Double
+  fy : Double
+  cx : Double
+  cy : Double
+  skew : Double
+} derive(Eq, @debug.Debug)
+pub fn CameraIntrinsics::new(fx~ : Double, fy~ : Double, cx~ : Double, cy~ : Double, skew? : Double) -> Self
+
+pub(all) struct CameraPose {
+  world_to_camera : @core.Mat34
+} derive(Eq, @debug.Debug)
+pub fn CameraPose::identity() -> Self
+pub fn CameraPose::new(world_to_camera~ : @core.Mat34) -> Self
+
+pub(all) struct Distortion {
+  k1 : Double
+  k2 : Double
+  p1 : Double
+  p2 : Double
+  k3 : Double
+} derive(Eq, @debug.Debug)
+pub fn Distortion::brown_conrady(k1? : Double, k2? : Double, p1? : Double, p2? : Double, k3? : Double) -> Self
+pub fn Distortion::none() -> Self
+
+// Type aliases
+
+// Traits
+
