@@ -18,6 +18,8 @@ pub fn estimate_homography_ransac(ArrayView[@core.Point2], ArrayView[@core.Point
 pub(all) struct InlierMask {
   values : Array[Bool]
 } derive(Eq, @debug.Debug)
+pub fn InlierMask::is_inlier(Self, Int) -> Bool raise @core.GeometryError
+pub fn InlierMask::length(Self) -> Int
 
 pub(all) struct RansacConfig {
   iterations : Int
@@ -33,6 +35,7 @@ pub(all) struct RansacResult[T] {
   inlier_count : Int
   score : Double
 } derive(Eq, @debug.Debug)
+pub fn[T] RansacResult::inlier_ratio(Self[T]) -> Double
 
 // Type aliases
 

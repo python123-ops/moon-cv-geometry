@@ -30,6 +30,29 @@ pub(all) struct RansacResult[T] {
 } derive(Debug, Eq)
 
 ///|
+pub fn InlierMask::length(mask : InlierMask) -> Int {
+  mask.values.length()
+}
+
+///|
+pub fn InlierMask::is_inlier(mask : InlierMask, index : Int) -> Bool raise @core.GeometryError {
+  if index < 0 || index >= mask.values.length() {
+    raise @core.GeometryError::DegenerateInput("inlier index is out of range")
+  }
+  mask.values[index]
+}
+
+///|
+pub fn[T] RansacResult::inlier_ratio(result : RansacResult[T]) -> Double {
+  let total = result.inliers.length()
+  if total == 0 {
+    0.0
+  } else {
+    Double::from_int(result.inlier_count) / Double::from_int(total)
+  }
+}
+
+///|
 fn lcg_next(state : UInt) -> UInt {
   state * 1664525U + 1013904223U
 }

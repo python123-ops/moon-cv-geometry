@@ -25,6 +25,8 @@ test "homography RANSAC ignores one clear outlier" {
     ),
   )
   assert_true(result.inlier_count >= 4)
+  assert_true(result.inlier_ratio() >= 0.8)
+  assert_true(result.inliers.length() == 5)
 }
 
 ///|
@@ -45,4 +47,5 @@ test "fundamental RANSAC scores stereo-like matches" {
     config=RansacConfig::new(threshold=0.000001, min_inliers=3),
   )
   assert_eq(result.inlier_count, 3)
+  assert_true(result.inliers.is_inlier(1))
 }
