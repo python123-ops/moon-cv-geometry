@@ -5,7 +5,9 @@
   `https://gitlink.org.cn/python123/moon-cv-geometry`.
 - Default branch: `main` after release preparation.
 - License: Apache-2.0.
-- Contributor identity: single author, `python123-ops <python123-ops@users.noreply.github.com>`.
+- Contributor identity:
+  GitHub history uses `python123-ops <python123-ops@users.noreply.github.com>`;
+  GitLink history uses `python123 <15564209090@163.com>`.
 - Mooncakes module: `cxh04/moon-cv-geometry@0.1.0`.
 - MoonBit source scale: about 1.1k `.mbt` lines in the first acceptance build.
 - Tests: fixed-size math, camera projection/distortion, projective homography,
