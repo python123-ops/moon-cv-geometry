@@ -1,6 +1,9 @@
 moon-cv-geometry
-Copyright 2026 project author
+Copyright 2026 Zhang Jingkai
 
-This project is an original MoonBit implementation prepared for OSC2026. It uses
-standard public-domain mathematical formulas for camera and projective geometry.
-No third-party implementation source code is included.
+moon-cv-geometry, also named "moonbit视觉几何基石", is an original MoonBit
+implementation prepared for OSC2026 by Zhang Jingkai.
+
+The project uses standard mathematical formulas for camera and projective
+geometry. No third-party implementation source code is copied into this
+repository.

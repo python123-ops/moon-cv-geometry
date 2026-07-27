@@ -8,14 +8,16 @@
 - Contributor identity:
   GitHub history uses `python123-ops <python123-ops@users.noreply.github.com>`;
   GitLink history uses `python123 <15564209090@163.com>`.
-- Mooncakes module: `python123-ops/moon-cv-geometry@0.1.0`.
+- Mooncakes module: `python123-ops/moon-cv-geometry@0.1.1`.
 - MoonBit source scale: about 1.4k `.mbt` lines in the refreshed acceptance build,
   plus checked interfaces and runnable examples.
 - Tests: fixed-size math, camera projection/distortion, projective homography,
   ray triangulation, rectangle bounds, epipolar residuals, and deterministic RANSAC.
 - Documentation: README, algorithm notes, numerical conventions, RANSAC notes,
   proposal draft, changelog, contribution note, and source notice.
-- Source statement: original MoonBit implementation; no copied third-party code.
+- Source statement: original MoonBit implementation by Zhang Jingkai; no copied
+  third-party code. The `cxh04/moon-cv-geometry@0.1.0` Mooncakes entry was an
+  earlier mistaken namespace and is not the submitted package.
 
 The source scale is intentionally below the 4-10k reference range for the first
 cut so the project remains reviewable and focused. The roadmap expands toward

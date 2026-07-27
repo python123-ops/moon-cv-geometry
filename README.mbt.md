@@ -54,11 +54,21 @@ neighbors are general linear algebra (`Luna-Flow/linear-algebra`, `xunyoyo/linal
 and image processing (`PingGuoMiaoMiao/MoonVision`). This library stays in the
 camera and multi-view geometry layer to avoid duplicating those packages.
 
-## Source Note
+## Source And Authorship
 
-The implementation is original MoonBit code for OSC2026. The API and algorithms
-use standard projective-geometry formulas commonly described in computer-vision
-texts and documentation. No third-party source code is copied into this repository.
+The implementation is original MoonBit code for OSC2026 by Zhang Jingkai. The
+API and algorithms use standard projective-geometry formulas commonly described
+in computer-vision texts and documentation. No third-party source code is copied
+into this repository.
+
+GitHub and GitLink use different platform accounts, but each public repository
+keeps a single real account as its contributor identity. GitHub history is under
+`python123-ops`; GitLink history is under `python123`.
+
+The current Mooncakes release is `python123-ops/moon-cv-geometry`. An earlier
+mistaken publish under `cxh04/moon-cv-geometry@0.1.0` is not the competition
+submission namespace and has been superseded by the current package. See
+`docs/authorship-and-provenance.md` for the audit trail.
 
 ## Roadmap
 
