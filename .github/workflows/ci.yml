@@ -82,7 +82,9 @@ jobs:
       - name: Interface gate
         run: |
           moon info
-          git diff --exit-code -- '*.mbti'
+          # Toolchain versions may normalize the final blank line in generated
+          # interfaces; keep the gate focused on public API content changes.
+          git diff --ignore-blank-lines --exit-code -- '*.mbti'
 
       - name: Package gate
         run: |
