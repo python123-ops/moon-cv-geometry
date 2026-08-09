@@ -45,11 +45,15 @@ pub using @multiview {
   type TriangulatedPoint,
   epipolar_residual,
   estimate_essential_from_fundamental,
+  estimate_fundamental,
   estimate_fundamental_from_translation,
+  estimate_homography,
   estimate_homography_from_four,
   homography_reprojection_error,
   triangulate_from_rays,
   triangulation_is_well_conditioned,
+  triangulated_point_is_in_front,
+  triangulation_angle,
 }
 
 ///|

@@ -15,7 +15,11 @@ pub fn epipolar_residual(FundamentalMatrix, @core.Point2, @core.Point2) -> Doubl
 
 pub fn estimate_essential_from_fundamental(FundamentalMatrix, @core.Mat3, @core.Mat3) -> EssentialMatrix
 
+pub fn estimate_fundamental(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> FundamentalMatrix raise @core.GeometryError
+
 pub fn estimate_fundamental_from_translation(@core.Vec3) -> FundamentalMatrix
+
+pub fn estimate_homography(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Homography raise @core.GeometryError
 
 pub fn estimate_homography_from_four(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Homography raise @core.GeometryError
 
@@ -26,6 +30,10 @@ pub fn point_line_distance(@core.Vec3, @core.Point2) -> Double raise @core.Geome
 pub fn sampson_error(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
 
 pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> TriangulatedPoint raise @core.GeometryError
+
+pub fn triangulated_point_is_in_front(TriangulatedPoint, @core.Ray3, @core.Ray3) -> Bool
+
+pub fn triangulation_angle(@core.Ray3, @core.Ray3) -> Double
 
 pub fn triangulation_is_well_conditioned(TriangulatedPoint, max_separation? : Double) -> Bool
 

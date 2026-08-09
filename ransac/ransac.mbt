@@ -88,6 +88,23 @@ fn make_four(
 }
 
 ///|
+fn make_eight(
+  points : ArrayView[@core.Point2],
+  start : Int,
+) -> Array[@core.Point2] {
+  [
+    points[start],
+    points[(start + 1) % points.length()],
+    points[(start + 2) % points.length()],
+    points[(start + 3) % points.length()],
+    points[(start + 4) % points.length()],
+    points[(start + 5) % points.length()],
+    points[(start + 6) % points.length()],
+    points[(start + 7) % points.length()],
+  ]
+}
+
+///|
 pub fn estimate_homography_ransac(
   src : ArrayView[@core.Point2],
   dst : ArrayView[@core.Point2],
@@ -165,30 +182,100 @@ pub fn estimate_fundamental_ransac(
       "fundamental RANSAC needs paired points",
     )
   }
-  let model = @multiview.estimate_fundamental_from_translation(
-    @core.Vec3::new(x=1.0, y=0.0, z=0.0),
-  )
+  if left.length() < 8 {
+    let model = @multiview.estimate_fundamental_from_translation(
+      @core.Vec3::new(x=1.0, y=0.0, z=0.0),
+    )
+    score_fundamental(model, left, right, config)
+  } else {
+    let fallback = @multiview.estimate_fundamental(left, right)
+    let initial = RansacResult::{
+      model: fallback,
+      inliers: InlierMask::{ values: [] },
+      inlier_count: -1,
+      score: 1.0e100,
+    }
+    for best = initial, iter = 0; iter < config.iterations; {
+      let start = pick_index(
+        lcg_next(config.seed + iter.reinterpret_as_uint() * 747796405U),
+        left.length(),
+      )
+      let candidate_left = make_eight(left, start)
+      let candidate_right = make_eight(right, start)
+      let candidate = try
+        @multiview.estimate_fundamental(candidate_left, candidate_right)
+      catch {
+        _ => best
+      } noraise {
+        f => score_fundamental_candidate(f, left, right, config, best)
+      }
+      continue candidate, iter + 1
+    } nobreak {
+      if best.inlier_count < config.min_inliers {
+        raise @core.GeometryError::DegenerateInput(
+          "RANSAC could not find enough fundamental inliers",
+        )
+      }
+      best
+    }
+  }
+}
+
+///|
+fn score_fundamental_candidate(
+  model : @multiview.FundamentalMatrix,
+  left : ArrayView[@core.Point2],
+  right : ArrayView[@core.Point2],
+  config : RansacConfig,
+  best : RansacResult[@multiview.FundamentalMatrix],
+) -> RansacResult[@multiview.FundamentalMatrix] {
   let mask : Array[Bool] = []
   let mut count = 0
   let mut score = 0.0
   for i in 0..<left.length() {
-    let err = @core.abs(@multiview.epipolar_residual(model, left[i], right[i]))
-    let ok = err <= config.threshold
+    let error = try @multiview.sampson_error(model, left[i], right[i]) catch {
+      _ => 1.0e100
+    } noraise {
+      value => value.sqrt()
+    }
+    let ok = error <= config.threshold
     mask.push(ok)
     if ok {
       count += 1
-      score += err
+      score += error
     }
   }
-  if count < config.min_inliers {
+  if count > best.inlier_count ||
+    (count == best.inlier_count && score < best.score) {
+    RansacResult::{
+      model,
+      inliers: InlierMask::{ values: mask },
+      inlier_count: count,
+      score,
+    }
+  } else {
+    best
+  }
+}
+
+///|
+fn score_fundamental(
+  model : @multiview.FundamentalMatrix,
+  left : ArrayView[@core.Point2],
+  right : ArrayView[@core.Point2],
+  config : RansacConfig,
+) -> RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError {
+  let empty = RansacResult::{
+    model,
+    inliers: InlierMask::{ values: [] },
+    inlier_count: -1,
+    score: 1.0e100,
+  }
+  let result = score_fundamental_candidate(model, left, right, config, empty)
+  if result.inlier_count < config.min_inliers {
     raise @core.GeometryError::DegenerateInput(
       "RANSAC could not find enough fundamental inliers",
     )
   }
-  RansacResult::{
-    model,
-    inliers: InlierMask::{ values: mask },
-    inlier_count: count,
-    score,
-  }
+  result
 }

@@ -168,6 +168,140 @@ pub fn estimate_homography_from_four(
 }
 
 ///|
+fn solve_least_squares_8(
+  rows : Array[Array[Double]],
+  values : Array[Double],
+) -> Array[Double] raise @core.GeometryError {
+  if rows.length() != values.length() || rows.length() < 8 {
+    raise @core.GeometryError::NotEnoughPoints(
+      "least squares needs at least eight equations",
+    )
+  }
+  let normal : Array[Double] = []
+  let rhs : Array[Double] = []
+  for i in 0..<8 {
+    for j in 0..<8 {
+      let mut value = 0.0
+      for row in 0..<rows.length() {
+        value += rows[row][i] * rows[row][j]
+      }
+      normal.push(value)
+    }
+    let mut value = 0.0
+    for row in 0..<rows.length() {
+      value += rows[row][i] * values[row]
+    }
+    rhs.push(value)
+  }
+  solve_8x8(normal, rhs)
+}
+
+///|
+pub fn estimate_homography(
+  src : ArrayView[@core.Point2],
+  dst : ArrayView[@core.Point2],
+) -> Homography raise @core.GeometryError {
+  if src.length() != dst.length() || src.length() < 4 {
+    raise @core.GeometryError::NotEnoughPoints(
+      "homography needs at least four point pairs",
+    )
+  }
+  if src.length() == 4 {
+    estimate_homography_from_four(src, dst)
+  } else {
+    let (normalized_src, source_transform) = normalize_points(src)
+    let (normalized_dst, destination_transform) = normalize_points(dst)
+    let normalized = estimate_homography_raw(normalized_src, normalized_dst)
+    let denormalized = destination_transform
+      .inverse()
+      .mul(normalized.matrix)
+      .mul(source_transform)
+    Homography::new(matrix=denormalized)
+  }
+}
+
+///|
+fn normalize_points(
+  points : ArrayView[@core.Point2],
+) -> (Array[@core.Point2], @core.Mat3) raise @core.GeometryError {
+  if points.length() == 0 {
+    raise @core.GeometryError::NotEnoughPoints(
+      "cannot normalize an empty point set",
+    )
+  }
+  let mut center_x = 0.0
+  let mut center_y = 0.0
+  for point in points {
+    center_x += point.x
+    center_y += point.y
+  }
+  center_x = center_x / Double::from_int(points.length())
+  center_y = center_y / Double::from_int(points.length())
+  let mut squared_distance = 0.0
+  for point in points {
+    let dx = point.x - center_x
+    let dy = point.y - center_y
+    squared_distance += dx * dx + dy * dy
+  }
+  let rms = (squared_distance / Double::from_int(points.length())).sqrt()
+  if rms <= 0.000000000001 {
+    raise @core.GeometryError::DegenerateInput("point set has zero spread")
+  }
+  let scale = 1.4142135623730951 / rms
+  let normalized : Array[@core.Point2] = []
+  for point in points {
+    normalized.push(
+      @core.Point2::new(
+        x=scale * (point.x - center_x),
+        y=scale * (point.y - center_y),
+      ),
+    )
+  }
+  let transform = @core.mat3_from_rows(
+    (scale, 0.0, -scale * center_x),
+    (0.0, scale, -scale * center_y),
+    (0.0, 0.0, 1.0),
+  )
+  (normalized, transform)
+}
+
+///|
+fn estimate_homography_raw(
+  src : ArrayView[@core.Point2],
+  dst : ArrayView[@core.Point2],
+) -> Homography raise @core.GeometryError {
+  if src.length() != dst.length() || src.length() < 4 {
+    raise @core.GeometryError::NotEnoughPoints(
+      "homography needs at least four point pairs",
+    )
+  }
+  if src.length() == 4 {
+    estimate_homography_from_four(src, dst)
+  } else {
+    let rows : Array[Array[Double]] = []
+    let values : Array[Double] = []
+    for i in 0..<src.length() {
+      let x = src[i].x
+      let y = src[i].y
+      let u = dst[i].x
+      let v = dst[i].y
+      rows.push([x, y, 1.0, 0.0, 0.0, 0.0, -u * x, -u * y])
+      values.push(u)
+      rows.push([0.0, 0.0, 0.0, x, y, 1.0, -v * x, -v * y])
+      values.push(v)
+    }
+    let h = solve_least_squares_8(rows, values)
+    Homography::new(
+      matrix=@core.mat3_from_rows(
+        (h[0], h[1], h[2]),
+        (h[3], h[4], h[5]),
+        (h[6], h[7], 1.0),
+      ),
+    )
+  }
+}
+
+///|
 pub fn estimate_fundamental_from_translation(
   t : @core.Vec3,
 ) -> FundamentalMatrix {
@@ -178,6 +312,35 @@ pub fn estimate_fundamental_from_translation(
       (-t.y, t.x, 0.0),
     ),
   )
+}
+
+///|
+pub fn estimate_fundamental(
+  left : ArrayView[@core.Point2],
+  right : ArrayView[@core.Point2],
+) -> FundamentalMatrix raise @core.GeometryError {
+  if left.length() != right.length() || left.length() < 8 {
+    raise @core.GeometryError::NotEnoughPoints(
+      "fundamental matrix needs at least eight point pairs",
+    )
+  }
+  let rows : Array[Array[Double]] = []
+  let values : Array[Double] = []
+  for i in 0..<left.length() {
+    let x = left[i].x
+    let y = left[i].y
+    let u = right[i].x
+    let v = right[i].y
+    rows.push([u * x, u * y, u, v * x, v * y, v, x, y])
+    values.push(-1.0)
+  }
+  let f = solve_least_squares_8(rows, values)
+  let matrix = @core.mat3_from_rows(
+    (f[0], f[1], f[2]),
+    (f[3], f[4], f[5]),
+    (f[6], f[7], 1.0),
+  )
+  FundamentalMatrix::new(matrix~)
 }
 
 ///|
@@ -267,4 +430,28 @@ pub fn triangulation_is_well_conditioned(
   max_separation? : Double = 0.001,
 ) -> Bool {
   result.separation <= max_separation
+}
+
+///|
+pub fn triangulated_point_is_in_front(
+  result : TriangulatedPoint,
+  left : @core.Ray3,
+  right : @core.Ray3,
+) -> Bool {
+  let left_depth = result.point.minus(left.origin).dot(left.direction)
+  let right_depth = result.point.minus(right.origin).dot(right.direction)
+  left_depth > 0.0 && right_depth > 0.0
+}
+
+///|
+pub fn triangulation_angle(left : @core.Ray3, right : @core.Ray3) -> Double {
+  let cosine = left.direction.dot(right.direction)
+  let bounded = if cosine < -1.0 {
+    -1.0
+  } else if cosine > 1.0 {
+    1.0
+  } else {
+    cosine
+  }
+  @math.acos(bounded)
 }

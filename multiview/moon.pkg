@@ -1,3 +1,4 @@
 import {
   "python123-ops/moon-cv-geometry/core",
+  "moonbitlang/core/math",
 }

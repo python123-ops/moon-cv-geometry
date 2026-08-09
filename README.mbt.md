@@ -31,8 +31,8 @@ test "project a 3D camera point" {
 
 - `core`: `Point2`, `Point3`, `Vec2`, `Vec3`, `Ray3`, `Rect2`, `Mat3`, `Mat34`, fixed-size operations, and geometric errors.
 - `camera`: image size helpers, pinhole intrinsics, camera pose, Brown-Conrady distortion, projection, and bearing rays.
-- `multiview`: four-point projective homography, epipolar residual/distance/Sampson error, triangulation from bearing rays, and fundamental/essential matrix helpers.
-- `ransac`: deterministic RANSAC configuration and estimators for homography and a stereo-oriented fundamental matrix baseline.
+- `multiview`: projective homography with normalized multi-point DLT, epipolar residual/distance/Sampson error, eight-point fundamental estimation, triangulation from bearing rays, cheirality, and fundamental/essential matrix helpers.
+- `ransac`: deterministic RANSAC configuration and estimators for homography and eight-point fundamental matrices, with a small-data compatibility path for the stereo translation baseline.
 
 ## Examples
 
@@ -65,16 +65,15 @@ GitHub and GitLink use different platform accounts, but each public repository
 keeps a single real account as its contributor identity. GitHub history is under
 `python123-ops`; GitLink history is under `python123`.
 
-The current Mooncakes release is `python123-ops/moon-cv-geometry`. An earlier
+The current Mooncakes release is `python123-ops/moon-cv-geometry@0.2.0`. An earlier
 mistaken publish under `cxh04/moon-cv-geometry@0.1.0` is not the competition
 submission namespace and has been superseded by the current package. See
 `docs/authorship-and-provenance.md` for the audit trail.
 
 ## Roadmap
 
-- `0.1.x`: stabilize fixed-size geometry, camera projection, image viewport helpers, triangulation from rays, four-point homography, epipolar constraints, and deterministic RANSAC.
-- `0.2.x`: normalized DLT over more than four correspondences, eight-point fundamental matrix estimation, cheirality checks, and stronger numerical conditioning.
-- Later: PnP, bundle-adjustment-friendly residual helpers, and optional adapters to mature MoonBit numeric packages.
+- `0.2.x`: normalized DLT over larger correspondence sets, eight-point fundamental matrix estimation, cheirality checks, triangulation angle quality, and stronger numerical conditioning.
+- Next: rank-2 fundamental matrix enforcement, calibrated pose decomposition, PnP, and bundle-adjustment-friendly residual helpers.
 
 ## Validation
 

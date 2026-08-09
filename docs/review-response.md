@@ -19,7 +19,7 @@ Summary:
 - Participant: Zhang Jingkai
 - GitHub contributor identity: `python123-ops`
 - GitLink contributor identity: `python123`
-- Current Mooncakes module: `python123-ops/moon-cv-geometry@0.1.1`
+- Current Mooncakes module at the first review response: `python123-ops/moon-cv-geometry@0.1.1`
 - Source status: original MoonBit implementation, no copied third-party source
 
 ## 3. Why `曹显灏` May Have Appeared

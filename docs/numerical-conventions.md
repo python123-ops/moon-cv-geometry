@@ -32,7 +32,14 @@ fixed-size numeric tools needed by the public camera and multi-view APIs.
 
 - RANSAC sampling uses an explicit seed so tests, examples, and CI runs are
   reproducible.
-- Scores are the inlier ratio for the tested correspondence set.
-- Thresholds are residual thresholds in the estimator's native error metric:
-  reprojection error for homography and epipolar residual for the fundamental
-  matrix helper.
+- Scores are the sum of inlier residuals; `RansacResult::inlier_ratio` exposes
+  the corresponding ratio separately.
+- Homography RANSAC thresholds are pixel/projective reprojection distances.
+  Fundamental RANSAC thresholds use the square root of Sampson error, which
+  has the same first-order units as an image residual.
+- Multi-point homography estimation normalizes each point set to centroid zero
+  and RMS distance `sqrt(2)`, solves the fixed eight-parameter system, and
+  maps the result back to the original coordinates.
+- The linear eight-point API fixes the bottom-right coefficient to one. It is
+  useful for stable, testable small inputs, but does not perform the optional
+  rank-two SVD projection.

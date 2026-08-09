@@ -4,8 +4,8 @@ These runnable examples are intentionally small and deterministic:
 
 - `project_point`: pinhole projection from camera coordinates to pixels.
 - `undistort`: Brown-Conrady distortion and iterative undistortion.
-- `homography`: four-point projective homography estimation.
-- `fundamental_ransac`: stereo-style epipolar inlier counting.
+- `homography`: normalized multi-point projective homography estimation.
+- `fundamental_ransac`: deterministic eight-point epipolar inlier counting.
 
 Run from the repository root:
 

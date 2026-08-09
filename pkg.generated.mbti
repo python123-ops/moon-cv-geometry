@@ -21,9 +21,13 @@ pub fn epipolar_residual(@multiview.FundamentalMatrix, @core.Point2, @core.Point
 
 pub fn estimate_essential_from_fundamental(@multiview.FundamentalMatrix, @core.Mat3, @core.Mat3) -> @multiview.EssentialMatrix
 
+pub fn estimate_fundamental(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> @multiview.FundamentalMatrix raise @core.GeometryError
+
 pub fn estimate_fundamental_from_translation(@core.Vec3) -> @multiview.FundamentalMatrix
 
 pub fn estimate_fundamental_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : @ransac.RansacConfig) -> @ransac.RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError
+
+pub fn estimate_homography(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> @multiview.Homography raise @core.GeometryError
 
 pub fn estimate_homography_from_four(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> @multiview.Homography raise @core.GeometryError
 
@@ -56,6 +60,10 @@ pub fn rect2_from_points(ArrayView[@core.Point2]) -> @core.Rect2 raise @core.Geo
 pub fn reprojection_error(@core.Point2, @core.Point2) -> Double
 
 pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> @multiview.TriangulatedPoint raise @core.GeometryError
+
+pub fn triangulated_point_is_in_front(@multiview.TriangulatedPoint, @core.Ray3, @core.Ray3) -> Bool
+
+pub fn triangulation_angle(@core.Ray3, @core.Ray3) -> Double
 
 pub fn triangulation_is_well_conditioned(@multiview.TriangulatedPoint, max_separation? : Double) -> Bool
 
