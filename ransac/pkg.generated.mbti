@@ -10,11 +10,17 @@ import {
 // Values
 pub fn adaptive_iteration_bound(inlier_ratio~ : Double, sample_size~ : Int, confidence? : Double) -> Int raise @core.GeometryError
 
+pub fn adaptive_threshold(ArrayView[Double], Double, Double) -> Double raise @core.GeometryError
+
+pub fn best_model_report(ArrayView[ModelReport]) -> ModelReport?
+
 pub fn[T] better_result(RansacResult[T], RansacResult[T]) -> Bool
 
 pub fn clipped_residuals(ArrayView[Double], cutoff~ : Double) -> Array[Double]
 
 pub fn confidence_from_success(iterations~ : Int, success_probability~ : Double) -> Double raise @core.GeometryError
+
+pub fn consensus_mask(ArrayView[Double], Double) -> Array[Bool]
 
 pub fn consensus_ratio(InlierMask) -> Double
 
@@ -28,17 +34,31 @@ pub fn expected_successes(iterations~ : Int, inlier_ratio~ : Double, sample_size
 
 pub fn huber_loss(residual~ : Double, delta? : Double) -> Double
 
+pub fn inlier_indices(ArrayView[Double], Double) -> Array[Int]
+
 pub fn inlier_ratio_from_mask(InlierMask) -> Double
 
 pub fn inlier_weight(residual~ : Double, threshold~ : Double) -> Double
+
+pub fn make_model_report(iterations~ : Int, inliers~ : Int, total~ : Int, score~ : Double, converged~ : Bool) -> ModelReport
+
+pub fn median_inlier_residual(ArrayView[Double], Double) -> Double raise @core.GeometryError
 
 pub fn minimum_consensus_count(total~ : Int, ratio~ : Double) -> Int raise @core.GeometryError
 
 pub fn[T] normalized_score(RansacResult[T]) -> Double
 
+pub fn outlier_ratio(ArrayView[Double], Double) -> Double
+
+pub fn quality_label(Double, Double, Double, Double) -> String
+
+pub fn rank_model_reports(ArrayView[ModelReport]) -> Array[ModelReport]
+
 pub fn[T] rank_results(ArrayView[RansacResult[T]]) -> Array[Int]
 
 pub fn report_from_residuals(ArrayView[Double], threshold~ : Double) -> ConsensusReport raise @core.GeometryError
+
+pub fn report_summary(ArrayView[ModelReport]) -> (Int, Int, Double)
 
 pub fn required_iterations(success_probability~ : Double, confidence? : Double) -> Int raise @core.GeometryError
 
@@ -56,13 +76,29 @@ pub fn sample_probability(inlier_ratio~ : Double, sample_size~ : Int) -> Double 
 
 pub fn sample_without_replacement(length~ : Int, count~ : Int, seed~ : UInt) -> Array[Int] raise @core.GeometryError
 
+pub fn schedule_checkpoints(IterationSchedule, Int) -> Array[Int]
+
+pub fn schedule_required_iterations(Int, Double, Double) -> Int
+
+pub fn score_margin(Double, Double) -> Double
+
+pub fn score_mlesac(ArrayView[Double], MlesacConfig) -> Double
+
+pub fn score_mlesac_with_threshold(ArrayView[Double], threshold~ : Double, MlesacConfig) -> Double
+
 pub fn score_residuals(ArrayView[Double], threshold~ : Double) -> RansacResult[Array[Double]] raise @core.GeometryError
 
 pub fn select_best_score(ArrayView[Double]) -> Int raise @core.GeometryError
 
+pub fn stable_model(ModelReport, ModelReport, Double) -> Bool
+
+pub fn sweep_thresholds(ArrayView[Double], ArrayView[Double]) -> ThresholdSweepResult
+
 pub fn threshold_from_mad(ArrayView[Double], multiplier? : Double) -> Double raise @core.GeometryError
 
 pub fn tukey_weight(residual~ : Double, cutoff~ : Double) -> Double
+
+pub fn update_inlier_ratio(Double, Int, Int, momentum? : Double) -> Double
 
 pub fn validate_mask(InlierMask, expected_length~ : Int) -> Bool
 
@@ -71,6 +107,23 @@ pub fn weighted_consensus(ArrayView[Double], threshold~ : Double) -> Double
 // Errors
 
 // Types and methods
+pub(all) struct AdaptiveConsensus {
+  mut ratio : Double
+  threshold : Double
+  mut iterations : Int
+}
+pub fn AdaptiveConsensus::iterations(Self) -> Int
+pub fn AdaptiveConsensus::new(threshold~ : Double) -> Self
+pub fn AdaptiveConsensus::ratio(Self) -> Double
+pub fn AdaptiveConsensus::should_stop(Self, Double, Int) -> Bool
+pub fn AdaptiveConsensus::update(Self, ArrayView[Double]) -> Unit
+
+pub(all) struct ConsensusRecord {
+  inlier_count : Int
+  score : Double
+  residual_sum : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct ConsensusReport {
   total : Int
   inliers : Int
@@ -81,6 +134,18 @@ pub(all) struct ConsensusReport {
 pub fn ConsensusReport::acceptable(Self, minimum_ratio~ : Double, maximum_mean_error~ : Double) -> Bool
 pub fn ConsensusReport::summary_score(Self) -> Double
 
+pub(all) struct ConsensusTable {
+  threshold : Double
+  records : Array[ConsensusRecord]
+}
+pub fn ConsensusTable::best_inlier_count(Self) -> Int
+pub fn ConsensusTable::best_record(Self) -> ConsensusRecord?
+pub fn ConsensusTable::best_score(Self) -> Double
+pub fn ConsensusTable::clear(Self) -> Unit
+pub fn ConsensusTable::evaluated_models(Self) -> Int
+pub fn ConsensusTable::new(threshold~ : Double) -> Self
+pub fn ConsensusTable::observe(Self, ArrayView[Double]) -> Unit
+
 pub(all) struct InlierMask {
   values : Array[Bool]
 } derive(Eq, @debug.Debug)
@@ -88,6 +153,32 @@ pub fn InlierMask::count(Self) -> Int
 pub fn InlierMask::indices(Self) -> Array[Int]
 pub fn InlierMask::is_inlier(Self, Int) -> Bool raise @core.GeometryError
 pub fn InlierMask::length(Self) -> Int
+
+pub(all) struct IterationSchedule {
+  max_iterations : Int
+  confidence : Double
+}
+pub fn IterationSchedule::limit_for(Self, Double, Int) -> Int
+pub fn IterationSchedule::new(max_iterations~ : Int, confidence~ : Double) -> Self
+pub fn IterationSchedule::progress(Self, iteration~ : Int, observed_inlier_ratio~ : Double, sample_size~ : Int) -> ScheduleProgress
+
+pub(all) struct MlesacConfig {
+  inlier_scale : Double
+  outlier_scale : Double
+} derive(Eq, @debug.Debug)
+pub fn MlesacConfig::new(inlier_scale~ : Double, outlier_scale~ : Double) -> Self
+pub fn MlesacConfig::valid(Self) -> Bool
+
+pub(all) struct ModelReport {
+  iterations : Int
+  inliers : Int
+  total : Int
+  ratio : Double
+  score : Double
+  converged : Bool
+} derive(Eq, @debug.Debug)
+pub fn ModelReport::confidence(Self) -> Double
+pub fn ModelReport::is_usable(Self, Double, Int) -> Bool
 
 pub(all) struct RansacConfig {
   iterations : Int
@@ -107,6 +198,21 @@ pub(all) struct RansacResult[T] {
 pub fn[T] RansacResult::inlier_ratio(Self[T]) -> Double
 pub fn[T] RansacResult::is_confident(Self[T], minimum_ratio? : Double) -> Bool
 pub fn[T] RansacResult::outlier_count(Self[T]) -> Int
+
+pub(all) struct ScheduleProgress {
+  iteration : Int
+  iterations_remaining : Int
+  best_ratio : Double
+  expected_success : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ThresholdSweepResult {
+  threshold : Double
+  inliers : Int
+  score : Double
+} derive(Eq, @debug.Debug)
+pub fn ThresholdSweepResult::acceptable(Self, Int, minimum_ratio~ : Double) -> Bool
+pub fn ThresholdSweepResult::ratio(Self, Int) -> Double
 
 // Type aliases
 

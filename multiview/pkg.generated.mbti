@@ -22,11 +22,15 @@ pub fn bearing_angle(@core.Point2, @core.Point2) -> Double raise @core.GeometryE
 
 pub fn bearing_residual(@core.Vec3, @core.Vec3) -> Double raise @core.GeometryError
 
+pub fn bundle_statistics(ArrayView[Double]) -> BundleStatistics
+
 pub fn cheirality_mask(ArrayView[TriangulatedPoint], ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Array[Bool] raise @core.GeometryError
 
 pub fn count_inliers(ArrayView[Bool]) -> Int
 
 pub fn count_true(ArrayView[Bool]) -> Int
+
+pub fn deduplicate_track(ArrayView[TrackObservation]) -> Array[TrackObservation]
 
 pub fn depth_clamp(@core.Point3, minimum~ : Double, maximum~ : Double) -> @core.Point3 raise @core.GeometryError
 
@@ -66,7 +70,11 @@ pub fn homography_inlier_mask(Homography, ArrayView[@core.Point2], ArrayView[@co
 
 pub fn homography_reprojection_error(Homography, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
 
+pub fn huber_weights(ArrayView[Double], Double) -> Array[Double]
+
 pub fn is_visible(@core.Point3, @camera.CameraPose, near? : Double) -> Bool
+
+pub fn isolated_views(TrackGraph) -> Array[Int]
 
 pub fn line_point_residual(@core.Vec3, @core.Point2) -> Double raise @core.GeometryError
 
@@ -114,9 +122,15 @@ pub fn reconstruction_usable(ReconstructionReport, minimum_positive_ratio? : Dou
 
 pub fn reprojection_residual_matrix(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Array[Double]] raise @core.GeometryError
 
+pub fn reprojection_summary(ArrayView[Double], outlier_threshold~ : Double) -> ReprojectionSummary
+
 pub fn residual_norms(ArrayView[Array[Double]]) -> Array[Double]
 
 pub fn residual_vector(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
+
+pub fn residuals_above(ArrayView[Double], Double) -> Array[Int]
+
+pub fn robust_bundle_cost(ArrayView[Double], Double) -> Double
 
 pub fn robust_track_cost(ArrayView[PointTrack], @camera.CameraIntrinsics, @camera.CameraPose, delta? : Double) -> Double raise @core.GeometryError
 
@@ -130,11 +144,17 @@ pub fn total_reprojection_error(ArrayView[@core.Point2], ArrayView[@core.Point2]
 
 pub fn track_bounds(ArrayView[PointTrack]) -> @core.Rect2 raise @core.GeometryError
 
+pub fn track_neighbors(TrackGraph, Int) -> Array[Int]
+
+pub fn track_quality(ArrayView[TrackObservation]) -> TrackQuality
+
 pub fn track_reprojection_errors(PointTrack, @camera.CameraIntrinsics, @camera.CameraPose) -> Array[Double] raise @core.GeometryError
 
 pub fn track_visibility(PointTrack, @camera.CameraPose, near? : Double) -> Bool
 
 pub fn tracks_cost(ArrayView[PointTrack], @camera.CameraIntrinsics, @camera.CameraPose) -> Double raise @core.GeometryError
+
+pub fn tracks_with_minimum_views(ObservationMatrix, Int) -> Array[Int]
 
 pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> TriangulatedPoint raise @core.GeometryError
 
@@ -152,9 +172,13 @@ pub fn triangulation_reprojection_check(TriangulatedPoint, @core.Ray3, @core.Ray
 
 pub fn unique_right_matches(ArrayView[PointMatch]) -> Array[PointMatch]
 
+pub fn views_with_minimum_tracks(ObservationMatrix, Int) -> Array[Int]
+
 pub fn visible_points(ArrayView[@core.Point3], @camera.CameraPose, near? : Double) -> Array[Bool]
 
 pub fn visible_track_count(ArrayView[PointTrack], @camera.CameraPose) -> Int
+
+pub fn weighted_cost(ArrayView[Double], ArrayView[Double]) -> Double
 
 // Errors
 
@@ -171,6 +195,13 @@ pub fn Affine2D::apply(Self, @core.Point2) -> @core.Point2
 pub fn Affine2D::determinant(Self) -> Double
 pub fn Affine2D::identity() -> Self
 pub fn Affine2D::inverse(Self) -> Self raise @core.GeometryError
+
+pub(all) struct BundleStatistics {
+  count : Int
+  mean : Double
+  rms : Double
+  maximum : Double
+}
 
 pub(all) struct CameraPair {
   left : @camera.CameraPose
@@ -197,6 +228,31 @@ pub(all) struct Homography {
 pub fn Homography::apply(Self, @core.Point2) -> @core.Point2 raise @core.GeometryError
 pub fn Homography::new(matrix~ : @core.Mat3) -> Self
 
+pub(all) struct ObservationMatrix {
+  views : Int
+  tracks : Int
+  cells : Array[Bool]
+}
+pub fn ObservationMatrix::contains(Self, Int, Int) -> Bool
+pub fn ObservationMatrix::density(Self) -> Double
+pub fn ObservationMatrix::get(Self, Int, Int) -> Bool
+pub fn ObservationMatrix::new(views~ : Int, tracks~ : Int) -> Self
+pub fn ObservationMatrix::set(Self, Int, Int, Bool) -> Bool
+pub fn ObservationMatrix::track_degree(Self, Int) -> Int
+pub fn ObservationMatrix::view_degree(Self, Int) -> Int
+
+pub(all) struct PointCloudReport {
+  total : Int
+  positive_depth : Int
+  minimum_depth : Double
+  maximum_depth : Double
+  centroid : @core.Point3
+} derive(Eq, @debug.Debug)
+pub fn PointCloudReport::depth_span(Self) -> Double
+pub fn PointCloudReport::from_points(ArrayView[@core.Point3]) -> Self
+pub fn PointCloudReport::is_usable(Self, minimum_ratio? : Double) -> Bool
+pub fn PointCloudReport::positive_ratio(Self) -> Double
+
 pub(all) struct PointMatch {
   left_index : Int
   right_index : Int
@@ -216,6 +272,26 @@ pub(all) struct ReconstructionReport {
   median_parallax : Double
 } derive(Eq, @debug.Debug)
 
+pub(all) struct ReprojectionSummary {
+  total : Int
+  inliers : Int
+  outliers : Int
+  rms : Double
+  mean_inlier : Double
+} derive(Eq, @debug.Debug)
+pub fn ReprojectionSummary::inlier_ratio(Self) -> Double
+pub fn ReprojectionSummary::is_good(Self, maximum_rms? : Double) -> Bool
+
+pub(all) struct TrackGraph {
+  view_count : Int
+  edges : Array[(Int, Int)]
+}
+pub fn TrackGraph::add_track(Self, ArrayView[Int]) -> Unit
+pub fn TrackGraph::component_count(Self) -> Int
+pub fn TrackGraph::connected(Self, Int, Int) -> Bool
+pub fn TrackGraph::edge_count(Self) -> Int
+pub fn TrackGraph::new(view_count~ : Int) -> Self
+
 pub(all) struct TrackObservation {
   point_id : Int
   pixel : @core.Point2
@@ -223,10 +299,36 @@ pub(all) struct TrackObservation {
 } derive(Eq, @debug.Debug)
 pub fn TrackObservation::new(point_id~ : Int, pixel~ : @core.Point2, view_id~ : Int) -> Self
 
+pub(all) struct TrackQuality {
+  unique_views : Int
+  pixel_span : Double
+  has_unique_views : Bool
+  centroid : @core.Point2
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TrackTable {
+  observations : Array[TrackObservation]
+}
+pub fn TrackTable::add(Self, TrackObservation) -> Unit
+pub fn TrackTable::is_triangulatable(Self, Int, Int) -> Bool
+pub fn TrackTable::new() -> Self
+pub fn TrackTable::observation_count(Self) -> Int
+pub fn TrackTable::observations_for(Self, Int) -> Array[TrackObservation]
+pub fn TrackTable::track_count(Self) -> Int
+
 pub(all) struct TriangulatedPoint {
   point : @core.Point3
   separation : Double
 } derive(Eq, @debug.Debug)
+
+pub(all) struct ViewGraph {
+  adjacency : Array[Array[Bool]]
+} derive(Eq, @debug.Debug)
+pub fn ViewGraph::add_edge(Self, Int, Int) -> Unit
+pub fn ViewGraph::component_count(Self) -> Int
+pub fn ViewGraph::has_edge(Self, Int, Int) -> Bool
+pub fn ViewGraph::new(Int) -> Self
+pub fn ViewGraph::view_count(Self) -> Int
 
 // Type aliases
 

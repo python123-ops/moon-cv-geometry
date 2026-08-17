@@ -10,6 +10,8 @@ pub fn abs(Double) -> Double
 
 pub fn add_arrays(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise GeometryError
 
+pub fn add_scalars(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
 pub fn all_close(ArrayView[Double], ArrayView[Double], tolerance? : Double) -> Bool
 
 pub fn almost_equal(Double, Double, eps? : Double) -> Bool
@@ -28,17 +30,33 @@ pub fn centroid3(ArrayView[Point3]) -> Point3 raise GeometryError
 
 pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
 
+pub fn clamp_scalars(ArrayView[Double], Double, Double) -> Array[Double]
+
 pub fn clamp_unit(Double) -> Double
 
 pub fn closest_point_on_segment(Point2, Point2, Point2) -> Point2
 
 pub fn closest_point_on_triangle(Triangle3, Point3) -> Point3 raise GeometryError
 
+pub fn coordinate_extent2(ArrayView[Point2]) -> Double raise GeometryError
+
+pub fn coordinate_extent3(ArrayView[Point3]) -> Double raise GeometryError
+
+pub fn coordinate_finite_point2(Point2) -> Bool
+
+pub fn coordinate_finite_point3(Point3) -> Bool
+
+pub fn count_above(ArrayView[Double], Double) -> Int
+
+pub fn count_below(ArrayView[Double], Double) -> Int
+
 pub fn covariance_2d(ArrayView[Point2]) -> Mat3 raise GeometryError
 
 pub fn covariance_3d(ArrayView[Point3]) -> Mat4 raise GeometryError
 
 pub fn cumulative_lengths(ArrayView[Point2]) -> Array[Double]
+
+pub fn cumulative_sum(ArrayView[Double]) -> Array[Double]
 
 pub fn damped_update(Double, Double, damping? : Double) -> Double
 
@@ -48,6 +66,12 @@ pub fn distance3(Point3, Point3) -> Double
 
 pub fn dot_array(ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
 
+pub fn dot_scalars(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn downsample_grid(ScalarGrid, Int) -> ScalarGrid
+
+pub fn duplicate_point_indices(ArrayView[Point2], Double) -> Array[Int]
+
 pub fn finite_difference((Double) -> Double, Double, epsilon? : Double) -> Double
 
 pub fn finite_difference_vec((Double) -> Vec3, Double, epsilon? : Double) -> Vec3
@@ -55,6 +79,16 @@ pub fn finite_difference_vec((Double) -> Vec3, Double, epsilon? : Double) -> Vec
 pub fn finite_point2(Point2) -> Bool
 
 pub fn finite_point3(Point3) -> Bool
+
+pub fn finite_points3(ArrayView[Point3]) -> Array[Point3]
+
+pub fn finite_scalars(ArrayView[Double]) -> Array[Double]
+
+pub fn finite_vec2(Vec2) -> Bool
+
+pub fn finite_vec3(Vec3) -> Bool
+
+pub fn has_non_collinear_triplet(ArrayView[Point2], Double) -> Bool
 
 pub fn hermite_point2(Point2, Point2, Vec2, Vec2, Double) -> Point2
 
@@ -66,9 +100,19 @@ pub fn identity3() -> Mat3
 
 pub fn identity4() -> Mat4
 
+pub fn interpolate_pose(RigidTransform, RigidTransform, Double) -> RigidTransform
+
+pub fn interpolate_rotation(Mat3, Mat3, Double) -> Mat3
+
 pub fn interpolate_table(Double, ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
 
 pub fn interquartile_range(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn is_rotation_matrix(Mat3) -> Bool
+
+pub fn l1_distance(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn l2_distance(ArrayView[Double], ArrayView[Double]) -> Double
 
 pub fn lerp_vec3(Vec3, Vec3, Double) -> Vec3
 
@@ -80,31 +124,65 @@ pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Doubl
 
 pub fn mat4_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> Mat4
 
+pub fn matrix3_from_diagonal(Vec3) -> Mat3
+
+pub fn matrix3_is_finite(Mat3) -> Bool
+
 pub fn max_error(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn max_residual(ArrayView[Double]) -> Double
 
 pub fn mean(ArrayView[Double]) -> Double raise GeometryError
 
 pub fn mean_point2(ArrayView[Point2]) -> Point2 raise GeometryError
 
+pub fn mean_scalars(ArrayView[Double]) -> Double
+
 pub fn median(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn median_absolute_deviation(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn merge_point_clouds(PointCloud, PointCloud) -> PointCloud
+
+pub fn mesh_centroid(ArrayView[Point3]) -> Point3 raise GeometryError
+
+pub fn mesh_diagonal(ArrayView[Point3]) -> Double raise GeometryError
+
+pub fn mesh_surface_area(ArrayView[Point3], ArrayView[(Int, Int, Int)]) -> Double
 
 pub fn newton_step(Quadratic, Double) -> Double raise GeometryError
 
+pub fn norm_scalars(ArrayView[Double]) -> Double
+
 pub fn normal_equation_2d(ArrayView[Point2], ArrayView[Double]) -> Vec2 raise GeometryError
+
+pub fn normalize_points2(ArrayView[Point2]) -> Array[Point2] raise GeometryError
+
+pub fn normalize_points3(ArrayView[Point3]) -> Array[Point3] raise GeometryError
 
 pub fn normalize_weights(ArrayView[Double]) -> Array[Double] raise GeometryError
 
+pub fn normalized_residuals(ArrayView[Double], Double) -> Array[Double]
+
 pub fn orthogonal_component(Vec3, Vec3) -> Vec3 raise GeometryError
+
+pub fn orthogonalize_rotation(Mat3) -> Mat3 raise GeometryError
 
 pub fn outer_product(Vec3, Vec3) -> Mat3
 
 pub fn percentile(ArrayView[Double], fraction~ : Double) -> Double raise GeometryError
+
+pub fn percentile_range(ArrayView[Double], Double, Double) -> NumericRange raise GeometryError
 
 pub fn point2_from_homogeneous(Vec3) -> Point2 raise GeometryError
 
 pub fn point2_lerp(Point2, Point2, Double) -> Point2
 
 pub fn point3_lerp(Point3, Point3, Double) -> Point3
+
+pub fn points2_are_finite(ArrayView[Point2]) -> Bool
+
+pub fn points3_are_finite(ArrayView[Point3]) -> Bool
 
 pub fn polygon_centroid(ArrayView[Point2]) -> Point2 raise GeometryError
 
@@ -118,13 +196,19 @@ pub fn project_vector(Vec3, Vec3) -> Vec3 raise GeometryError
 
 pub fn quaternion_from_axis_angle(Vec3, Double) -> Quaternion raise GeometryError
 
+pub fn range_scalars(ArrayView[Double]) -> Double
+
 pub fn rect2_from_points(ArrayView[Point2]) -> Rect2 raise GeometryError
 
 pub fn relative_error(Double, Double) -> Double
 
+pub fn remove_duplicate_points(ArrayView[Point2], Double) -> Array[Point2]
+
 pub fn reprojection_error(Point2, Point2) -> Double
 
 pub fn resample_polyline(ArrayView[Point2], samples~ : Int) -> Array[Point2] raise GeometryError
+
+pub fn residual_percentile(ArrayView[Double], Double) -> Double raise GeometryError
 
 pub fn residual_statistics(ArrayView[Double]) -> (Double, Double, Double) raise GeometryError
 
@@ -132,13 +216,29 @@ pub fn rms_error(ArrayView[Double]) -> Double raise GeometryError
 
 pub fn robust_scale(ArrayView[Double]) -> Double raise GeometryError
 
+pub fn robust_weighted_centroid3(ArrayView[Point3], ArrayView[Double]) -> Point3 raise GeometryError
+
+pub fn robust_weighted_covariance3(ArrayView[Point3], ArrayView[Double]) -> Mat3 raise GeometryError
+
 pub fn robust_z_scores(ArrayView[Double]) -> Array[Double] raise GeometryError
+
+pub fn rotate_points(Mat3, ArrayView[Point3]) -> Array[Point3]
+
+pub fn rotation_between(Vec3, Vec3) -> Mat3 raise GeometryError
+
+pub fn rotation_from_axis_angle(Vec3, Double) -> Mat3 raise GeometryError
+
+pub fn rotation_residual(Mat3) -> Double
 
 pub fn safe_divide(Double, Double) -> Double raise GeometryError
 
 pub fn safe_rms(ArrayView[Double]) -> Double
 
 pub fn scale_array(ArrayView[Double], Double) -> Array[Double]
+
+pub fn scale_mesh(ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn scale_scalars(ArrayView[Double], Double) -> Array[Double]
 
 pub fn segment_distance(Point2, Point2, Point2) -> Double
 
@@ -147,6 +247,10 @@ pub fn skew_symmetric(Vec3) -> Mat3
 pub fn smootherstep(edge0~ : Double, edge1~ : Double, x~ : Double) -> Double
 
 pub fn smoothstep(edge0~ : Double, edge1~ : Double, x~ : Double) -> Double
+
+pub fn soft_threshold(Double, Double) -> Double
+
+pub fn soft_threshold_batch(ArrayView[Double], Double) -> Array[Double]
 
 pub fn solve_2x2(a00~ : Double, a01~ : Double, a10~ : Double, a11~ : Double, b0~ : Double, b1~ : Double) -> Vec2 raise GeometryError
 
@@ -160,15 +264,37 @@ pub fn square(Double) -> Double
 
 pub fn squared_norm_array(ArrayView[Double]) -> Double
 
+pub fn subtract_scalars(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn transform_points(TransformChain, ArrayView[Point3]) -> Array[Point3]
+
+pub fn transform_vectors(TransformChain, ArrayView[Vec3]) -> Array[Vec3]
+
+pub fn translate_mesh(ArrayView[Point3], Vec3) -> Array[Point3]
+
+pub fn triangle_area3(Point3, Point3, Point3) -> Double
+
+pub fn triangle_centroid3(Point3, Point3, Point3) -> Point3
+
 pub fn triangle_plane_distance(Triangle3, Point3) -> Double raise GeometryError
 
 pub fn trimmed_mean(ArrayView[Double], trim_fraction? : Double) -> Double raise GeometryError
 
+pub fn unique_triangle_edges(ArrayView[(Int, Int, Int)]) -> Array[(Int, Int)]
+
+pub fn validate_correspondences3d2d(ArrayView[Point3], ArrayView[Point2], Int) -> Bool
+
 pub fn variance(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn variance_scalars(ArrayView[Double]) -> Double
+
+pub fn vectors3_are_nonzero(ArrayView[Vec3], Double) -> Bool
 
 pub fn weighted_centroid3(ArrayView[Point3], ArrayView[Double]) -> Point3 raise GeometryError
 
 pub fn weighted_mean(ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
+
+pub fn winsorize(ArrayView[Double], Double, Double, limit? : Double) -> Array[Double]
 
 pub fn z_score(Double, Double, Double) -> Double raise GeometryError
 
@@ -219,13 +345,19 @@ pub(all) struct Mat3 {
 } derive(Eq, @debug.Debug)
 pub fn Mat3::add(Self, Self) -> Self
 pub fn Mat3::det(Self) -> Double
+pub fn Mat3::diagonal(Self) -> Vec3
 pub fn Mat3::frobenius_norm(Self) -> Double
+pub fn Mat3::hadamard(Self, Self) -> Self
 pub fn Mat3::inverse(Self) -> Self raise GeometryError
 pub fn Mat3::is_orthonormal(Self, tolerance? : Double) -> Bool
+pub fn Mat3::is_symmetric(Self, tolerance? : Double) -> Bool
 pub fn Mat3::mul(Self, Self) -> Self
 pub fn Mat3::mul_vec3(Self, Vec3) -> Vec3
+pub fn Mat3::off_diagonal_norm(Self) -> Double
+pub fn Mat3::power(Self, Int) -> Self
 pub fn Mat3::scale(Self, Double) -> Self
 pub fn Mat3::sub(Self, Self) -> Self
+pub fn Mat3::trace(Self) -> Double
 pub fn Mat3::transpose(Self) -> Self
 
 pub(all) struct Mat34 {
@@ -266,6 +398,11 @@ pub fn Mat4::mul(Self, Self) -> Self
 pub fn Mat4::transform_point(Self, Point3) -> Point3 raise GeometryError
 pub fn Mat4::transpose(Self) -> Self
 
+pub(all) struct NumericRange {
+  min : Double
+  max : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct Plane3 {
   normal : Vec3
   offset : Double
@@ -294,6 +431,20 @@ pub fn Point3::minus(Self, Self) -> Vec3
 pub fn Point3::new(x~ : Double, y~ : Double, z~ : Double) -> Self
 pub fn Point3::to_vec(Self) -> Vec3
 pub fn Point3::translate(Self, Vec3) -> Self
+
+pub(all) struct PointCloud {
+  points : Array[Point3]
+} derive(Eq, @debug.Debug)
+pub fn PointCloud::bounds(Self) -> Aabb3 raise GeometryError
+pub fn PointCloud::centroid(Self) -> Point3 raise GeometryError
+pub fn PointCloud::depth_range(Self) -> (Double, Double) raise GeometryError
+pub fn PointCloud::filter_depth(Self, minimum~ : Double, maximum~ : Double) -> Self raise GeometryError
+pub fn PointCloud::from_points(ArrayView[Point3]) -> Self
+pub fn PointCloud::is_empty(Self) -> Bool
+pub fn PointCloud::length(Self) -> Int
+pub fn PointCloud::positive_depth_ratio(Self) -> Double
+pub fn PointCloud::rms_radius(Self) -> Double raise GeometryError
+pub fn PointCloud::valid_depth_count(Self) -> Int
 
 pub(all) struct Quadratic {
   a : Double
@@ -353,6 +504,35 @@ pub fn RigidTransform::compose(Self, Self) -> Self
 pub fn RigidTransform::identity() -> Self
 pub fn RigidTransform::inverse(Self) -> Self
 pub fn RigidTransform::new(rotation~ : Mat3, translation~ : Vec3) -> Self
+
+pub(all) struct ScalarGrid {
+  width : Int
+  height : Int
+  values : Array[Double]
+}
+pub fn ScalarGrid::bilinear(Self, Double, Double) -> Double?
+pub fn ScalarGrid::contains(Self, Int, Int) -> Bool
+pub fn ScalarGrid::get(Self, Int, Int) -> Double?
+pub fn ScalarGrid::height(Self) -> Int
+pub fn ScalarGrid::length(Self) -> Int
+pub fn ScalarGrid::map(Self, (Double) -> Double) -> Self
+pub fn ScalarGrid::mean(Self) -> Double
+pub fn ScalarGrid::min_max(Self) -> (Double, Double)?
+pub fn ScalarGrid::new(width~ : Int, height~ : Int, fill~ : Double) -> Self
+pub fn ScalarGrid::set(Self, Int, Int, Double) -> Bool
+pub fn ScalarGrid::sum(Self) -> Double
+pub fn ScalarGrid::width(Self) -> Int
+
+pub(all) struct TransformChain {
+  transforms : Array[RigidTransform]
+} derive(Eq, @debug.Debug)
+pub fn TransformChain::append(Self, RigidTransform) -> Self
+pub fn TransformChain::apply(Self, Point3) -> Point3
+pub fn TransformChain::compose(Self) -> RigidTransform
+pub fn TransformChain::inverse(Self) -> Self
+pub fn TransformChain::is_empty(Self) -> Bool
+pub fn TransformChain::length(Self) -> Int
+pub fn TransformChain::new(ArrayView[RigidTransform]) -> Self
 
 pub(all) struct Triangle3 {
   a : Point3

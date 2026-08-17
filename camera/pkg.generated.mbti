@@ -11,19 +11,35 @@ pub fn bearing_from_pixel(@core.Point2, CameraIntrinsics, distortion? : Distorti
 
 pub fn bearing_rays(ArrayView[@core.Point2], CameraIntrinsics, distortion? : Distortion) -> Array[@core.Vec3] raise @core.GeometryError
 
+pub fn build_image_pyramid(ImageSize, CameraIntrinsics, Int, scale_step? : Double) -> Array[ImageLevel] raise @core.GeometryError
+
 pub fn calibration_acceptance(CalibrationReport, Double, minimum_coverage? : Double) -> Bool
 
 pub fn calibration_is_usable(CalibrationReport, max_rms? : Double) -> Bool
 
 pub fn calibration_report(ArrayView[CalibrationObservation], CameraIntrinsics, CameraPose, distortion? : Distortion) -> CalibrationReport raise @core.GeometryError
 
+pub fn camera_center_path(ArrayView[CameraPose]) -> Array[@core.Point3]
+
 pub fn camera_model_score(CameraIntrinsics, ImageSize) -> Double
+
+pub fn clamp_depths(ArrayView[Double], Double, Double) -> Array[Double]
 
 pub fn clamp_pixel(ImageSize, @core.Point2) -> @core.Point2
 
+pub fn clamp_visible_pixel(@core.Point2, ImageSize) -> @core.Point2
+
+pub fn count_depth_holes(ArrayView[Double], Double) -> Int
+
 pub fn coverage_fraction(ArrayView[CalibrationObservation], ImageSize) -> Double
 
+pub fn crop_pixels(ArrayView[@core.Point2], ImageSize) -> Array[@core.Point2]
+
 pub fn depth_from_disparity(focal~ : Double, baseline~ : Double, disparity~ : Double) -> Double raise @core.GeometryError
+
+pub fn depth_percentile(ArrayView[Double], Double) -> Double raise @core.GeometryError
+
+pub fn depth_quality(ArrayView[Double], minimum~ : Double, maximum~ : Double) -> DepthQuality
 
 pub fn depth_uncertainty(focal~ : Double, baseline~ : Double, disparity~ : Double, disparity_error~ : Double) -> Double raise @core.GeometryError
 
@@ -43,15 +59,25 @@ pub fn focal_consistency(CameraIntrinsics) -> Double
 
 pub fn focal_from_fov(sensor_extent~ : Double, fov_radians~ : Double) -> Double raise @core.GeometryError
 
+pub fn forward_rays(ArrayView[@core.Ray3], minimum_z? : Double) -> Array[@core.Ray3]
+
+pub fn front_facing_ratio(ArrayView[@core.Point3]) -> Double
+
 pub fn horizontal_fov(CameraIntrinsics, width~ : Double) -> Double raise @core.GeometryError
 
 pub fn image_bounds(ImageSize) -> @core.Rect2 raise @core.GeometryError
 
+pub fn image_margin(@core.Point2, ImageSize) -> Double
+
 pub fn image_pyramid(ImageSize, CameraIntrinsics, levels~ : Int) -> Array[ImagePyramidLevel] raise @core.GeometryError
+
+pub fn image_ray_grid(ImageSize, CameraIntrinsics, Int, Int) -> Array[@core.Ray3]
 
 pub fn max_distortion_error(ArrayView[@core.Point2], Distortion) -> Double
 
 pub fn motion_blur_displacement(@core.Vec3, depth~ : Double, CameraIntrinsics, exposure~ : Double) -> @core.Vec2 raise @core.GeometryError
+
+pub fn normalize_depths(ArrayView[Double], invalid_value~ : Double) -> Array[Double]
 
 pub fn normalized_depth(@core.Point3) -> Double raise @core.GeometryError
 
@@ -60,6 +86,8 @@ pub fn normalized_reprojection_error(@core.Point2, @core.Point2) -> Double
 pub fn normalized_to_pixel(@core.Point2, CameraIntrinsics) -> @core.Point2
 
 pub fn observation_in_bounds(CalibrationObservation, ImageSize) -> Bool
+
+pub fn path_length(ArrayView[CameraPose]) -> Double
 
 pub fn pixel_in_bounds(ImageSize, @core.Point2) -> Bool
 
@@ -79,21 +107,43 @@ pub fn project_points(ArrayView[@core.Point3], CameraIntrinsics, pose? : CameraP
 
 pub fn projection_jacobian(@core.Point3, CameraIntrinsics) -> ProjectionJacobian raise @core.GeometryError
 
+pub fn pyramid_levels_covering(ImageSize, Int) -> Int
+
+pub fn pyramid_pixel_radius(Double, ImageLevel) -> Double
+
+pub fn pyramid_scale(ArrayView[ImageLevel], Int) -> Double
+
 pub fn radial_distortion_monotone(Double, Distortion, samples? : Int) -> Bool
 
 pub fn radial_distortion_scale(Double, Distortion) -> Double
 
+pub fn ray_bundle(ArrayView[@core.Point2], CameraIntrinsics) -> Array[@core.Vec3] raise @core.GeometryError
+
+pub fn ray_bundle_report(ArrayView[@core.Ray3]) -> RayBundleReport
+
 pub fn reprojection_cost(ArrayView[CalibrationObservation], CameraIntrinsics, CameraPose, distortion? : Distortion) -> Double raise @core.GeometryError
 
+pub fn resample_timestamps(Double, Double, Int) -> Array[Double]
+
 pub fn residual_histogram(ArrayView[Double], bins~ : Int, maximum~ : Double) -> Array[Int] raise @core.GeometryError
+
+pub fn rig_baseline(CameraRig, first_id~ : Int, second_id~ : Int) -> Double raise @core.GeometryError
 
 pub fn rolling_pose(CameraPose, @core.Vec3, Double) -> CameraPose
 
 pub fn rolling_project(@core.Point3, CameraIntrinsics, CameraPose, RollingShutter, @core.Vec3) -> @core.Point2 raise @core.GeometryError
 
+pub fn sample_pixels(ImageSize, CameraIntrinsics, ArrayView[@core.Point2]) -> Array[@core.Ray3]
+
+pub fn sample_pose_trajectory(ArrayView[CameraPose], ArrayView[Double], Double) -> CameraPose raise @core.GeometryError
+
 pub fn stereo_depth_error(StereoPair, Double, Double) -> Double raise @core.GeometryError
 
 pub fn stereo_depths(StereoPair, ArrayView[Double]) -> Array[Double] raise @core.GeometryError
+
+pub fn trajectory_duration(ArrayView[Double]) -> Double
+
+pub fn trajectory_is_monotonic(ArrayView[Double]) -> Bool
 
 pub fn undistort_point_iterative(@core.Point2, Distortion, iterations? : Int) -> @core.Point2
 
@@ -101,13 +151,31 @@ pub fn valid_intrinsics(CameraIntrinsics) -> Bool
 
 pub fn valid_observations(ArrayView[CalibrationObservation], ImageSize) -> Array[CalibrationObservation]
 
+pub fn valid_projection_count(ArrayView[@core.Point3]) -> Int
+
 pub fn vertical_fov(CameraIntrinsics, height~ : Double) -> Double raise @core.GeometryError
+
+pub fn visible_depths(ArrayView[Double], Double, Double) -> Array[Bool]
+
+pub fn visible_pixels(ImageSize, ArrayView[@core.Point2]) -> Array[Bool]
 
 pub fn weighted_reprojection_cost(ArrayView[CalibrationObservation], CameraIntrinsics, CameraPose) -> Double raise @core.GeometryError
 
 // Errors
 
 // Types and methods
+pub(all) struct CalibrationGrid {
+  columns : Int
+  rows : Int
+  spacing : Double
+} derive(Eq, @debug.Debug)
+pub fn CalibrationGrid::bounds(Self) -> @core.Rect2 raise @core.GeometryError
+pub fn CalibrationGrid::coverage(Self, ImageSize, CameraIntrinsics) -> Double raise @core.GeometryError
+pub fn CalibrationGrid::length(Self) -> Int
+pub fn CalibrationGrid::new(columns~ : Int, rows~ : Int, spacing~ : Double) -> Self raise @core.GeometryError
+pub fn CalibrationGrid::points(Self) -> Array[@core.Point3]
+pub fn CalibrationGrid::world_point(Self, Int) -> @core.Point3 raise @core.GeometryError
+
 pub(all) struct CalibrationObservation {
   world : @core.Point3
   pixel : @core.Point2
@@ -154,6 +222,30 @@ pub fn CameraPose::rotation(Self) -> @core.Mat3
 pub fn CameraPose::transform_point(Self, @core.Point3) -> @core.Point3
 pub fn CameraPose::translation(Self) -> @core.Vec3
 
+pub(all) struct CameraRig {
+  views : Array[CameraView]
+} derive(Eq, @debug.Debug)
+pub fn CameraRig::common_projection(Self, @core.Point3) -> Array[ProjectedObservation] raise @core.GeometryError
+pub fn CameraRig::find(Self, Int) -> CameraView?
+pub fn CameraRig::length(Self) -> Int
+pub fn CameraRig::new(ArrayView[CameraView]) -> Self
+pub fn CameraRig::project(Self, @core.Point3) -> Array[ProjectedObservation] raise @core.GeometryError
+pub fn CameraRig::visible_in_all(Self, @core.Point3) -> Bool
+
+pub(all) struct CameraView {
+  view_id : Int
+  intrinsics : CameraIntrinsics
+  pose : CameraPose
+} derive(Eq, @debug.Debug)
+pub fn CameraView::new(id~ : Int, intrinsics~ : CameraIntrinsics, pose~ : CameraPose) -> Self
+
+pub(all) struct DepthQuality {
+  valid_count : Int
+  total_count : Int
+  valid_ratio : Double
+  span : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct Distortion {
   k1 : Double
   k2 : Double
@@ -175,6 +267,15 @@ pub(all) struct Frustum {
 pub fn Frustum::contains(Self, @core.Point3) -> Bool
 pub fn Frustum::from_intrinsics(CameraIntrinsics, ImageSize, near~ : Double, far~ : Double) -> Self raise @core.GeometryError
 
+pub(all) struct ImageLevel {
+  scale : Double
+  size : ImageSize
+  intrinsics : CameraIntrinsics
+}
+pub fn ImageLevel::base_to_pixel(Self, @core.Point2) -> @core.Point2
+pub fn ImageLevel::new(scale~ : Double, size~ : ImageSize, intrinsics~ : CameraIntrinsics) -> Self
+pub fn ImageLevel::pixel_to_base(Self, @core.Point2) -> @core.Point2
+
 pub(all) struct ImagePyramidLevel {
   size : ImageSize
   intrinsics : CameraIntrinsics
@@ -188,6 +289,11 @@ pub(all) struct ImageSize {
 pub fn ImageSize::as_rect(Self) -> @core.Rect2 raise @core.GeometryError
 pub fn ImageSize::new(width~ : Int, height~ : Int) -> Self raise @core.GeometryError
 
+pub(all) struct ProjectedObservation {
+  view_id : Int
+  pixel : @core.Point2
+} derive(Eq, @debug.Debug)
+
 pub(all) struct ProjectionJacobian {
   du_dx : Double
   du_dy : Double
@@ -195,6 +301,13 @@ pub(all) struct ProjectionJacobian {
   dv_dx : Double
   dv_dy : Double
   dv_dz : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct RayBundleReport {
+  count : Int
+  mean_direction_norm : Double
+  min_direction_z : Double
+  max_direction_z : Double
 } derive(Eq, @debug.Debug)
 
 pub(all) struct RollingShutter {
