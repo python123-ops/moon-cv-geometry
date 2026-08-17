@@ -65,7 +65,7 @@ GitHub and GitLink use different platform accounts, but each public repository
 keeps a single real account as its contributor identity. GitHub history is under
 `python123-ops`; GitLink history is under `python123`.
 
-The current Mooncakes release is `python123-ops/moon-cv-geometry@0.2.0`. An earlier
+The current Mooncakes release is `python123-ops/moon-cv-geometry@0.2.1`. An earlier
 mistaken publish under `cxh04/moon-cv-geometry@0.1.0` is not the competition
 submission namespace and has been superseded by the current package. See
 `docs/authorship-and-provenance.md` for the audit trail.

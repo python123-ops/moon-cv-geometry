@@ -8,7 +8,7 @@
 - Contributor identity:
   GitHub history uses `python123-ops <python123-ops@users.noreply.github.com>`;
   GitLink history uses `python123 <15564209090@163.com>`.
-- Mooncakes module: `python123-ops/moon-cv-geometry@0.2.0` (after release).
+- Mooncakes module: `python123-ops/moon-cv-geometry@0.2.1` (after release).
 - MoonBit source scale: 6,523 tracked `.mbt` lines in the acceptance build,
   including 5,764 implementation lines, 49 tests and runnable examples.
 - Tests: fixed-size math, quaternions, robust statistics, camera projection/

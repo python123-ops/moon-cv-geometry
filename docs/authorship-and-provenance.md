@@ -8,7 +8,7 @@ provenance for the OSC2026 submission `moon-cv-geometry`.
 - Participant name: Zhang Jingkai
 - Project name: moonbit视觉几何基石
 - Package name: `moon-cv-geometry`
-- Current Mooncakes module: `python123-ops/moon-cv-geometry@0.2.0`
+- Current Mooncakes module: `python123-ops/moon-cv-geometry@0.2.1`
 
 ## Repository Identities
 
@@ -30,7 +30,7 @@ preparation, version `0.1.0` was mistakenly published once under
 Mooncakes namespace is not the competition submission namespace.
 
 The corrected package was published under `python123-ops/moon-cv-geometry`, and
-the current release line is `0.2.0`. Repository metadata, import paths,
+the current release line is `0.2.1`. Repository metadata, import paths,
 documentation, and package manifests now point to `python123-ops/moon-cv-geometry`.
 
 ## Source Provenance

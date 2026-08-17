@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 - 2026-08-17
+
+- Expanded the reusable geometry, camera, multi-view, matching, stereo,
+  calibration, residual, and robust-estimation APIs for the August Hackathon
+  acceptance build.
+- Added 49 cross-target tests, reproducible benchmark notes, coverage checks,
+  native smoke checks, and a stable-toolchain CI gate.
+
 ## 0.2.0 - 2026-08-09
 
 - Added normalized multi-point homography estimation using a fixed-size DLT
