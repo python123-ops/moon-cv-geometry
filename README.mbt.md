@@ -29,9 +29,9 @@ test "project a 3D camera point" {
 
 ## Packages
 
-- `core`: `Point2`, `Point3`, `Vec2`, `Vec3`, `Ray3`, `Rect2`, `Mat3`, `Mat34`, fixed-size operations, and geometric errors.
-- `camera`: image size helpers, pinhole intrinsics, camera pose, Brown-Conrady distortion, projection, and bearing rays.
-- `multiview`: projective homography with normalized multi-point DLT, epipolar residual/distance/Sampson error, eight-point fundamental estimation, triangulation from bearing rays, cheirality, and fundamental/essential matrix helpers.
+- `core`: fixed-size 2D/3D geometry, Mat3/Mat4, quaternions, rigid transforms, planes/triangles/AABB, interpolation, robust statistics, and numerical solvers.
+- `camera`: pinhole intrinsics, Brown-Conrady distortion, pose tools, projection Jacobians, image pyramids, frustums, calibration reports, rolling shutter and stereo depth helpers.
+- `multiview`: normalized DLT, affine estimation, epipolar/Sampson diagnostics, triangulation, cheirality, point matching, track residuals, reconstruction reports, and pose-quality constraints.
 - `ransac`: deterministic RANSAC configuration and estimators for homography and eight-point fundamental matrices, with a small-data compatibility path for the stereo translation baseline.
 
 ## Examples
@@ -75,7 +75,7 @@ submission namespace and has been superseded by the current package. See
 - `0.2.x`: normalized DLT over larger correspondence sets, eight-point fundamental matrix estimation, cheirality checks, triangulation angle quality, and stronger numerical conditioning.
 - Next: rank-2 fundamental matrix enforcement, calibrated pose decomposition, PnP, and bundle-adjustment-friendly residual helpers.
 
-## Validation
+## Validation and measured scale
 
 ```bash
 moon fmt --check
@@ -84,6 +84,11 @@ moon test --target all --deny-warn
 moon info
 moon package
 ```
+
+The acceptance snapshot contains 6,523 tracked `.mbt` source lines, including
+5,764 implementation lines, 49 tests, and runnable examples. The suite is
+executed on wasm, wasm-gc, js, and native targets. Reproducible local timings
+and numerical thresholds are recorded in [docs/benchmark.md](docs/benchmark.md).
 
 The current MoonBit CLI exposes warning denial on `moon check` and `moon test`.
 For formatting and interface generation, CI uses `moon fmt --check` and

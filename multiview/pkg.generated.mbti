@@ -3,15 +3,50 @@ package "python123-ops/moon-cv-geometry/multiview"
 
 import {
   "moonbitlang/core/debug",
+  "python123-ops/moon-cv-geometry/camera",
   "python123-ops/moon-cv-geometry/core",
 }
 
 // Values
+pub fn affine_reprojection_errors(Affine2D, ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
+
+pub fn angular_residuals(ArrayView[@core.Vec3], ArrayView[@core.Vec3]) -> Array[Double] raise @core.GeometryError
+
+pub fn angular_rms(ArrayView[@core.Vec3], ArrayView[@core.Vec3]) -> Double raise @core.GeometryError
+
+pub fn baseline_is_usable(@camera.CameraPose, @camera.CameraPose, minimum? : Double) -> Bool
+
+pub fn baseline_length(@camera.CameraPose, @camera.CameraPose) -> Double
+
+pub fn bearing_angle(@core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn bearing_residual(@core.Vec3, @core.Vec3) -> Double raise @core.GeometryError
+
+pub fn cheirality_mask(ArrayView[TriangulatedPoint], ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Array[Bool] raise @core.GeometryError
+
+pub fn count_inliers(ArrayView[Bool]) -> Int
+
+pub fn count_true(ArrayView[Bool]) -> Int
+
+pub fn depth_clamp(@core.Point3, minimum~ : Double, maximum~ : Double) -> @core.Point3 raise @core.GeometryError
+
+pub fn depth_statistics(ArrayView[@core.Point3]) -> (@core.Point3, Double) raise @core.GeometryError
+
+pub fn enforce_positive_depth(ArrayView[@core.Point3]) -> Array[@core.Point3]
+
 pub fn epipolar_distance(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn epipolar_inlier_mask(FundamentalMatrix, ArrayView[@core.Point2], ArrayView[@core.Point2], threshold~ : Double) -> Array[Bool] raise @core.GeometryError
 
 pub fn epipolar_line_in_right(FundamentalMatrix, @core.Point2) -> @core.Vec3
 
 pub fn epipolar_residual(FundamentalMatrix, @core.Point2, @core.Point2) -> Double
+
+pub fn epipolar_residuals(FundamentalMatrix, ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
+
+pub fn essential_scale(FundamentalMatrix) -> Double
+
+pub fn estimate_affine(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Affine2D raise @core.GeometryError
 
 pub fn estimate_essential_from_fundamental(FundamentalMatrix, @core.Mat3, @core.Mat3) -> EssentialMatrix
 
@@ -23,13 +58,87 @@ pub fn estimate_homography(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> 
 
 pub fn estimate_homography_from_four(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Homography raise @core.GeometryError
 
+pub fn filter_matches(ArrayView[PointMatch], maximum_distance~ : Double) -> Array[PointMatch]
+
+pub fn homography_condition_indicator(Homography) -> Double
+
+pub fn homography_inlier_mask(Homography, ArrayView[@core.Point2], ArrayView[@core.Point2], threshold~ : Double) -> Array[Bool] raise @core.GeometryError
+
 pub fn homography_reprojection_error(Homography, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn is_visible(@core.Point3, @camera.CameraPose, near? : Double) -> Bool
+
+pub fn line_point_residual(@core.Vec3, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn match_distance_statistics(ArrayView[PointMatch]) -> (Double, Double) raise @core.GeometryError
+
+pub fn match_indices(ArrayView[PointMatch]) -> (Array[Int], Array[Int])
+
+pub fn median_parallax(ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Double raise @core.GeometryError
+
+pub fn mutual_matches(ArrayView[@core.Point2], ArrayView[@core.Point2], maximum_distance~ : Double) -> Array[PointMatch] raise @core.GeometryError
+
+pub fn nearest_matches(ArrayView[@core.Point2], ArrayView[@core.Point2], maximum_distance~ : Double) -> Array[PointMatch] raise @core.GeometryError
+
+pub fn nearest_point(@core.Point2, ArrayView[@core.Point2]) -> PointMatch raise @core.GeometryError
+
+pub fn normalize_bearing(@core.Point2) -> @core.Vec3 raise @core.GeometryError
+
+pub fn normalize_fundamental(FundamentalMatrix) -> FundamentalMatrix raise @core.GeometryError
+
+pub fn normalize_homogeneous(@core.Vec3) -> @core.Vec3 raise @core.GeometryError
+
+pub fn normalize_homography(Homography) -> Homography raise @core.GeometryError
+
+pub fn normalized_track_error(PointTrack, @camera.CameraIntrinsics, @camera.CameraPose) -> Double raise @core.GeometryError
+
+pub fn observation_count(ArrayView[PointTrack]) -> Int
+
+pub fn parallax_degrees(@core.Ray3, @core.Ray3) -> Double
 
 pub fn point_line_distance(@core.Vec3, @core.Point2) -> Double raise @core.GeometryError
 
+pub fn pose_depth(@core.Point3, @camera.CameraPose) -> Double
+
+pub fn pose_error(@camera.CameraPose, @camera.CameraPose) -> (Double, Double)
+
+pub fn pose_rotation_error(@core.Mat3, @core.Mat3) -> Double
+
+pub fn pose_translation_error(@camera.CameraPose, @camera.CameraPose) -> Double
+
+pub fn positive_depth_mask(ArrayView[@core.Point3]) -> Array[Bool]
+
+pub fn reconstruction_report(ArrayView[@core.Point3], ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> ReconstructionReport raise @core.GeometryError
+
+pub fn reconstruction_usable(ReconstructionReport, minimum_positive_ratio? : Double, minimum_parallax? : Double) -> Bool
+
+pub fn reprojection_residual_matrix(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Array[Double]] raise @core.GeometryError
+
+pub fn residual_norms(ArrayView[Array[Double]]) -> Array[Double]
+
+pub fn residual_vector(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
+
+pub fn robust_track_cost(ArrayView[PointTrack], @camera.CameraIntrinsics, @camera.CameraPose, delta? : Double) -> Double raise @core.GeometryError
+
 pub fn sampson_error(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
 
+pub fn sampson_residuals(FundamentalMatrix, ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
+
+pub fn symmetric_epipolar_residual(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
+
+pub fn total_reprojection_error(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Double raise @core.GeometryError
+
+pub fn track_bounds(ArrayView[PointTrack]) -> @core.Rect2 raise @core.GeometryError
+
+pub fn track_reprojection_errors(PointTrack, @camera.CameraIntrinsics, @camera.CameraPose) -> Array[Double] raise @core.GeometryError
+
+pub fn track_visibility(PointTrack, @camera.CameraPose, near? : Double) -> Bool
+
+pub fn tracks_cost(ArrayView[PointTrack], @camera.CameraIntrinsics, @camera.CameraPose) -> Double raise @core.GeometryError
+
 pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> TriangulatedPoint raise @core.GeometryError
+
+pub fn triangulate_many(ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Array[TriangulatedPoint] raise @core.GeometryError
 
 pub fn triangulated_point_is_in_front(TriangulatedPoint, @core.Ray3, @core.Ray3) -> Bool
 
@@ -37,9 +146,41 @@ pub fn triangulation_angle(@core.Ray3, @core.Ray3) -> Double
 
 pub fn triangulation_is_well_conditioned(TriangulatedPoint, max_separation? : Double) -> Bool
 
+pub fn triangulation_quality(TriangulatedPoint, Double, Double) -> Double
+
+pub fn triangulation_reprojection_check(TriangulatedPoint, @core.Ray3, @core.Ray3, threshold~ : Double) -> Bool
+
+pub fn unique_right_matches(ArrayView[PointMatch]) -> Array[PointMatch]
+
+pub fn visible_points(ArrayView[@core.Point3], @camera.CameraPose, near? : Double) -> Array[Bool]
+
+pub fn visible_track_count(ArrayView[PointTrack], @camera.CameraPose) -> Int
+
 // Errors
 
 // Types and methods
+pub(all) struct Affine2D {
+  a00 : Double
+  a01 : Double
+  a02 : Double
+  a10 : Double
+  a11 : Double
+  a12 : Double
+} derive(Eq, @debug.Debug)
+pub fn Affine2D::apply(Self, @core.Point2) -> @core.Point2
+pub fn Affine2D::determinant(Self) -> Double
+pub fn Affine2D::identity() -> Self
+pub fn Affine2D::inverse(Self) -> Self raise @core.GeometryError
+
+pub(all) struct CameraPair {
+  left : @camera.CameraPose
+  right : @camera.CameraPose
+  intrinsics_left : @camera.CameraIntrinsics
+  intrinsics_right : @camera.CameraIntrinsics
+} derive(Eq, @debug.Debug)
+pub fn CameraPair::bearings(Self, @core.Point2, @core.Point2) -> (@core.Ray3, @core.Ray3) raise @core.GeometryError
+pub fn CameraPair::new(left~ : @camera.CameraPose, right~ : @camera.CameraPose, intrinsics_left~ : @camera.CameraIntrinsics, intrinsics_right~ : @camera.CameraIntrinsics) -> Self
+
 pub(all) struct EssentialMatrix {
   matrix : @core.Mat3
 } derive(Eq, @debug.Debug)
@@ -56,6 +197,32 @@ pub(all) struct Homography {
 pub fn Homography::apply(Self, @core.Point2) -> @core.Point2 raise @core.GeometryError
 pub fn Homography::new(matrix~ : @core.Mat3) -> Self
 
+pub(all) struct PointMatch {
+  left_index : Int
+  right_index : Int
+  distance : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct PointTrack {
+  world : @core.Point3
+  observations : Array[@camera.CalibrationObservation]
+} derive(Eq, @debug.Debug)
+pub fn PointTrack::new(world~ : @core.Point3, observations~ : Array[@camera.CalibrationObservation]) -> Self
+
+pub(all) struct ReconstructionReport {
+  total : Int
+  positive_depth : Int
+  median_depth : Double
+  median_parallax : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TrackObservation {
+  point_id : Int
+  pixel : @core.Point2
+  view_id : Int
+} derive(Eq, @debug.Debug)
+pub fn TrackObservation::new(point_id~ : Int, pixel~ : @core.Point2, view_id~ : Int) -> Self
+
 pub(all) struct TriangulatedPoint {
   point : @core.Point3
   separation : Double
@@ -64,4 +231,3 @@ pub(all) struct TriangulatedPoint {
 // Type aliases
 
 // Traits
-

@@ -8,16 +8,84 @@ import {
 }
 
 // Values
+pub fn adaptive_iteration_bound(inlier_ratio~ : Double, sample_size~ : Int, confidence? : Double) -> Int raise @core.GeometryError
+
+pub fn[T] better_result(RansacResult[T], RansacResult[T]) -> Bool
+
+pub fn clipped_residuals(ArrayView[Double], cutoff~ : Double) -> Array[Double]
+
+pub fn confidence_from_success(iterations~ : Int, success_probability~ : Double) -> Double raise @core.GeometryError
+
+pub fn consensus_ratio(InlierMask) -> Double
+
+pub fn deterministic_indices(length~ : Int, count~ : Int, seed~ : UInt) -> Array[Int] raise @core.GeometryError
+
 pub fn estimate_fundamental_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : RansacConfig) -> RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError
 
 pub fn estimate_homography_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : RansacConfig) -> RansacResult[@multiview.Homography] raise @core.GeometryError
 
+pub fn expected_successes(iterations~ : Int, inlier_ratio~ : Double, sample_size~ : Int) -> Double raise @core.GeometryError
+
+pub fn huber_loss(residual~ : Double, delta? : Double) -> Double
+
+pub fn inlier_ratio_from_mask(InlierMask) -> Double
+
+pub fn inlier_weight(residual~ : Double, threshold~ : Double) -> Double
+
+pub fn minimum_consensus_count(total~ : Int, ratio~ : Double) -> Int raise @core.GeometryError
+
+pub fn[T] normalized_score(RansacResult[T]) -> Double
+
+pub fn[T] rank_results(ArrayView[RansacResult[T]]) -> Array[Int]
+
+pub fn report_from_residuals(ArrayView[Double], threshold~ : Double) -> ConsensusReport raise @core.GeometryError
+
+pub fn required_iterations(success_probability~ : Double, confidence? : Double) -> Int raise @core.GeometryError
+
+pub fn residual_is_inlier(residual~ : Double, threshold~ : Double) -> Bool
+
+pub fn residual_mean_for_mask(ArrayView[Double], InlierMask) -> Double raise @core.GeometryError
+
+pub fn residual_quantiles(ArrayView[Double]) -> (@core.Point3, Double) raise @core.GeometryError
+
+pub fn residual_threshold_from_sigma(sigma~ : Double, confidence_multiplier? : Double) -> Double raise @core.GeometryError
+
+pub fn robust_cost(ArrayView[Double], delta? : Double) -> Double
+
+pub fn sample_probability(inlier_ratio~ : Double, sample_size~ : Int) -> Double raise @core.GeometryError
+
+pub fn sample_without_replacement(length~ : Int, count~ : Int, seed~ : UInt) -> Array[Int] raise @core.GeometryError
+
+pub fn score_residuals(ArrayView[Double], threshold~ : Double) -> RansacResult[Array[Double]] raise @core.GeometryError
+
+pub fn select_best_score(ArrayView[Double]) -> Int raise @core.GeometryError
+
+pub fn threshold_from_mad(ArrayView[Double], multiplier? : Double) -> Double raise @core.GeometryError
+
+pub fn tukey_weight(residual~ : Double, cutoff~ : Double) -> Double
+
+pub fn validate_mask(InlierMask, expected_length~ : Int) -> Bool
+
+pub fn weighted_consensus(ArrayView[Double], threshold~ : Double) -> Double
+
 // Errors
 
 // Types and methods
+pub(all) struct ConsensusReport {
+  total : Int
+  inliers : Int
+  ratio : Double
+  mean_inlier_error : Double
+  max_inlier_error : Double
+} derive(Eq, @debug.Debug)
+pub fn ConsensusReport::acceptable(Self, minimum_ratio~ : Double, maximum_mean_error~ : Double) -> Bool
+pub fn ConsensusReport::summary_score(Self) -> Double
+
 pub(all) struct InlierMask {
   values : Array[Bool]
 } derive(Eq, @debug.Debug)
+pub fn InlierMask::count(Self) -> Int
+pub fn InlierMask::indices(Self) -> Array[Int]
 pub fn InlierMask::is_inlier(Self, Int) -> Bool raise @core.GeometryError
 pub fn InlierMask::length(Self) -> Int
 
@@ -28,6 +96,7 @@ pub(all) struct RansacConfig {
   seed : UInt
 } derive(Eq, @debug.Debug)
 pub fn RansacConfig::new(iterations? : Int, threshold? : Double, min_inliers? : Int, seed? : UInt) -> Self
+pub fn RansacConfig::validated(Self, data_size~ : Int) -> Self raise @core.GeometryError
 
 pub(all) struct RansacResult[T] {
   model : T
@@ -36,8 +105,9 @@ pub(all) struct RansacResult[T] {
   score : Double
 } derive(Eq, @debug.Debug)
 pub fn[T] RansacResult::inlier_ratio(Self[T]) -> Double
+pub fn[T] RansacResult::is_confident(Self[T], minimum_ratio? : Double) -> Bool
+pub fn[T] RansacResult::outlier_count(Self[T]) -> Int
 
 // Type aliases
 
 // Traits
-

@@ -77,7 +77,13 @@ jobs:
 
       - name: Test all targets
         run: |
-          moon test --target all --deny-warn
+          moon test --target all --deny-warn --enable-coverage
+
+      - name: Native coverage summary
+        if: runner.os == 'Linux'
+        run: |
+          moon coverage report -f summary
+          moon coverage analyze
 
       - name: Interface gate
         run: |
@@ -89,3 +95,8 @@ jobs:
       - name: Package gate
         run: |
           moon package
+
+      - name: Reproducible CLI smoke check
+        run: |
+          moon run examples/project_point
+          moon run examples/homography

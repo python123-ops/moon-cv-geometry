@@ -9,6 +9,14 @@ pub using @core {
   type Rect2,
   type Vec2,
   type Vec3,
+  type Mat4,
+  type Quaternion,
+  type RigidTransform,
+  type Line2,
+  type Plane3,
+  type Triangle3,
+  type Aabb3,
+  type Quadratic,
   almost_equal,
   clamp,
   distance3,
@@ -18,6 +26,14 @@ pub using @core {
   point2_from_homogeneous,
   rect2_from_points,
   reprojection_error,
+  median,
+  mean,
+  percentile,
+  robust_scale,
+  identity4,
+  quaternion_from_axis_angle,
+  solve_2x2,
+  solve_3x3,
 }
 
 ///|
@@ -26,6 +42,11 @@ pub using @camera {
   type CameraPose,
   type Distortion,
   type ImageSize,
+  type CalibrationObservation,
+  type CalibrationReport,
+  type Frustum,
+  type RollingShutter,
+  type StereoPair,
   distort_point,
   focal_from_fov,
   horizontal_fov,
@@ -35,6 +56,10 @@ pub using @camera {
   project_point_with_pose,
   undistort_point_iterative,
   vertical_fov,
+  calibration_report,
+  projection_jacobian,
+  depth_from_disparity,
+  disparity_from_depth,
 }
 
 ///|
@@ -43,6 +68,10 @@ pub using @multiview {
   type FundamentalMatrix,
   type Homography,
   type TriangulatedPoint,
+  type Affine2D,
+  type PointMatch,
+  type PointTrack,
+  type ReconstructionReport,
   epipolar_residual,
   estimate_essential_from_fundamental,
   estimate_fundamental,
@@ -54,6 +83,10 @@ pub using @multiview {
   triangulation_is_well_conditioned,
   triangulated_point_is_in_front,
   triangulation_angle,
+  estimate_affine,
+  nearest_matches,
+  mutual_matches,
+  reconstruction_report,
 }
 
 ///|
@@ -61,6 +94,10 @@ pub using @ransac {
   type InlierMask,
   type RansacConfig,
   type RansacResult,
+  type ConsensusReport,
   estimate_fundamental_ransac,
   estimate_homography_ransac,
+  report_from_residuals,
+  adaptive_iteration_bound,
+  required_iterations,
 }

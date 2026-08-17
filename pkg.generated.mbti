@@ -9,15 +9,25 @@ import {
 }
 
 // Values
+pub fn adaptive_iteration_bound(inlier_ratio~ : Double, sample_size~ : Int, confidence? : Double) -> Int raise @core.GeometryError
+
 pub fn almost_equal(Double, Double, eps? : Double) -> Bool
 
+pub fn calibration_report(ArrayView[@camera.CalibrationObservation], @camera.CameraIntrinsics, @camera.CameraPose, distortion? : @camera.Distortion) -> @camera.CalibrationReport raise @core.GeometryError
+
 pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
+
+pub fn depth_from_disparity(focal~ : Double, baseline~ : Double, disparity~ : Double) -> Double raise @core.GeometryError
+
+pub fn disparity_from_depth(focal~ : Double, baseline~ : Double, depth~ : Double) -> Double raise @core.GeometryError
 
 pub fn distance3(@core.Point3, @core.Point3) -> Double
 
 pub fn distort_point(@core.Point2, @camera.Distortion) -> @core.Point2
 
 pub fn epipolar_residual(@multiview.FundamentalMatrix, @core.Point2, @core.Point2) -> Double
+
+pub fn estimate_affine(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> @multiview.Affine2D raise @core.GeometryError
 
 pub fn estimate_essential_from_fundamental(@multiview.FundamentalMatrix, @core.Mat3, @core.Mat3) -> @multiview.EssentialMatrix
 
@@ -41,11 +51,23 @@ pub fn horizontal_fov(@camera.CameraIntrinsics, width~ : Double) -> Double raise
 
 pub fn identity3() -> @core.Mat3
 
+pub fn identity4() -> @core.Mat4
+
 pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> @core.Mat34
 
 pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Double, Double, Double)) -> @core.Mat3
 
+pub fn mean(ArrayView[Double]) -> Double raise @core.GeometryError
+
+pub fn median(ArrayView[Double]) -> Double raise @core.GeometryError
+
+pub fn mutual_matches(ArrayView[@core.Point2], ArrayView[@core.Point2], maximum_distance~ : Double) -> Array[@multiview.PointMatch] raise @core.GeometryError
+
+pub fn nearest_matches(ArrayView[@core.Point2], ArrayView[@core.Point2], maximum_distance~ : Double) -> Array[@multiview.PointMatch] raise @core.GeometryError
+
 pub fn normalized_to_pixel(@core.Point2, @camera.CameraIntrinsics) -> @core.Point2
+
+pub fn percentile(ArrayView[Double], fraction~ : Double) -> Double raise @core.GeometryError
 
 pub fn pixel_to_normalized(@core.Point2, @camera.CameraIntrinsics) -> @core.Point2
 
@@ -55,9 +77,25 @@ pub fn project_point(@core.Point3, @camera.CameraIntrinsics, distortion? : @came
 
 pub fn project_point_with_pose(@core.Point3, @camera.CameraIntrinsics, @camera.CameraPose, distortion? : @camera.Distortion) -> @core.Point2 raise @core.GeometryError
 
+pub fn projection_jacobian(@core.Point3, @camera.CameraIntrinsics) -> @camera.ProjectionJacobian raise @core.GeometryError
+
+pub fn quaternion_from_axis_angle(@core.Vec3, Double) -> @core.Quaternion raise @core.GeometryError
+
+pub fn reconstruction_report(ArrayView[@core.Point3], ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> @multiview.ReconstructionReport raise @core.GeometryError
+
 pub fn rect2_from_points(ArrayView[@core.Point2]) -> @core.Rect2 raise @core.GeometryError
 
+pub fn report_from_residuals(ArrayView[Double], threshold~ : Double) -> @ransac.ConsensusReport raise @core.GeometryError
+
 pub fn reprojection_error(@core.Point2, @core.Point2) -> Double
+
+pub fn required_iterations(success_probability~ : Double, confidence? : Double) -> Int raise @core.GeometryError
+
+pub fn robust_scale(ArrayView[Double]) -> Double raise @core.GeometryError
+
+pub fn solve_2x2(a00~ : Double, a01~ : Double, a10~ : Double, a11~ : Double, b0~ : Double, b1~ : Double) -> @core.Vec2 raise @core.GeometryError
+
+pub fn solve_3x3(@core.Mat3, @core.Vec3) -> @core.Vec3 raise @core.GeometryError
 
 pub fn triangulate_from_rays(@core.Ray3, @core.Ray3) -> @multiview.TriangulatedPoint raise @core.GeometryError
 
@@ -76,13 +114,25 @@ pub fn vertical_fov(@camera.CameraIntrinsics, height~ : Double) -> Double raise 
 // Types and methods
 
 // Type aliases
+pub using @core {type Aabb3}
+
+pub using @multiview {type Affine2D}
+
+pub using @camera {type CalibrationObservation}
+
+pub using @camera {type CalibrationReport}
+
 pub using @camera {type CameraIntrinsics}
 
 pub using @camera {type CameraPose}
 
+pub using @ransac {type ConsensusReport}
+
 pub using @camera {type Distortion}
 
 pub using @multiview {type EssentialMatrix}
+
+pub using @camera {type Frustum}
 
 pub using @multiview {type FundamentalMatrix}
 
@@ -94,13 +144,27 @@ pub using @camera {type ImageSize}
 
 pub using @ransac {type InlierMask}
 
+pub using @core {type Line2}
+
 pub using @core {type Mat3}
 
 pub using @core {type Mat34}
 
+pub using @core {type Mat4}
+
+pub using @core {type Plane3}
+
 pub using @core {type Point2}
 
 pub using @core {type Point3}
+
+pub using @multiview {type PointMatch}
+
+pub using @multiview {type PointTrack}
+
+pub using @core {type Quadratic}
+
+pub using @core {type Quaternion}
 
 pub using @ransac {type RansacConfig}
 
@@ -108,7 +172,17 @@ pub using @ransac {type RansacResult}
 
 pub using @core {type Ray3}
 
+pub using @multiview {type ReconstructionReport}
+
 pub using @core {type Rect2}
+
+pub using @core {type RigidTransform}
+
+pub using @camera {type RollingShutter}
+
+pub using @camera {type StereoPair}
+
+pub using @core {type Triangle3}
 
 pub using @multiview {type TriangulatedPoint}
 
@@ -117,4 +191,3 @@ pub using @core {type Vec2}
 pub using @core {type Vec3}
 
 // Traits
-
