@@ -14,9 +14,21 @@ pub fn angular_residuals(ArrayView[@core.Vec3], ArrayView[@core.Vec3]) -> Array[
 
 pub fn angular_rms(ArrayView[@core.Vec3], ArrayView[@core.Vec3]) -> Double raise @core.GeometryError
 
+pub fn baseline_condition_score(BaselineStatistics, Double) -> Double
+
+pub fn baseline_graph_edges(ArrayView[@core.Point3], Double) -> Array[(Int, Int)]
+
+pub fn baseline_is_degenerate(BaselineStatistics, Double) -> Bool
+
 pub fn baseline_is_usable(@camera.CameraPose, @camera.CameraPose, minimum? : Double) -> Bool
 
 pub fn baseline_length(@camera.CameraPose, @camera.CameraPose) -> Double
+
+pub fn baseline_pairwise_centers(ArrayView[@core.Point3]) -> Array[Double]
+
+pub fn baseline_statistics(ArrayView[Double]) -> BaselineStatistics
+
+pub fn baseline_valid_ratio(ArrayView[Double], Double) -> Double
 
 pub fn bearing_angle(@core.Point2, @core.Point2) -> Double raise @core.GeometryError
 
@@ -24,11 +36,23 @@ pub fn bearing_residual(@core.Vec3, @core.Vec3) -> Double raise @core.GeometryEr
 
 pub fn bundle_statistics(ArrayView[Double]) -> BundleStatistics
 
+pub fn camera_center_distances(ArrayView[@core.Point3]) -> Array[Double]
+
+pub fn camera_path_length(ArrayView[@core.Point3]) -> Double
+
+pub fn camera_path_turn_angles(ArrayView[@core.Point3]) -> Array[Double] raise @core.GeometryError
+
+pub fn cauchy_residual_cost(ArrayView[Double], Double) -> Double
+
+pub fn charbonnier_residual_cost(ArrayView[Double], Double) -> Double
+
 pub fn cheirality_mask(ArrayView[TriangulatedPoint], ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Array[Bool] raise @core.GeometryError
 
 pub fn count_inliers(ArrayView[Bool]) -> Int
 
 pub fn count_true(ArrayView[Bool]) -> Int
+
+pub fn deduplicate_observations(ArrayView[TrackObservation]) -> Array[TrackObservation]
 
 pub fn deduplicate_track(ArrayView[TrackObservation]) -> Array[TrackObservation]
 
@@ -100,7 +124,11 @@ pub fn normalize_homography(Homography) -> Homography raise @core.GeometryError
 
 pub fn normalized_track_error(PointTrack, @camera.CameraIntrinsics, @camera.CameraPose) -> Double raise @core.GeometryError
 
+pub fn observation_centroid(ArrayView[TrackObservation]) -> @core.Point2 raise @core.GeometryError
+
 pub fn observation_count(ArrayView[PointTrack]) -> Int
+
+pub fn observation_pixel_rms(ArrayView[TrackObservation]) -> Double raise @core.GeometryError
 
 pub fn parallax_degrees(@core.Ray3, @core.Ray3) -> Double
 
@@ -118,15 +146,47 @@ pub fn positive_depth_mask(ArrayView[@core.Point3]) -> Array[Bool]
 
 pub fn reconstruction_report(ArrayView[@core.Point3], ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> ReconstructionReport raise @core.GeometryError
 
+pub fn reconstruction_track_report(ArrayView[TrackObservation], minimum_views~ : Int) -> ReconstructionTrackReport
+
 pub fn reconstruction_usable(ReconstructionReport, minimum_positive_ratio? : Double, minimum_parallax? : Double) -> Bool
 
 pub fn reprojection_residual_matrix(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Array[Double]] raise @core.GeometryError
 
 pub fn reprojection_summary(ArrayView[Double], outlier_threshold~ : Double) -> ReprojectionSummary
 
+pub fn residual_block_2d(@core.Point2, @core.Point2) -> Array[Double]
+
+pub fn residual_block_3d(@core.Point3, @core.Point3) -> Array[Double]
+
+pub fn residual_blocks_2d(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double]
+
+pub fn residual_blocks_3d(ArrayView[@core.Point3], ArrayView[@core.Point3]) -> Array[Double]
+
+pub fn residual_inlier_count(ArrayView[Double], Double) -> Int
+
+pub fn residual_inlier_mask(ArrayView[Double], Double) -> Array[Bool]
+
+pub fn residual_inlier_ratio2(ArrayView[Double], Double) -> Double
+
+pub fn residual_maximum(ArrayView[Double]) -> Double
+
+pub fn residual_mean_absolute(ArrayView[Double]) -> Double
+
+pub fn residual_norm_2d(@core.Point2, @core.Point2) -> Double
+
+pub fn residual_norm_3d(@core.Point3, @core.Point3) -> Double
+
 pub fn residual_norms(ArrayView[Array[Double]]) -> Array[Double]
 
+pub fn residual_norms_2d(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double]
+
+pub fn residual_rms2(ArrayView[Double]) -> Double
+
 pub fn residual_vector(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
+
+pub fn residual_weights_huber(ArrayView[Double], Double) -> Array[Double]
+
+pub fn residual_weights_tukey(ArrayView[Double], Double) -> Array[Double]
 
 pub fn residuals_above(ArrayView[Double], Double) -> Array[Int]
 
@@ -138,19 +198,181 @@ pub fn sampson_error(FundamentalMatrix, @core.Point2, @core.Point2) -> Double ra
 
 pub fn sampson_residuals(FundamentalMatrix, ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double] raise @core.GeometryError
 
+pub fn select_tracks_by_pixel_span(ArrayView[TrackObservation], Double) -> Array[Int]
+
+pub fn select_tracks_by_support(ArrayView[TrackObservation], Int) -> Array[Int]
+
 pub fn symmetric_epipolar_residual(FundamentalMatrix, @core.Point2, @core.Point2) -> Double raise @core.GeometryError
 
 pub fn total_reprojection_error(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Double raise @core.GeometryError
 
+pub fn track_analytics(ArrayView[TrackObservation]) -> TrackAnalytics
+
+pub fn track_baseline_support(ArrayView[TrackObservation]) -> Int
+
 pub fn track_bounds(ArrayView[PointTrack]) -> @core.Rect2 raise @core.GeometryError
+
+pub fn track_checksum(ArrayView[TrackObservation]) -> Double
+
+pub fn track_consistency_score(ArrayView[TrackObservation], Int, Double) -> Double
+
+pub fn track_count_point(ArrayView[TrackObservation], Int) -> Int
+
+pub fn track_count_view(ArrayView[TrackObservation], Int) -> Int
+
+pub fn track_density(ArrayView[TrackObservation]) -> Double
+
+pub fn track_duplicate_pair_count(ArrayView[TrackObservation]) -> Int
+
+pub fn track_export_quality(ArrayView[TrackObservation], Int, Double) -> Double
+
+pub fn track_filter_quality(ArrayView[TrackObservation], Int, Double) -> Array[Int]
+
+pub fn track_has_point(ArrayView[TrackObservation], Int) -> Bool
+
+pub fn track_has_view(ArrayView[TrackObservation], Int) -> Bool
+
+pub fn track_is_repeated(ArrayView[TrackObservation]) -> Bool
+
+pub fn track_max_motion(ArrayView[TrackObservation]) -> Double
+
+pub fn track_mean_motion(ArrayView[TrackObservation]) -> Double
+
+pub fn track_motion_is_smooth(ArrayView[TrackObservation], Double) -> Bool
 
 pub fn track_neighbors(TrackGraph, Int) -> Array[Int]
 
+pub fn track_observation_checksum(TrackObservation) -> Double
+
+pub fn track_observation_csv(TrackObservation) -> String
+
+pub fn track_observation_matrix(ArrayView[TrackObservation]) -> ObservationMatrix
+
+pub fn track_observations_csv(ArrayView[TrackObservation]) -> String
+
+pub fn track_observations_for(ArrayView[TrackObservation], Int) -> Array[TrackObservation]
+
+pub fn track_pixel_centroid(ArrayView[TrackObservation]) -> @core.Point2
+
+pub fn track_pixel_density(ArrayView[TrackObservation]) -> Double
+
+pub fn track_pixel_motion(ArrayView[TrackObservation]) -> Array[Double]
+
+pub fn track_pixel_radius(ArrayView[TrackObservation]) -> Double
+
+pub fn track_pixel_span(ArrayView[TrackObservation]) -> Double
+
+pub fn track_point_first(ArrayView[TrackObservation]) -> Int
+
+pub fn track_point_last(ArrayView[TrackObservation]) -> Int
+
+pub fn track_point_span(ArrayView[TrackObservation]) -> Int
+
 pub fn track_quality(ArrayView[TrackObservation]) -> TrackQuality
+
+pub fn track_quality_batch_accepted_ids(ArrayView[TrackObservation], Int, Double, Double) -> Array[Int]
+
+pub fn track_quality_batch_balance(ArrayView[TrackObservation]) -> Double
+
+pub fn track_quality_batch_csv(TrackQualityBatchSummary) -> String
+
+pub fn track_quality_batch_duplicate_ratio(ArrayView[TrackObservation]) -> Double
+
+pub fn track_quality_batch_filter(ArrayView[TrackObservation], Int, Double, Double) -> Array[TrackObservation]
+
+pub fn track_quality_batch_ids(ArrayView[TrackObservation]) -> Array[Int]
+
+pub fn track_quality_batch_is_usable(ArrayView[TrackObservation], Int, Double, Double) -> Bool
+
+pub fn track_quality_batch_max_span(ArrayView[TrackObservation]) -> Double
+
+pub fn track_quality_batch_mean_span(ArrayView[TrackObservation]) -> Double
+
+pub fn track_quality_batch_mean_views(ArrayView[TrackObservation]) -> Double
+
+pub fn track_quality_batch_merge(TrackQualityBatchSummary, TrackQualityBatchSummary) -> TrackQualityBatchSummary
+
+pub fn track_quality_batch_motion_support(ArrayView[TrackObservation], Double) -> Double
+
+pub fn track_quality_batch_reject(ArrayView[TrackObservation], Int, Double, Double) -> Array[TrackObservation]
+
+pub fn track_quality_batch_rejected_ids(ArrayView[TrackObservation], Int, Double, Double) -> Array[Int]
+
+pub fn track_quality_batch_score(ArrayView[TrackObservation], Int, Double) -> Double
+
+pub fn track_quality_batch_scores(ArrayView[TrackObservation], Int, Double) -> Array[Double]
+
+pub fn track_quality_batch_stable_windows(ArrayView[TrackObservation], Int, Int, Double, Double) -> Array[Int]
+
+pub fn track_quality_batch_summary(ArrayView[TrackObservation], Int, Double, Double) -> TrackQualityBatchSummary
+
+pub fn track_quality_batch_temporal_density(ArrayView[TrackObservation]) -> Double
+
+pub fn track_quality_batch_view_support(ArrayView[TrackObservation], Int) -> Double
+
+pub fn track_quality_batch_window(ArrayView[TrackObservation], Int, Int, Int, Double) -> Double
+
+pub fn track_quality_score2(ArrayView[TrackObservation], Int, Double) -> Double
 
 pub fn track_reprojection_errors(PointTrack, @camera.CameraIntrinsics, @camera.CameraPose) -> Array[Double] raise @core.GeometryError
 
+pub fn track_unique_pair_ratio(ArrayView[TrackObservation]) -> Double
+
+pub fn track_view_density(ArrayView[TrackObservation], Int) -> Double
+
+pub fn track_view_first(ArrayView[TrackObservation]) -> Int
+
+pub fn track_view_gap_count(ArrayView[TrackObservation]) -> Int
+
+pub fn track_view_ids(ArrayView[TrackObservation]) -> Array[Int]
+
+pub fn track_view_last(ArrayView[TrackObservation]) -> Int
+
+pub fn track_view_span(ArrayView[TrackObservation]) -> Int
+
 pub fn track_visibility(PointTrack, @camera.CameraPose, near? : Double) -> Bool
+
+pub fn track_window_append_unique(Array[TrackObservation], ArrayView[TrackObservation]) -> Unit
+
+pub fn track_window_consistent_motion(ArrayView[TrackObservation], Double) -> Bool
+
+pub fn track_window_deduplicate(ArrayView[TrackObservation]) -> Array[TrackObservation]
+
+pub fn track_window_gap_penalty(ArrayView[TrackObservation]) -> Double
+
+pub fn track_window_group_by_point(ArrayView[TrackObservation], Int) -> Array[TrackObservation]
+
+pub fn track_window_group_by_view(ArrayView[TrackObservation], Int) -> Array[TrackObservation]
+
+pub fn track_window_interpolate(TrackObservation, TrackObservation, Int) -> TrackObservation
+
+pub fn track_window_interpolate_gap(ArrayView[TrackObservation], Int, Int, Int) -> Array[TrackObservation]
+
+pub fn track_window_keyframe_score(ArrayView[TrackObservation], Int) -> Double
+
+pub fn track_window_limit_points(ArrayView[TrackObservation], Int, Int) -> Array[TrackObservation]
+
+pub fn track_window_limit_views(ArrayView[TrackObservation], Int, Int) -> Array[TrackObservation]
+
+pub fn track_window_point_counts(ArrayView[TrackObservation]) -> Array[Int]
+
+pub fn track_window_reliability(ArrayView[TrackObservation], Int, Double) -> Double
+
+pub fn track_window_retain_best(ArrayView[TrackObservation], Int) -> Array[TrackObservation]
+
+pub fn track_window_select_keyframes(ArrayView[TrackObservation], Int, Double) -> Array[Int]
+
+pub fn track_window_sort_by_point(ArrayView[TrackObservation]) -> Array[TrackObservation]
+
+pub fn track_window_sort_by_view(ArrayView[TrackObservation]) -> Array[TrackObservation]
+
+pub fn track_window_summary(ArrayView[TrackObservation]) -> TrackWindowSummary
+
+pub fn track_window_temporal_gaps(ArrayView[TrackObservation]) -> Array[Int]
+
+pub fn track_window_view_balance(ArrayView[TrackObservation]) -> Double
+
+pub fn track_window_view_counts(ArrayView[TrackObservation]) -> Array[Int]
 
 pub fn tracks_cost(ArrayView[PointTrack], @camera.CameraIntrinsics, @camera.CameraPose) -> Double raise @core.GeometryError
 
@@ -163,6 +385,14 @@ pub fn triangulate_many(ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Array[T
 pub fn triangulated_point_is_in_front(TriangulatedPoint, @core.Ray3, @core.Ray3) -> Bool
 
 pub fn triangulation_angle(@core.Ray3, @core.Ray3) -> Double
+
+pub fn triangulation_depth_indices(ArrayView[Double], Double, Double) -> Array[Int]
+
+pub fn triangulation_depth_is_valid(Double, Double, Double) -> Bool
+
+pub fn triangulation_depth_mask(ArrayView[Double], Double, Double) -> Array[Bool]
+
+pub fn triangulation_gate_accepts(TriangulationGate, Int, Double, Double) -> Bool
 
 pub fn triangulation_is_well_conditioned(TriangulatedPoint, max_separation? : Double) -> Bool
 
@@ -180,6 +410,8 @@ pub fn visible_track_count(ArrayView[PointTrack], @camera.CameraPose) -> Int
 
 pub fn weighted_cost(ArrayView[Double], ArrayView[Double]) -> Double
 
+pub fn weighted_residual_cost(ArrayView[Double], ArrayView[Double], Double) -> Double
+
 // Errors
 
 // Types and methods
@@ -195,6 +427,14 @@ pub fn Affine2D::apply(Self, @core.Point2) -> @core.Point2
 pub fn Affine2D::determinant(Self) -> Double
 pub fn Affine2D::identity() -> Self
 pub fn Affine2D::inverse(Self) -> Self raise @core.GeometryError
+
+pub(all) struct BaselineStatistics {
+  count : Int
+  mean : Double
+  minimum : Double
+  maximum : Double
+  rms : Double
+} derive(Eq, @debug.Debug)
 
 pub(all) struct BundleStatistics {
   count : Int
@@ -272,6 +512,14 @@ pub(all) struct ReconstructionReport {
   median_parallax : Double
 } derive(Eq, @debug.Debug)
 
+pub(all) struct ReconstructionTrackReport {
+  total_tracks : Int
+  triangulatable_tracks : Int
+  total_observations : Int
+  mean_views : Double
+  maximum_views : Int
+} derive(Eq, @debug.Debug)
+
 pub(all) struct ReprojectionSummary {
   total : Int
   inliers : Int
@@ -282,6 +530,15 @@ pub(all) struct ReprojectionSummary {
 pub fn ReprojectionSummary::inlier_ratio(Self) -> Double
 pub fn ReprojectionSummary::is_good(Self, maximum_rms? : Double) -> Bool
 
+pub(all) struct TrackAnalytics {
+  track_count : Int
+  observation_count : Int
+  mean_views : Double
+  mean_span : Double
+  maximum_span : Double
+  duplicate_observations : Int
+} derive(Eq, @debug.Debug)
+
 pub(all) struct TrackGraph {
   view_count : Int
   edges : Array[(Int, Int)]
@@ -291,6 +548,24 @@ pub fn TrackGraph::component_count(Self) -> Int
 pub fn TrackGraph::connected(Self, Int, Int) -> Bool
 pub fn TrackGraph::edge_count(Self) -> Int
 pub fn TrackGraph::new(view_count~ : Int) -> Self
+
+pub(all) struct TrackIndex {
+  mut entries : Array[(Int, Int)]
+}
+pub fn TrackIndex::clear(Self) -> Unit
+pub fn TrackIndex::contains(Self, Int, Int) -> Bool
+pub fn TrackIndex::insert(Self, Int, Int) -> Unit
+pub fn TrackIndex::new() -> Self
+pub fn TrackIndex::pair_count(Self, Int, Int) -> Int
+pub fn TrackIndex::remove(Self, Int, Int) -> Bool
+pub fn TrackIndex::shared_tracks(Self, ArrayView[Int]) -> Array[Int]
+pub fn TrackIndex::total_observations(Self) -> Int
+pub fn TrackIndex::track_count(Self) -> Int
+pub fn TrackIndex::track_degree_histogram(Self) -> Array[Int]
+pub fn TrackIndex::tracks_for(Self, Int) -> Array[Int]
+pub fn TrackIndex::view_count(Self) -> Int
+pub fn TrackIndex::view_degree_histogram(Self) -> Array[Int]
+pub fn TrackIndex::views_for(Self, Int) -> Array[Int]
 
 pub(all) struct TrackObservation {
   point_id : Int
@@ -306,6 +581,15 @@ pub(all) struct TrackQuality {
   centroid : @core.Point2
 } derive(Eq, @debug.Debug)
 
+pub(all) struct TrackQualityBatchSummary {
+  tracks : Int
+  observations : Int
+  accepted : Int
+  rejected : Int
+  mean_score : Double
+  best_score : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct TrackTable {
   observations : Array[TrackObservation]
 }
@@ -316,10 +600,26 @@ pub fn TrackTable::observation_count(Self) -> Int
 pub fn TrackTable::observations_for(Self, Int) -> Array[TrackObservation]
 pub fn TrackTable::track_count(Self) -> Int
 
+pub(all) struct TrackWindowSummary {
+  observations : Int
+  views : Int
+  tracks : Int
+  mean_motion : Double
+  maximum_motion : Double
+  temporal_span : Int
+} derive(Eq, @debug.Debug)
+
 pub(all) struct TriangulatedPoint {
   point : @core.Point3
   separation : Double
 } derive(Eq, @debug.Debug)
+
+pub(all) struct TriangulationGate {
+  minimum_views : Int
+  minimum_baseline : Double
+  maximum_reprojection : Double
+} derive(Eq, @debug.Debug)
+pub fn TriangulationGate::new(minimum_views~ : Int, minimum_baseline~ : Double, maximum_reprojection~ : Double) -> Self
 
 pub(all) struct ViewGraph {
   adjacency : Array[Array[Bool]]
@@ -329,6 +629,25 @@ pub fn ViewGraph::component_count(Self) -> Int
 pub fn ViewGraph::has_edge(Self, Int, Int) -> Bool
 pub fn ViewGraph::new(Int) -> Self
 pub fn ViewGraph::view_count(Self) -> Int
+
+pub(all) struct WeightedPoseGraph {
+  vertices : Int
+  mut weights : Array[Array[Double]]
+}
+pub fn WeightedPoseGraph::component_count(Self) -> Int
+pub fn WeightedPoseGraph::connect(Self, Int, Int, Double) -> Unit
+pub fn WeightedPoseGraph::connected(Self, Int, Int) -> Bool
+pub fn WeightedPoseGraph::degree(Self, Int) -> Int
+pub fn WeightedPoseGraph::disconnect(Self, Int, Int) -> Unit
+pub fn WeightedPoseGraph::edge_count(Self) -> Int
+pub fn WeightedPoseGraph::has_edge(Self, Int, Int) -> Bool
+pub fn WeightedPoseGraph::isolated_vertices(Self) -> Array[Int]
+pub fn WeightedPoseGraph::neighbors(Self, Int) -> Array[Int]
+pub fn WeightedPoseGraph::new(Int) -> Self
+pub fn WeightedPoseGraph::normalize_weights(Self) -> Self
+pub fn WeightedPoseGraph::strongest_neighbor(Self, Int) -> Int?
+pub fn WeightedPoseGraph::weight(Self, Int, Int) -> Double
+pub fn WeightedPoseGraph::weight_sum(Self) -> Double
 
 // Type aliases
 

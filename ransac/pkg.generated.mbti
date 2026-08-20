@@ -8,17 +8,49 @@ import {
 }
 
 // Values
+pub fn adaptive_budget_schedule(Int, Double, Int) -> Array[Int]
+
+pub fn adaptive_confidence(Double, Int, Int) -> Double
+
 pub fn adaptive_iteration_bound(inlier_ratio~ : Double, sample_size~ : Int, confidence? : Double) -> Int raise @core.GeometryError
 
+pub fn adaptive_required_iterations(Double, Int, Double, Int) -> Int
+
 pub fn adaptive_threshold(ArrayView[Double], Double, Double) -> Double raise @core.GeometryError
+
+pub fn adaptive_threshold_schedule(Double, Double, Int) -> Array[Double]
 
 pub fn best_model_report(ArrayView[ModelReport]) -> ModelReport?
 
 pub fn[T] better_result(RansacResult[T], RansacResult[T]) -> Bool
 
+pub fn candidate_inlier_residuals(ConsensusCandidate2, ArrayView[Double]) -> Array[Double]
+
+pub fn candidate_is_confident(ConsensusCandidate2, ConsensusCandidate2, Double) -> Bool
+
+pub fn candidate_margin(ConsensusCandidate2, ConsensusCandidate2) -> Double
+
+pub fn candidate_mask(ConsensusCandidate2, ArrayView[Double]) -> Array[Bool]
+
+pub fn candidate_outlier_residuals(ConsensusCandidate2, ArrayView[Double]) -> Array[Double]
+
+pub fn candidate_refined_threshold(ConsensusCandidate2, ArrayView[Double], Double, Double) -> Double raise @core.GeometryError
+
+pub fn candidate_score_per_point(ConsensusCandidate2) -> Double
+
+pub fn candidate_support_score(ConsensusCandidate2, Int) -> Double
+
+pub fn cauchy_loss2(Double, Double) -> Double
+
+pub fn cauchy_weight2(Double, Double) -> Double
+
 pub fn clipped_residuals(ArrayView[Double], cutoff~ : Double) -> Array[Double]
 
 pub fn confidence_from_success(iterations~ : Int, success_probability~ : Double) -> Double raise @core.GeometryError
+
+pub fn consensus_candidate(ArrayView[Double], Double) -> ConsensusCandidate2
+
+pub fn consensus_candidate_better(ConsensusCandidate2, ConsensusCandidate2) -> Bool
 
 pub fn consensus_mask(ArrayView[Double], Double) -> Array[Bool]
 
@@ -26,13 +58,141 @@ pub fn consensus_ratio(InlierMask) -> Double
 
 pub fn deterministic_indices(length~ : Int, count~ : Int, seed~ : UInt) -> Array[Int] raise @core.GeometryError
 
+pub fn deterministic_sample_indices(population~ : Int, sample_size~ : Int, seed~ : Int) -> Array[Int]
+
+pub fn diagnostic_adaptive_threshold(ArrayView[Double], Double, Double) -> Double raise @core.GeometryError
+
+pub fn diagnostic_compare(DiagnosticReport, DiagnosticReport) -> Int
+
+pub fn diagnostic_csv_document(ArrayView[DiagnosticReport]) -> String
+
+pub fn diagnostic_csv_header() -> String
+
+pub fn diagnostic_csv_row(DiagnosticReport) -> String
+
+pub fn diagnostic_inlier_indices(ArrayView[Double], Double) -> Array[Int]
+
+pub fn diagnostic_json_like(DiagnosticReport) -> String
+
+pub fn diagnostic_label(Double, Double, Double) -> String
+
+pub fn diagnostic_mad(ArrayView[Double]) -> Double raise @core.GeometryError
+
+pub fn diagnostic_outlier_indices(ArrayView[Double], Double) -> Array[Int]
+
+pub fn diagnostic_percentile(ArrayView[Double], Double) -> Double raise @core.GeometryError
+
+pub fn diagnostic_quality_bucket(DiagnosticReport) -> Int
+
+pub fn diagnostic_quality_name(Int) -> String
+
+pub fn diagnostic_rank(ArrayView[DiagnosticReport]) -> Array[DiagnosticReport]
+
+pub fn diagnostic_report_acceptable(DiagnosticReport, Double, Double) -> Bool
+
+pub fn diagnostic_report_confidence(DiagnosticReport, Int) -> Double
+
+pub fn diagnostic_report_csv_full(DiagnosticReport) -> String
+
+pub fn diagnostic_report_error_ratio(DiagnosticReport) -> Double
+
+pub fn diagnostic_report_header() -> String
+
+pub fn diagnostic_report_health(DiagnosticReport, Double, Double) -> Double
+
+pub fn diagnostic_report_health_label(DiagnosticReport, Double, Double) -> String
+
+pub fn diagnostic_report_inlier_fraction(DiagnosticReport) -> Double
+
+pub fn diagnostic_report_is_empty(DiagnosticReport) -> Bool
+
+pub fn diagnostic_report_is_good(DiagnosticReport, Double, Double) -> Bool
+
+pub fn diagnostic_report_json_full(DiagnosticReport) -> String
+
+pub fn diagnostic_report_margin(DiagnosticReport, Double, Double) -> Double
+
+pub fn diagnostic_report_merge(DiagnosticReport, DiagnosticReport) -> DiagnosticReport
+
+pub fn diagnostic_report_outlier_fraction(DiagnosticReport) -> Double
+
+pub fn diagnostic_report_passes(DiagnosticReport, Int, Double) -> Bool
+
+pub fn diagnostic_report_rows(ArrayView[DiagnosticReport]) -> Array[String]
+
+pub fn diagnostic_report_scale(DiagnosticReport, Double) -> DiagnosticReport
+
+pub fn diagnostic_report_signal_to_error(DiagnosticReport) -> Double
+
+pub fn diagnostic_report_threshold(DiagnosticReport) -> Double
+
+pub fn diagnostic_reports_csv(ArrayView[DiagnosticReport]) -> String
+
+pub fn diagnostic_reports_json(ArrayView[DiagnosticReport]) -> String
+
+pub fn diagnostic_residual_histogram(ArrayView[Double], Int, Double) -> Array[Int]
+
+pub fn diagnostic_score(DiagnosticReport, Double) -> Double
+
+pub fn diagnostic_series_append(Array[DiagnosticReport], ArrayView[DiagnosticReport]) -> Unit
+
+pub fn diagnostic_series_best(ArrayView[DiagnosticReport]) -> DiagnosticReport?
+
+pub fn diagnostic_series_buckets(ArrayView[DiagnosticReport]) -> Array[Int]
+
+pub fn diagnostic_series_drop(ArrayView[DiagnosticReport], Int) -> Array[DiagnosticReport]
+
+pub fn diagnostic_series_improvement(ArrayView[DiagnosticReport]) -> Double
+
+pub fn diagnostic_series_inlier_mean(ArrayView[DiagnosticReport]) -> Double
+
+pub fn diagnostic_series_labels(ArrayView[DiagnosticReport]) -> Array[String]
+
+pub fn diagnostic_series_last(ArrayView[DiagnosticReport]) -> DiagnosticReport?
+
+pub fn diagnostic_series_maximum(ArrayView[DiagnosticReport]) -> Double
+
+pub fn diagnostic_series_mean(ArrayView[DiagnosticReport]) -> Double
+
+pub fn diagnostic_series_merge(ArrayView[DiagnosticReport], ArrayView[DiagnosticReport]) -> Array[DiagnosticReport]
+
+pub fn diagnostic_series_minimum(ArrayView[DiagnosticReport]) -> Double
+
+pub fn diagnostic_series_pass_count(ArrayView[DiagnosticReport], Int, Double) -> Int
+
+pub fn diagnostic_series_pass_ratio(ArrayView[DiagnosticReport], Int, Double) -> Double
+
+pub fn diagnostic_series_quality(ArrayView[DiagnosticReport], Int, Double) -> Double
+
+pub fn diagnostic_series_scale(ArrayView[DiagnosticReport], Double) -> Array[DiagnosticReport]
+
+pub fn diagnostic_series_stable(ArrayView[DiagnosticReport], Double) -> Bool
+
+pub fn diagnostic_series_summary(ArrayView[DiagnosticReport]) -> String
+
+pub fn diagnostic_series_take(ArrayView[DiagnosticReport], Int) -> Array[DiagnosticReport]
+
+pub fn diagnostic_series_window(ArrayView[DiagnosticReport], Int, Int) -> Array[DiagnosticReport]
+
+pub fn diagnostic_summary_line(DiagnosticReport) -> String
+
 pub fn estimate_fundamental_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : RansacConfig) -> RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError
 
 pub fn estimate_homography_ransac(ArrayView[@core.Point2], ArrayView[@core.Point2], config? : RansacConfig) -> RansacResult[@multiview.Homography] raise @core.GeometryError
 
+pub fn evaluate_consensus_candidates(ArrayView[Array[Double]], threshold~ : Double) -> Array[ConsensusCandidate2]
+
 pub fn expected_successes(iterations~ : Int, inlier_ratio~ : Double, sample_size~ : Int) -> Double raise @core.GeometryError
 
+pub fn geman_mcclure_loss2(Double, Double) -> Double
+
+pub fn geman_mcclure_weight2(Double, Double) -> Double
+
 pub fn huber_loss(residual~ : Double, delta? : Double) -> Double
+
+pub fn huber_loss2(residual~ : Double, delta? : Double) -> Double
+
+pub fn huber_weight2(Double, Double) -> Double
 
 pub fn inlier_indices(ArrayView[Double], Double) -> Array[Int]
 
@@ -40,17 +200,71 @@ pub fn inlier_ratio_from_mask(InlierMask) -> Double
 
 pub fn inlier_weight(residual~ : Double, threshold~ : Double) -> Double
 
+pub fn make_diagnostic_report(ArrayView[Double], threshold~ : Double) -> DiagnosticReport
+
 pub fn make_model_report(iterations~ : Int, inliers~ : Int, total~ : Int, score~ : Double, converged~ : Bool) -> ModelReport
 
 pub fn median_inlier_residual(ArrayView[Double], Double) -> Double raise @core.GeometryError
 
 pub fn minimum_consensus_count(total~ : Int, ratio~ : Double) -> Int raise @core.GeometryError
 
+pub fn model_report_best(ArrayView[ModelReport], Double, Int) -> ModelReport?
+
+pub fn model_report_best_index(ArrayView[ModelReport], Double, Int) -> Int
+
+pub fn model_report_bucket_counts(ArrayView[ModelReport]) -> Array[Int]
+
+pub fn model_report_budget(ModelReport, Int) -> Int
+
+pub fn model_report_consensus_ratio(ArrayView[ModelReport]) -> Double
+
+pub fn model_report_consensus_spread(ArrayView[ModelReport]) -> Double
+
+pub fn model_report_expected_success(ModelReport, Double) -> Double
+
+pub fn model_report_filter_converged(ArrayView[ModelReport]) -> Array[ModelReport]
+
+pub fn model_report_filter_inliers(ArrayView[ModelReport], Int) -> Array[ModelReport]
+
+pub fn model_report_filter_ratio(ArrayView[ModelReport], Double) -> Array[ModelReport]
+
+pub fn model_report_is_degenerate(ModelReport) -> Bool
+
+pub fn model_report_merge(ModelReport, ModelReport) -> ModelReport
+
+pub fn model_report_merge_all(ArrayView[ModelReport]) -> ModelReport
+
+pub fn model_report_quality_bucket(ModelReport) -> Int
+
+pub fn model_report_rank(ArrayView[ModelReport], Double, Int) -> Array[Int]
+
+pub fn model_report_reliability(ModelReport, Int) -> Double
+
+pub fn model_report_score(ModelReport, Double, Double) -> Double
+
+pub fn model_report_sort_by_ratio(ArrayView[ModelReport]) -> Array[ModelReport]
+
+pub fn model_report_sort_by_score(ArrayView[ModelReport]) -> Array[ModelReport]
+
+pub fn model_report_stability(ArrayView[ModelReport], Double) -> Double
+
+pub fn model_report_to_csv(ModelReport) -> String
+
+pub fn model_reports_to_csv(ArrayView[ModelReport]) -> String
+
+pub fn model_selection_summary(ArrayView[ModelReport], Double, Int) -> ModelSelectionSummary
+
 pub fn[T] normalized_score(RansacResult[T]) -> Double
 
 pub fn outlier_ratio(ArrayView[Double], Double) -> Double
 
+pub fn pseudo_huber_loss2(Double, Double) -> Double
+
+pub fn pseudo_huber_weight2(Double, Double) -> Double
+
 pub fn quality_label(Double, Double, Double, Double) -> String
+
+pub fn rank_consensus_candidates(ArrayView[ConsensusCandidate2]) -> Array[ConsensusCandidate2]
 
 pub fn rank_model_reports(ArrayView[ModelReport]) -> Array[ModelReport]
 
@@ -72,9 +286,81 @@ pub fn residual_threshold_from_sigma(sigma~ : Double, confidence_multiplier? : D
 
 pub fn robust_cost(ArrayView[Double], delta? : Double) -> Double
 
+pub fn robust_loss_batch(ArrayView[Double], Double) -> Array[Double]
+
+pub fn robust_loss_mean(ArrayView[Double], Double) -> Double
+
+pub fn robust_loss_sum(ArrayView[Double], Double) -> Double
+
+pub fn robust_weight_batch(ArrayView[Double], Double) -> Array[Double]
+
+pub fn robust_weighted_batch(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn robust_weighted_residual(Double, Double) -> Double
+
+pub fn sample_batch_coverage(ArrayView[Int], Int) -> Double
+
+pub fn sample_batch_delta(ArrayView[Int]) -> Array[Int]
+
+pub fn sample_batch_difference(ArrayView[Int], ArrayView[Int]) -> Array[Int]
+
+pub fn sample_batch_duplicate_count(ArrayView[Int]) -> Int
+
+pub fn sample_batch_evenness(ArrayView[Int]) -> Double
+
+pub fn sample_batch_intersection(ArrayView[Int], ArrayView[Int]) -> Array[Int]
+
+pub fn sample_batch_is_valid(ArrayView[Int], Int, Int) -> Bool
+
+pub fn sample_batch_jaccard(ArrayView[Int], ArrayView[Int]) -> Double
+
+pub fn sample_batch_maximum(ArrayView[Int]) -> Int
+
+pub fn sample_batch_mean_delta(ArrayView[Int]) -> Double
+
+pub fn sample_batch_minimum(ArrayView[Int]) -> Int
+
+pub fn sample_batch_out_of_range(ArrayView[Int], Int) -> Array[Int]
+
+pub fn sample_batch_partition(ArrayView[Int], Int) -> Array[Array[Int]]
+
+pub fn sample_batch_partition_balance(ArrayView[Int], Int) -> Double
+
+pub fn sample_batch_repeat(ArrayView[Int], Int) -> Array[Int]
+
+pub fn sample_batch_rotate(ArrayView[Int], Int) -> Array[Int]
+
+pub fn sample_batch_sorted(ArrayView[Int]) -> Array[Int]
+
+pub fn sample_batch_span(ArrayView[Int]) -> Int
+
+pub fn sample_batch_stride(Int, Int, Int) -> Array[Int]
+
+pub fn sample_batch_summary(ArrayView[Int], Int, Int) -> SampleBatchSummary
+
+pub fn sample_batch_union(ArrayView[Int], ArrayView[Int]) -> Array[Int]
+
+pub fn sample_batch_unique(ArrayView[Int]) -> Array[Int]
+
+pub fn sample_batch_window(Int, Int, Int) -> Array[Int]
+
+pub fn sample_batches(Int, Int, Int, Int) -> Array[Array[Int]]
+
+pub fn sample_complement(Int, ArrayView[Int]) -> Array[Int]
+
+pub fn sample_frequency(ArrayView[Array[Int]], Int) -> Array[Int]
+
+pub fn sample_intersection(ArrayView[Int], ArrayView[Int]) -> Array[Int]
+
+pub fn sample_is_valid(ArrayView[Int], Int, Int) -> Bool
+
 pub fn sample_probability(inlier_ratio~ : Double, sample_size~ : Int) -> Double raise @core.GeometryError
 
+pub fn sample_union(ArrayView[Int], ArrayView[Int]) -> Array[Int]
+
 pub fn sample_without_replacement(length~ : Int, count~ : Int, seed~ : UInt) -> Array[Int] raise @core.GeometryError
+
+pub fn sampling_coverage(ArrayView[Array[Int]], Int) -> Double
 
 pub fn schedule_checkpoints(IterationSchedule, Int) -> Array[Int]
 
@@ -88,7 +374,11 @@ pub fn score_mlesac_with_threshold(ArrayView[Double], threshold~ : Double, Mlesa
 
 pub fn score_residuals(ArrayView[Double], threshold~ : Double) -> RansacResult[Array[Double]] raise @core.GeometryError
 
+pub fn select_best_candidate(ArrayView[ConsensusCandidate2]) -> ConsensusCandidate2
+
 pub fn select_best_score(ArrayView[Double]) -> Int raise @core.GeometryError
+
+pub fn sorted_indices(ArrayView[Int]) -> Array[Int]
 
 pub fn stable_model(ModelReport, ModelReport, Double) -> Bool
 
@@ -96,7 +386,13 @@ pub fn sweep_thresholds(ArrayView[Double], ArrayView[Double]) -> ThresholdSweepR
 
 pub fn threshold_from_mad(ArrayView[Double], multiplier? : Double) -> Double raise @core.GeometryError
 
+pub fn tukey_loss2(Double, Double) -> Double
+
 pub fn tukey_weight(residual~ : Double, cutoff~ : Double) -> Double
+
+pub fn tukey_weight2(Double, Double) -> Double
+
+pub fn unique_index_count(ArrayView[Int]) -> Int
 
 pub fn update_inlier_ratio(Double, Int, Int, momentum? : Double) -> Double
 
@@ -117,6 +413,29 @@ pub fn AdaptiveConsensus::new(threshold~ : Double) -> Self
 pub fn AdaptiveConsensus::ratio(Self) -> Double
 pub fn AdaptiveConsensus::should_stop(Self, Double, Int) -> Bool
 pub fn AdaptiveConsensus::update(Self, ArrayView[Double]) -> Unit
+
+pub(all) struct AdaptiveStopState {
+  minimum_iterations : Int
+  target_ratio : Double
+  mut iterations : Int
+  mut best_ratio : Double
+  mut stable_iterations : Int
+} derive(Eq, @debug.Debug)
+pub fn AdaptiveStopState::is_stable(Self, Int) -> Bool
+pub fn AdaptiveStopState::new(minimum_iterations~ : Int, target_ratio~ : Double) -> Self
+pub fn AdaptiveStopState::observe(Self, inliers~ : Int, total~ : Int) -> Unit
+pub fn AdaptiveStopState::progress(Self, Int) -> Double
+pub fn AdaptiveStopState::remaining(Self, Int) -> Int
+pub fn AdaptiveStopState::should_stop(Self) -> Bool
+
+pub(all) struct ConsensusCandidate2 {
+  inliers : Int
+  total : Int
+  ratio : Double
+  score : Double
+  residual_sum : Double
+  threshold : Double
+} derive(Eq, @debug.Debug)
 
 pub(all) struct ConsensusRecord {
   inlier_count : Int
@@ -145,6 +464,23 @@ pub fn ConsensusTable::clear(Self) -> Unit
 pub fn ConsensusTable::evaluated_models(Self) -> Int
 pub fn ConsensusTable::new(threshold~ : Double) -> Self
 pub fn ConsensusTable::observe(Self, ArrayView[Double]) -> Unit
+
+pub(all) struct DeterministicSampler {
+  mut state : Int
+}
+pub fn DeterministicSampler::new(seed~ : Int) -> Self
+pub fn DeterministicSampler::next(Self, Int) -> Int
+
+pub(all) struct DiagnosticReport {
+  total : Int
+  inliers : Int
+  outliers : Int
+  inlier_ratio : Double
+  mean_inlier : Double
+  rms : Double
+  maximum : Double
+  label : String
+} derive(Eq, @debug.Debug)
 
 pub(all) struct InlierMask {
   values : Array[Bool]
@@ -180,6 +516,15 @@ pub(all) struct ModelReport {
 pub fn ModelReport::confidence(Self) -> Double
 pub fn ModelReport::is_usable(Self, Double, Int) -> Bool
 
+pub(all) struct ModelSelectionSummary {
+  candidates : Int
+  usable : Int
+  best_index : Int
+  best_score : Double
+  mean_ratio : Double
+  mean_iterations : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct RansacConfig {
   iterations : Int
   threshold : Double
@@ -198,6 +543,15 @@ pub(all) struct RansacResult[T] {
 pub fn[T] RansacResult::inlier_ratio(Self[T]) -> Double
 pub fn[T] RansacResult::is_confident(Self[T], minimum_ratio? : Double) -> Bool
 pub fn[T] RansacResult::outlier_count(Self[T]) -> Int
+
+pub(all) struct SampleBatchSummary {
+  samples : Int
+  dimensions : Int
+  unique : Int
+  duplicate_count : Int
+  coverage : Double
+  score : Double
+} derive(Eq, @debug.Debug)
 
 pub(all) struct ScheduleProgress {
   iteration : Int

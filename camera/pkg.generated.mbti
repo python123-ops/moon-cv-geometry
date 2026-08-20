@@ -11,23 +11,151 @@ pub fn bearing_from_pixel(@core.Point2, CameraIntrinsics, distortion? : Distorti
 
 pub fn bearing_rays(ArrayView[@core.Point2], CameraIntrinsics, distortion? : Distortion) -> Array[@core.Vec3] raise @core.GeometryError
 
+pub fn blend_distortion(Distortion, Distortion, Double) -> Distortion
+
+pub fn border_distance(ImageSize, @core.Point2) -> Double
+
 pub fn build_image_pyramid(ImageSize, CameraIntrinsics, Int, scale_step? : Double) -> Array[ImageLevel] raise @core.GeometryError
 
 pub fn calibration_acceptance(CalibrationReport, Double, minimum_coverage? : Double) -> Bool
 
+pub fn calibration_auc(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn calibration_batch_chunks(ArrayView[@core.Point3], Int) -> Array[Array[@core.Point3]]
+
+pub fn calibration_batch_inlier_count(ArrayView[Double], Double) -> Int
+
+pub fn calibration_batch_inlier_ratio(ArrayView[Double], Double) -> Double
+
+pub fn calibration_batch_merge(CalibrationBatchSummary, CalibrationBatchSummary) -> CalibrationBatchSummary
+
+pub fn calibration_batch_merge_all(ArrayView[CalibrationBatchSummary]) -> CalibrationBatchSummary
+
+pub fn calibration_batch_report(ArrayView[@core.Point3], ArrayView[@core.Point2], CameraIntrinsics, pose? : CameraPose) -> CalibrationBatchReport raise @core.GeometryError
+
+pub fn calibration_best_loss(ArrayView[Double]) -> Double
+
+pub fn calibration_error_histogram(ArrayView[Double], Int, Double) -> Array[Int]
+
+pub fn calibration_error_improvement(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn calibration_error_percentile(ArrayView[CalibrationResidual], Double) -> Double raise @core.GeometryError
+
+pub fn calibration_error_stats(ArrayView[Double]) -> CalibrationBatchSummary
+
+pub fn calibration_errors_from_pairs(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double]
+
+pub fn calibration_focal_aspect(CameraIntrinsics) -> Double
+
+pub fn calibration_has_converged(ArrayView[Double], Double, Int) -> Bool
+
+pub fn calibration_histogram_mass(ArrayView[Int], Int, Int) -> Int
+
+pub fn calibration_histogram_peak(ArrayView[Int]) -> Int
+
+pub fn calibration_improvement_ratio(Double, Double) -> Double
+
+pub fn calibration_inlier_count(ArrayView[CalibrationResidual], Double) -> Int
+
+pub fn calibration_inlier_flags(ArrayView[Double], Double) -> Array[Bool]
+
+pub fn calibration_inlier_mask(ArrayView[CalibrationResidual], Double) -> Array[Bool]
+
+pub fn calibration_inlier_ratio(ArrayView[CalibrationResidual], Double) -> Double
+
+pub fn calibration_intrinsics_interpolate(CameraIntrinsics, CameraIntrinsics, Double) -> CameraIntrinsics
+
+pub fn calibration_intrinsics_score(CameraIntrinsics, ImageSize) -> Double
+
+pub fn calibration_intrinsics_smooth(ArrayView[CameraIntrinsics]) -> CameraIntrinsics
+
+pub fn calibration_is_improving(ArrayView[Double], Double) -> Bool
+
 pub fn calibration_is_usable(CalibrationReport, max_rms? : Double) -> Bool
 
+pub fn calibration_iteration_budget(Int, Int) -> Int
+
+pub fn calibration_level_of_iteration(Int, Int, Int) -> Int
+
+pub fn calibration_loss_delta(Double, Double) -> Double
+
+pub fn calibration_loss_history_append(Array[Double], Double, Int) -> Unit
+
+pub fn calibration_max_error(ArrayView[Double]) -> Double
+
+pub fn calibration_mean_error(ArrayView[Double]) -> Double
+
+pub fn calibration_parameter_delta(CameraIntrinsics, CameraIntrinsics) -> Double
+
+pub fn calibration_percentile_error(ArrayView[Double], Double) -> Double
+
+pub fn calibration_principal_offset(CameraIntrinsics, ImageSize) -> Double
+
+pub fn calibration_progress(Int, Int) -> Double
+
+pub fn calibration_quality_curve(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn calibration_quality_score(CalibrationBatchReport, Int, Double) -> Double
+
 pub fn calibration_report(ArrayView[CalibrationObservation], CameraIntrinsics, CameraPose, distortion? : Distortion) -> CalibrationReport raise @core.GeometryError
+
+pub fn calibration_report_csv(CalibrationBatchSummary) -> String
+
+pub fn calibration_report_is_usable(CalibrationBatchReport, Double, Int) -> Bool
+
+pub fn calibration_report_label(CalibrationBatchSummary) -> String
+
+pub fn calibration_residuals(ArrayView[@core.Point3], ArrayView[@core.Point2], CameraIntrinsics, pose? : CameraPose) -> Array[CalibrationResidual] raise @core.GeometryError
+
+pub fn calibration_rms_error(ArrayView[Double]) -> Double
+
+pub fn calibration_should_stop(Int, Int, Double, Double) -> Bool
+
+pub fn calibration_squared_errors_from_pairs(ArrayView[@core.Point2], ArrayView[@core.Point2]) -> Array[Double]
+
+pub fn calibration_step_schedule(initial~ : Double, decay~ : Double, count~ : Int) -> Array[Double]
+
+pub fn calibration_stop(ArrayView[Double], Int, Double) -> Bool
+
+pub fn calibration_temperature_schedule(Double, Double, Int) -> Array[Double]
+
+pub fn calibration_trimmed_errors(ArrayView[Double], Double) -> Array[Double]
+
+pub fn calibration_trimmed_mean(ArrayView[Double], Double) -> Double
+
+pub fn calibration_weighted_error(ArrayView[Double], ArrayView[Double]) -> Double
 
 pub fn camera_center_path(ArrayView[CameraPose]) -> Array[@core.Point3]
 
 pub fn camera_model_score(CameraIntrinsics, ImageSize) -> Double
+
+pub fn camera_parameter_clamp(CameraIntrinsics, Double, Double) -> CameraIntrinsics
+
+pub fn camera_parameter_delta(CameraIntrinsics, CameraIntrinsics) -> Array[Double]
+
+pub fn camera_parameter_norm(CameraIntrinsics) -> Double
+
+pub fn camera_parameter_vector(CameraIntrinsics) -> Array[Double]
+
+pub fn camera_ray_field(ImageSize, CameraIntrinsics, columns~ : Int, rows~ : Int) -> Array[@core.Ray3] raise @core.GeometryError
+
+pub fn camera_ray_field_direction_spread(ArrayView[@core.Ray3]) -> Double
+
+pub fn camera_ray_field_directions(ArrayView[@core.Ray3]) -> Array[@core.Vec3]
+
+pub fn camera_ray_field_forward_ratio(ArrayView[@core.Ray3]) -> Double
+
+pub fn camera_ray_field_mean_direction(ArrayView[@core.Ray3]) -> @core.Vec3
+
+pub fn camera_ray_field_origins(ArrayView[@core.Ray3]) -> Array[@core.Point3]
 
 pub fn clamp_depths(ArrayView[Double], Double, Double) -> Array[Double]
 
 pub fn clamp_pixel(ImageSize, @core.Point2) -> @core.Point2
 
 pub fn clamp_visible_pixel(@core.Point2, ImageSize) -> @core.Point2
+
+pub fn clip_disparities(ArrayView[Double], Double, Double) -> Array[Double]
 
 pub fn count_depth_holes(ArrayView[Double], Double) -> Int
 
@@ -37,27 +165,89 @@ pub fn crop_pixels(ArrayView[@core.Point2], ImageSize) -> Array[@core.Point2]
 
 pub fn depth_from_disparity(focal~ : Double, baseline~ : Double, disparity~ : Double) -> Double raise @core.GeometryError
 
+pub fn depth_histogram(ArrayView[Double], bins~ : Int, minimum~ : Double, maximum~ : Double) -> DepthHistogram
+
+pub fn depth_histogram_entropy(DepthHistogram) -> Double
+
+pub fn depth_histogram_peak(DepthHistogram) -> Int
+
 pub fn depth_percentile(ArrayView[Double], Double) -> Double raise @core.GeometryError
+
+pub fn depth_percentile2(ArrayView[Double], Double) -> Double raise @core.GeometryError
 
 pub fn depth_quality(ArrayView[Double], minimum~ : Double, maximum~ : Double) -> DepthQuality
 
+pub fn depth_to_disparity(Double, Double, Double) -> Double
+
+pub fn depth_trimmed_mean(ArrayView[Double], Double, Double) -> Double
+
 pub fn depth_uncertainty(focal~ : Double, baseline~ : Double, disparity~ : Double, disparity_error~ : Double) -> Double raise @core.GeometryError
+
+pub fn depth_valid_indices(ArrayView[Double], Double, Double) -> Array[Int]
+
+pub fn depth_valid_mask(ArrayView[Double], Double, Double) -> Array[Bool]
+
+pub fn disparity_confidence(Double, Double, Double) -> Double
+
+pub fn disparity_error_to_depth_error(Double, Double, Double, Double) -> Double
 
 pub fn disparity_from_depth(focal~ : Double, baseline~ : Double, depth~ : Double) -> Double raise @core.GeometryError
 
+pub fn disparity_histogram(ArrayView[Double], Int, Double, Double) -> Array[Int]
+
+pub fn disparity_is_valid(Double, Double, Double) -> Bool
+
+pub fn disparity_mean(ArrayView[Double], Double, Double) -> Double
+
+pub fn disparity_scan(minimum~ : Double, maximum~ : Double, steps~ : Int) -> Array[Double]
+
+pub fn disparity_to_depth(Double, Double, Double) -> Double
+
+pub fn disparity_valid_indices(ArrayView[Double], Double, Double) -> Array[Int]
+
+pub fn disparity_variance(ArrayView[Double], Double, Double) -> Double
+
 pub fn distort_point(@core.Point2, Distortion) -> @core.Point2
+
+pub fn distortion_corrected_radii(ArrayView[Double], Distortion) -> Array[Double]
+
+pub fn distortion_displacement(@core.Point2, Distortion) -> @core.Vec2
+
+pub fn distortion_displacement_field(ArrayView[@core.Point2], Distortion) -> Array[@core.Vec2]
 
 pub fn distortion_is_identity(Distortion) -> Bool
 
+pub fn distortion_is_negligible(ArrayView[@core.Point2], Distortion, Double) -> Bool
+
 pub fn distortion_jacobian(@core.Point2, Distortion) -> @core.Mat3
+
+pub fn distortion_magnitude_field(ArrayView[@core.Point2], Distortion) -> Array[Double]
+
+pub fn distortion_max(ArrayView[@core.Point2], Distortion) -> Double
+
+pub fn distortion_parameter_distance(Distortion, Distortion) -> Double
+
+pub fn distortion_parameter_norm(Distortion) -> Double
+
+pub fn distortion_radial_profile(ArrayView[Double], Distortion) -> Array[Double]
+
+pub fn distortion_rms(ArrayView[@core.Point2], Distortion) -> Double
 
 pub fn distortion_strength(Distortion) -> Double
 
+pub fn duplicate_pose_sequence(ArrayView[CameraPose], Int) -> Array[CameraPose]
+
 pub fn estimate_focal_from_depth(ArrayView[@core.Point3], ArrayView[@core.Point2], @core.Point2) -> CameraIntrinsics raise @core.GeometryError
+
+pub fn feature_grid_spacing(ImageSize, Int) -> Int
+
+pub fn field_of_view_pair(CameraIntrinsics, ImageSize) -> (Double, Double) raise @core.GeometryError
 
 pub fn focal_consistency(CameraIntrinsics) -> Double
 
 pub fn focal_from_fov(sensor_extent~ : Double, fov_radians~ : Double) -> Double raise @core.GeometryError
+
+pub fn focal_from_horizontal_fov_safe(ImageSize, Double) -> Double raise @core.GeometryError
 
 pub fn forward_rays(ArrayView[@core.Ray3], minimum_z? : Double) -> Array[@core.Ray3]
 
@@ -67,11 +257,123 @@ pub fn horizontal_fov(CameraIntrinsics, width~ : Double) -> Double raise @core.G
 
 pub fn image_bounds(ImageSize) -> @core.Rect2 raise @core.GeometryError
 
+pub fn image_diagonal_fov(CameraIntrinsics, ImageSize) -> Double raise @core.GeometryError
+
+pub fn image_feature_grid(ImageSize, step~ : Int) -> Array[@core.Point2]
+
+pub fn image_feature_grid_count(ImageSize, Int) -> Int
+
+pub fn image_feature_grid_interior(ImageSize, Int, Int) -> Array[@core.Point2]
+
 pub fn image_margin(@core.Point2, ImageSize) -> Double
+
+pub fn image_margin_histogram(ImageSize, ArrayView[@core.Point2], Int) -> Array[Int]
+
+pub fn image_metric_contrast(ArrayView[Double]) -> Double
+
+pub fn image_metric_mae(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_metric_mse(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_metric_ncc(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_metric_psnr(ArrayView[Double], ArrayView[Double], Double) -> Double
+
+pub fn image_metric_quality(ArrayView[Double], Double) -> Double
+
+pub fn image_metric_range(ArrayView[Double]) -> Double
+
+pub fn image_metric_report(ArrayView[Double], ArrayView[Double]) -> String
+
+pub fn image_metric_rmse(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_metric_valid_ratio(ArrayView[Double]) -> Double
 
 pub fn image_pyramid(ImageSize, CameraIntrinsics, levels~ : Int) -> Array[ImagePyramidLevel] raise @core.GeometryError
 
 pub fn image_ray_grid(ImageSize, CameraIntrinsics, Int, Int) -> Array[@core.Ray3]
+
+pub fn image_support_mask(ImageSize, ArrayView[@core.Point2]) -> ImageSupport
+
+pub fn image_support_ratio(ImageSize, ArrayView[@core.Point2]) -> Double
+
+pub fn image_window_accumulate(Array[Double], ArrayView[Double], Double) -> Unit
+
+pub fn image_window_add(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn image_window_binary_count(ArrayView[Double], Double) -> Int
+
+pub fn image_window_box_mean(ArrayView[Double], Int, Int, Int, Int, Int) -> Double
+
+pub fn image_window_box_sum(ArrayView[Double], Int, Int, Int, Int, Int) -> Double
+
+pub fn image_window_clamp(Double, Double, Double) -> Double
+
+pub fn image_window_clip(ArrayView[Double], Double, Double) -> Array[Double]
+
+pub fn image_window_corner_score(ArrayView[Double], Int, Int, Int, Int) -> Double
+
+pub fn image_window_downsample(ArrayView[Double], Int, Int, Int) -> (Array[Double], Int, Int)
+
+pub fn image_window_gradient_field(ArrayView[Double], Int, Int) -> Array[Double]
+
+pub fn image_window_gradient_magnitude(ArrayView[Double], Int, Int, Int, Int) -> Double
+
+pub fn image_window_gradient_x(ArrayView[Double], Int, Int, Int, Int) -> Double
+
+pub fn image_window_gradient_y(ArrayView[Double], Int, Int, Int, Int) -> Double
+
+pub fn image_window_index(Int, Int, Int) -> Int
+
+pub fn image_window_laplacian(ArrayView[Double], Int, Int, Int, Int) -> Double
+
+pub fn image_window_mean_abs_difference(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_window_mean_squared_difference(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_window_multiply(ArrayView[Double], Double) -> Array[Double]
+
+pub fn image_window_nonmaximum_points(ArrayView[Double], Int, Int, Double, Int) -> Array[@core.Point2]
+
+pub fn image_window_normalize(ArrayView[Double]) -> Array[Double]
+
+pub fn image_window_normalized_cross_correlation(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn image_window_patch(ArrayView[Double], Int, Int, Int, Int, Int) -> Array[Double]
+
+pub fn image_window_patch_score(ArrayView[Double], Int, Int, Int, Int, Int) -> Double
+
+pub fn image_window_quality(ArrayView[Double], Double, Double) -> Double
+
+pub fn image_window_resize_nearest(ArrayView[Double], Int, Int, Int, Int) -> Array[Double]
+
+pub fn image_window_standardize(ArrayView[Double]) -> Array[Double]
+
+pub fn image_window_stats(ArrayView[Double]) -> ImageWindowStats
+
+pub fn image_window_subtract(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn image_window_threshold(ArrayView[Double], Double) -> Array[Bool]
+
+pub fn image_window_valid(Int, Int, Int, Int) -> Bool
+
+pub fn interpolate_camera_pose_clamped(CameraPose, CameraPose, Double) -> CameraPose
+
+pub fn interpolate_intrinsics(CameraIntrinsics, CameraIntrinsics, Double) -> CameraIntrinsics
+
+pub fn intrinsics_aspect_ratio(CameraIntrinsics) -> Double
+
+pub fn intrinsics_distance(CameraIntrinsics, CameraIntrinsics) -> Double
+
+pub fn intrinsics_focal_mean(CameraIntrinsics) -> Double
+
+pub fn intrinsics_is_square_pixel(CameraIntrinsics, Double) -> Bool
+
+pub fn intrinsics_is_valid(CameraIntrinsics, ImageSize) -> Bool
+
+pub fn intrinsics_principal_point(CameraIntrinsics) -> @core.Point2
+
+pub fn intrinsics_skew_ratio(CameraIntrinsics) -> Double
 
 pub fn max_distortion_error(ArrayView[@core.Point2], Distortion) -> Double
 
@@ -80,6 +382,10 @@ pub fn motion_blur_displacement(@core.Vec3, depth~ : Double, CameraIntrinsics, e
 pub fn normalize_depths(ArrayView[Double], invalid_value~ : Double) -> Array[Double]
 
 pub fn normalized_depth(@core.Point3) -> Double raise @core.GeometryError
+
+pub fn normalized_focal(CameraIntrinsics, ImageSize) -> @core.Vec2
+
+pub fn normalized_principal_point(CameraIntrinsics, ImageSize) -> @core.Point2
 
 pub fn normalized_reprojection_error(@core.Point2, @core.Point2) -> Double
 
@@ -95,6 +401,18 @@ pub fn pixel_ray_depth(@core.Point2, CameraIntrinsics, Double) -> @core.Point3 r
 
 pub fn pixel_to_normalized(@core.Point2, CameraIntrinsics) -> @core.Point2
 
+pub fn pose_is_stationary(ArrayView[CameraPose], Double) -> Bool
+
+pub fn pose_path_distances(ArrayView[CameraPose]) -> Array[Double]
+
+pub fn pose_path_length2(ArrayView[CameraPose]) -> Double
+
+pub fn pose_speed_estimates(ArrayView[CameraPose], ArrayView[Double]) -> Array[Double]
+
+pub fn pose_subsequence(ArrayView[CameraPose], Int, Int) -> Array[CameraPose]
+
+pub fn pose_translation_distance(CameraPose, CameraPose) -> Double
+
 pub fn principal_point_error(CameraIntrinsics, ImageSize) -> Double
 
 pub fn project_depth_map(ArrayView[@core.Point3], CameraIntrinsics) -> Array[Double] raise @core.GeometryError
@@ -104,6 +422,10 @@ pub fn project_point(@core.Point3, CameraIntrinsics, distortion? : Distortion) -
 pub fn project_point_with_pose(@core.Point3, CameraIntrinsics, CameraPose, distortion? : Distortion) -> @core.Point2 raise @core.GeometryError
 
 pub fn project_points(ArrayView[@core.Point3], CameraIntrinsics, pose? : CameraPose, distortion? : Distortion) -> Array[@core.Point2] raise @core.GeometryError
+
+pub fn project_visibility_indices(ArrayView[@core.Point3]) -> Array[Int]
+
+pub fn project_visibility_mask(ArrayView[@core.Point3]) -> Array[Bool]
 
 pub fn projection_jacobian(@core.Point3, CameraIntrinsics) -> ProjectionJacobian raise @core.GeometryError
 
@@ -121,11 +443,77 @@ pub fn ray_bundle(ArrayView[@core.Point2], CameraIntrinsics) -> Array[@core.Vec3
 
 pub fn ray_bundle_report(ArrayView[@core.Ray3]) -> RayBundleReport
 
+pub fn ray_field_bounds(ArrayView[@core.Ray3]) -> @core.Aabb3 raise @core.GeometryError
+
+pub fn ray_field_concat(ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Array[@core.Ray3]
+
+pub fn ray_field_depth_centroid(ArrayView[@core.Ray3], Double) -> @core.Point3
+
+pub fn ray_field_depth_quality(ArrayView[@core.Ray3], Double, Double) -> Double
+
+pub fn ray_field_depth_radius(ArrayView[@core.Ray3], Double) -> Double
+
+pub fn ray_field_depth_range(ArrayView[@core.Ray3], Double) -> (@core.Point3, @core.Point3)
+
+pub fn ray_field_depth_schedule(Double, Double, Int) -> Array[Double]
+
+pub fn ray_field_direction_dot_sum(ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Double
+
+pub fn ray_field_direction_quality(ArrayView[@core.Ray3], Double) -> Double
+
+pub fn ray_field_direction_z_maximum(ArrayView[@core.Ray3]) -> Double
+
+pub fn ray_field_direction_z_mean(ArrayView[@core.Ray3]) -> Double
+
+pub fn ray_field_direction_z_minimum(ArrayView[@core.Ray3]) -> Double
+
+pub fn ray_field_direction_z_ratio(ArrayView[@core.Ray3], Double) -> Double
+
+pub fn ray_field_filter_forward(ArrayView[@core.Ray3], Double) -> Array[@core.Ray3]
+
+pub fn ray_field_filter_origin_z(ArrayView[@core.Ray3], Double, Double) -> Array[@core.Ray3]
+
+pub fn ray_field_mean_angular_agreement(ArrayView[@core.Ray3], ArrayView[@core.Ray3]) -> Double
+
+pub fn ray_field_origin_bounds(ArrayView[@core.Ray3]) -> (@core.Point3, @core.Point3)
+
+pub fn ray_field_origin_centroid(ArrayView[@core.Ray3]) -> @core.Point3
+
+pub fn ray_field_origin_quality(ArrayView[@core.Ray3], Double) -> Double
+
+pub fn ray_field_origin_spread(ArrayView[@core.Ray3]) -> Double
+
+pub fn ray_field_quality(ArrayView[@core.Ray3], Double, Double) -> Double
+
+pub fn ray_field_reproject_depth(ArrayView[@core.Ray3], Double) -> Array[@core.Point3]
+
+pub fn ray_field_scan_score(ArrayView[@core.Ray3], Double, Double, Double) -> Double
+
+pub fn ray_field_schedule_quality(ArrayView[@core.Ray3], ArrayView[Double], Double, Double) -> Array[Double]
+
+pub fn ray_field_subsample(ArrayView[@core.Ray3], Int) -> Array[@core.Ray3]
+
+pub fn ray_plane_intersection(@core.Ray3, Double) -> @core.Point3?
+
+pub fn ray_plane_intersections(ArrayView[@core.Ray3], Double) -> Array[@core.Point3]
+
+pub fn ray_sphere_hits(ArrayView[@core.Ray3], @core.Point3, Double) -> Int
+
+pub fn ray_sphere_intersection(@core.Ray3, @core.Point3, Double) -> Bool
+
 pub fn reprojection_cost(ArrayView[CalibrationObservation], CameraIntrinsics, CameraPose, distortion? : Distortion) -> Double raise @core.GeometryError
+
+pub fn reprojection_residual_rms(ArrayView[CalibrationResidual]) -> Double
+
+pub fn reprojection_residual_sum(ArrayView[CalibrationResidual]) -> Double
 
 pub fn resample_timestamps(Double, Double, Int) -> Array[Double]
 
 pub fn residual_histogram(ArrayView[Double], bins~ : Int, maximum~ : Double) -> Array[Int] raise @core.GeometryError
+
+pub fn residual_norms(ArrayView[CalibrationResidual]) -> Array[Double]
+
+pub fn reverse_pose_sequence(ArrayView[CameraPose]) -> Array[CameraPose]
 
 pub fn rig_baseline(CameraRig, first_id~ : Int, second_id~ : Int) -> Double raise @core.GeometryError
 
@@ -133,17 +521,61 @@ pub fn rolling_pose(CameraPose, @core.Vec3, Double) -> CameraPose
 
 pub fn rolling_project(@core.Point3, CameraIntrinsics, CameraPose, RollingShutter, @core.Vec3) -> @core.Point2 raise @core.GeometryError
 
+pub fn rotate_ray_field(ArrayView[@core.Ray3], @core.Mat3) -> Array[@core.Ray3] raise @core.GeometryError
+
+pub fn sample_camera_pose(ArrayView[CameraPose], Double) -> CameraPose
+
+pub fn sample_camera_poses(ArrayView[CameraPose], Int) -> Array[CameraPose]
+
 pub fn sample_pixels(ImageSize, CameraIntrinsics, ArrayView[@core.Point2]) -> Array[@core.Ray3]
 
 pub fn sample_pose_trajectory(ArrayView[CameraPose], ArrayView[Double], Double) -> CameraPose raise @core.GeometryError
 
+pub fn scale_intrinsics(CameraIntrinsics, Double) -> CameraIntrinsics
+
+pub fn shift_intrinsics(CameraIntrinsics, @core.Vec2) -> CameraIntrinsics
+
+pub fn split_calibration_residuals(ArrayView[CalibrationResidual], Double) -> (Array[CalibrationResidual], Array[CalibrationResidual])
+
+pub fn stereo_baseline_focal_product(Double, Double) -> Double
+
+pub fn stereo_consistency(ArrayView[Double], ArrayView[Double], Double) -> Double
+
+pub fn stereo_depth_clamp(ArrayView[Double], Double, Double) -> Array[Double]
+
 pub fn stereo_depth_error(StereoPair, Double, Double) -> Double raise @core.GeometryError
 
+pub fn stereo_depth_error_bound(Double, Double, Double, Double) -> Double
+
+pub fn stereo_depth_gradient(ArrayView[Double], Double, Double) -> Array[Double]
+
+pub fn stereo_depth_percentile(ArrayView[Double], Double) -> Double raise @core.GeometryError
+
+pub fn stereo_depth_report(ArrayView[Double], baseline~ : Double, focal~ : Double) -> StereoDepthReport
+
+pub fn stereo_depth_smoothness(ArrayView[Double], Double, Double) -> Double
+
+pub fn stereo_depth_valid_mask(ArrayView[Double], Double, Double) -> Array[Bool]
+
 pub fn stereo_depths(StereoPair, ArrayView[Double]) -> Array[Double] raise @core.GeometryError
+
+pub fn stereo_depths2(ArrayView[Double], Double, Double) -> Array[Double]
+
+pub fn stereo_report_is_usable(StereoDepthReport, Double, Double) -> Bool
+
+pub fn stereo_scan_best_disparity(ArrayView[Double], ArrayView[Double]) -> Double?
+
+pub fn stereo_scan_best_score(ArrayView[Double]) -> Double
+
+pub fn stereo_valid_ratio(StereoDepthReport) -> Double
 
 pub fn trajectory_duration(ArrayView[Double]) -> Double
 
 pub fn trajectory_is_monotonic(ArrayView[Double]) -> Bool
+
+pub fn transform_ray_field(ArrayView[@core.Ray3], @core.RigidTransform) -> Array[@core.Ray3] raise @core.GeometryError
+
+pub fn translate_ray_field(ArrayView[@core.Ray3], @core.Vec3) -> Array[@core.Ray3] raise @core.GeometryError
 
 pub fn undistort_point_iterative(@core.Point2, Distortion, iterations? : Int) -> @core.Point2
 
@@ -159,11 +591,32 @@ pub fn visible_depths(ArrayView[Double], Double, Double) -> Array[Bool]
 
 pub fn visible_pixels(ImageSize, ArrayView[@core.Point2]) -> Array[Bool]
 
+pub fn visible_point_depths(ArrayView[@core.Point3]) -> Array[Double]
+
+pub fn weighted_calibration_error(ArrayView[CalibrationResidual], ArrayView[Double]) -> Double raise @core.GeometryError
+
 pub fn weighted_reprojection_cost(ArrayView[CalibrationObservation], CameraIntrinsics, CameraPose) -> Double raise @core.GeometryError
 
 // Errors
 
 // Types and methods
+pub(all) struct CalibrationBatchReport {
+  count : Int
+  mean : Double
+  rms : Double
+  maximum : Double
+  valid_count : Int
+} derive(Eq, @debug.Debug)
+
+pub(all) struct CalibrationBatchSummary {
+  count : Int
+  mean_error : Double
+  maximum_error : Double
+  median_error : Double
+  valid_ratio : Double
+  score : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct CalibrationGrid {
   columns : Int
   rows : Int
@@ -189,6 +642,13 @@ pub(all) struct CalibrationReport {
   cost : Double
   rms : Double
   max_error : Double
+  valid : Bool
+} derive(Eq, @debug.Debug)
+
+pub(all) struct CalibrationResidual {
+  index : Int
+  residual : @core.Vec2
+  norm : Double
   valid : Bool
 } derive(Eq, @debug.Debug)
 
@@ -238,6 +698,14 @@ pub(all) struct CameraView {
   pose : CameraPose
 } derive(Eq, @debug.Debug)
 pub fn CameraView::new(id~ : Int, intrinsics~ : CameraIntrinsics, pose~ : CameraPose) -> Self
+
+pub(all) struct DepthHistogram {
+  bins : Array[Int]
+  total : Int
+  valid : Int
+  minimum : Double
+  maximum : Double
+} derive(Eq, @debug.Debug)
 
 pub(all) struct DepthQuality {
   valid_count : Int
@@ -289,6 +757,23 @@ pub(all) struct ImageSize {
 pub fn ImageSize::as_rect(Self) -> @core.Rect2 raise @core.GeometryError
 pub fn ImageSize::new(width~ : Int, height~ : Int) -> Self raise @core.GeometryError
 
+pub(all) struct ImageSupport {
+  total : Int
+  valid_count : Int
+  invalid_count : Int
+  valid_ratio : Double
+  margin_min : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ImageWindowStats {
+  count : Int
+  minimum : Double
+  maximum : Double
+  mean : Double
+  variance : Double
+  energy : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct ProjectedObservation {
   view_id : Int
   pixel : @core.Point2
@@ -317,6 +802,15 @@ pub(all) struct RollingShutter {
 pub fn RollingShutter::midpoint_time(Self) -> Double
 pub fn RollingShutter::new(readout_seconds~ : Double, image_height~ : Int) -> Self raise @core.GeometryError
 pub fn RollingShutter::row_time(Self, Double) -> Double
+
+pub(all) struct StereoDepthReport {
+  total : Int
+  valid_count : Int
+  invalid_count : Int
+  mean : Double
+  minimum : Double
+  maximum : Double
+} derive(Eq, @debug.Debug)
 
 pub(all) struct StereoPair {
   left : CameraIntrinsics

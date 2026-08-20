@@ -24,10 +24,16 @@ moon info
 moon package
 ```
 
-The acceptance run completed 49 tests with 49 passed and 0 failed on every
-target. Measured local command wall times were 0.77 s for all-target check,
-7.39 s for all-target tests, and 0.94 s for packaging. These are regression
-indicators for the same working tree, not cross-machine speed claims.
+The acceptance run completed 102 tests with 102 passed and 0 failed on every
+target. The current working tree contains 19,668 non-test production lines,
+1,404 test lines, and 21,072 total `.mbt` lines (counted with `rg --files`,
+excluding `_build`). Coverage summary reported 1,853 covered of 7,488
+instrumented lines; this is a whole-repository baseline and includes newly
+added APIs that are intentionally exposed for downstream users.
+
+Measured local command wall times are regression indicators for the same
+working tree, not cross-machine speed claims. Re-run the commands below on the
+acceptance machine to refresh timing data.
 
 The numerical acceptance thresholds are reproducible: exact pinhole projection
 round trips stay below `1e-9`, distortion inversion below `1e-6`, exact

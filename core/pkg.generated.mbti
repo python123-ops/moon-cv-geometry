@@ -24,9 +24,21 @@ pub fn barycentric_2d(Point2, Point2, Point2, Point2) -> (Double, Double, Double
 
 pub fn barycentric_contains((Double, Double, Double), tolerance? : Double) -> Bool
 
+pub fn batch_cross(ArrayView[Vec3], ArrayView[Vec3]) -> Array[Vec3]
+
+pub fn batch_dot(ArrayView[Vec3], ArrayView[Vec3]) -> Array[Double]
+
+pub fn batch_norms(ArrayView[Vec3]) -> Array[Double]
+
+pub fn bilerp2(Double, Double, Double, Double, Double, Double) -> Double
+
 pub fn bounding_radius(ArrayView[Point3], Point3) -> Double
 
+pub fn catmull_rom_sample(ArrayView[Double], Int) -> Array[Double]
+
 pub fn centroid3(ArrayView[Point3]) -> Point3 raise GeometryError
+
+pub fn centroid_after_transform(RigidTransform, ArrayView[Point3]) -> Point3 raise GeometryError
 
 pub fn clamp(Double, lo~ : Double, hi~ : Double) -> Double
 
@@ -38,6 +50,16 @@ pub fn closest_point_on_segment(Point2, Point2, Point2) -> Point2
 
 pub fn closest_point_on_triangle(Triangle3, Point3) -> Point3 raise GeometryError
 
+pub fn combine_quality_scores(ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
+
+pub fn compose_inverse_transforms(ArrayView[RigidTransform]) -> RigidTransform
+
+pub fn compose_transforms(ArrayView[RigidTransform]) -> RigidTransform
+
+pub fn condition_proxy2(ArrayView[Point2]) -> Double raise GeometryError
+
+pub fn condition_proxy3(ArrayView[Point3]) -> Double raise GeometryError
+
 pub fn coordinate_extent2(ArrayView[Point2]) -> Double raise GeometryError
 
 pub fn coordinate_extent3(ArrayView[Point3]) -> Double raise GeometryError
@@ -46,6 +68,12 @@ pub fn coordinate_finite_point2(Point2) -> Bool
 
 pub fn coordinate_finite_point3(Point3) -> Bool
 
+pub fn correlation_streaming(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn cosine_interpolation2(Double, Double, Double) -> Double
+
+pub fn cosine_similarity_values(ArrayView[Double], ArrayView[Double]) -> Double
+
 pub fn count_above(ArrayView[Double], Double) -> Int
 
 pub fn count_below(ArrayView[Double], Double) -> Int
@@ -53,6 +81,14 @@ pub fn count_below(ArrayView[Double], Double) -> Int
 pub fn covariance_2d(ArrayView[Point2]) -> Mat3 raise GeometryError
 
 pub fn covariance_3d(ArrayView[Point3]) -> Mat4 raise GeometryError
+
+pub fn covariance_streaming(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn cubic_hermite2(Double, Double, Double, Double, Double) -> Double
+
+pub fn cubic_hermite_sample(Double, Double, Double, Double, count~ : Int) -> Array[Double]
+
+pub fn cubic_interpolation2(Double, Double, Double, Double, Double) -> Double
 
 pub fn cumulative_lengths(ArrayView[Point2]) -> Array[Double]
 
@@ -70,9 +106,23 @@ pub fn dot_scalars(ArrayView[Double], ArrayView[Double]) -> Double
 
 pub fn downsample_grid(ScalarGrid, Int) -> ScalarGrid
 
+pub fn duplicate_count2(ArrayView[Point2], tolerance~ : Double) -> Int
+
+pub fn duplicate_count3(ArrayView[Point3], tolerance~ : Double) -> Int
+
 pub fn duplicate_point_indices(ArrayView[Point2], Double) -> Array[Int]
 
+pub fn exponentially_weighted_mean(ArrayView[Double], Double) -> Double raise GeometryError
+
+pub fn exponentially_weighted_variance(ArrayView[Double], Double) -> Double
+
 pub fn finite_difference((Double) -> Double, Double, epsilon? : Double) -> Double
+
+pub fn finite_difference2(ArrayView[Double]) -> Array[Double]
+
+pub fn finite_difference_gradient((Double) -> Double, Double, Double) -> Double
+
+pub fn finite_difference_hessian((Double) -> Double, Double, Double) -> Double
 
 pub fn finite_difference_vec((Double) -> Vec3, Double, epsilon? : Double) -> Vec3
 
@@ -88,7 +138,23 @@ pub fn finite_vec2(Vec2) -> Bool
 
 pub fn finite_vec3(Vec3) -> Bool
 
+pub fn fixed_point_history(Double, (Double) -> Double, Int) -> Array[Double]
+
+pub fn fixed_point_iterate(Double, (Double) -> Double, iterations~ : Int) -> Double
+
+pub fn fixed_point_residual(Double, (Double) -> Double) -> Double
+
+pub fn fixed_point_until(Double, (Double) -> Double, Double, Int) -> Double
+
+pub fn gradient_descent_1d(Double, (Double) -> Double, Double, Int) -> Array[Double]
+
+pub fn gradient_step(Double, Double, Double) -> Double
+
+pub fn has_area2(ArrayView[Point2], Double) -> Bool
+
 pub fn has_non_collinear_triplet(ArrayView[Point2], Double) -> Bool
+
+pub fn has_volume3(ArrayView[Point3], Double) -> Bool
 
 pub fn hermite_point2(Point2, Point2, Vec2, Vec2, Double) -> Point2
 
@@ -100,13 +166,29 @@ pub fn identity3() -> Mat3
 
 pub fn identity4() -> Mat4
 
+pub fn interpolate_array(ArrayView[Double], Double) -> Double
+
 pub fn interpolate_pose(RigidTransform, RigidTransform, Double) -> RigidTransform
 
 pub fn interpolate_rotation(Mat3, Mat3, Double) -> Mat3
 
 pub fn interpolate_table(Double, ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
 
+pub fn interpolation_monotonic(ArrayView[Double]) -> Bool
+
+pub fn interpolation_range(ArrayView[Double]) -> Double
+
 pub fn interquartile_range(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn interquartile_range2(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn inverse_lerp2(Double, Double, Double) -> Double
+
+pub fn inverse_transform_points_batch(RigidTransform, ArrayView[Point3]) -> Array[Point3]
+
+pub fn is_collinear2(ArrayView[Point2], tolerance~ : Double) -> Bool
+
+pub fn is_collinear3(ArrayView[Point3], tolerance~ : Double) -> Bool
 
 pub fn is_rotation_matrix(Mat3) -> Bool
 
@@ -114,13 +196,33 @@ pub fn l1_distance(ArrayView[Double], ArrayView[Double]) -> Double
 
 pub fn l2_distance(ArrayView[Double], ArrayView[Double]) -> Double
 
+pub fn lerp2(Double, Double, Double) -> Double
+
+pub fn lerp2_clamped(Double, Double, Double) -> Double
+
 pub fn lerp_vec3(Vec3, Vec3, Double) -> Vec3
+
+pub fn line_search_backtrack((Double) -> Double, Double, Double, Double, Double, Int) -> Double
 
 pub fn linear_interpolate(Double, Double, Double) -> Double
 
 pub fn mat34_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> Mat34
 
+pub fn mat3_add_batch(ArrayView[Mat3], ArrayView[Mat3]) -> Array[Mat3]
+
+pub fn mat3_apply_batch(Mat3, ArrayView[Vec3]) -> Array[Vec3]
+
+pub fn mat3_apply_points(Mat3, ArrayView[Point3]) -> Array[Point3]
+
+pub fn mat3_determinants(ArrayView[Mat3]) -> Array[Double]
+
+pub fn mat3_frobenius_batch(ArrayView[Mat3]) -> Array[Double]
+
 pub fn mat3_from_rows((Double, Double, Double), (Double, Double, Double), (Double, Double, Double)) -> Mat3
+
+pub fn mat3_scale_batch(ArrayView[Mat3], Double) -> Array[Mat3]
+
+pub fn mat3_transpose_batch(ArrayView[Mat3]) -> Array[Mat3]
 
 pub fn mat4_from_rows((Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double), (Double, Double, Double, Double)) -> Mat4
 
@@ -142,13 +244,19 @@ pub fn median(ArrayView[Double]) -> Double raise GeometryError
 
 pub fn median_absolute_deviation(ArrayView[Double]) -> Double raise GeometryError
 
+pub fn median_absolute_deviation2(ArrayView[Double]) -> Double raise GeometryError
+
 pub fn merge_point_clouds(PointCloud, PointCloud) -> PointCloud
+
+pub fn merge_streaming_summary(StreamingSummary, StreamingSummary) -> StreamingSummary
 
 pub fn mesh_centroid(ArrayView[Point3]) -> Point3 raise GeometryError
 
 pub fn mesh_diagonal(ArrayView[Point3]) -> Double raise GeometryError
 
 pub fn mesh_surface_area(ArrayView[Point3], ArrayView[(Int, Int, Int)]) -> Double
+
+pub fn nearest_neighbor_distances(ArrayView[Point3]) -> Array[Double]
 
 pub fn newton_step(Quadratic, Double) -> Double raise GeometryError
 
@@ -160,15 +268,29 @@ pub fn normalize_points2(ArrayView[Point2]) -> Array[Point2] raise GeometryError
 
 pub fn normalize_points3(ArrayView[Point3]) -> Array[Point3] raise GeometryError
 
+pub fn normalize_quality_score(Double, Double, Double) -> Double
+
+pub fn normalize_residual_vector(ArrayView[Double]) -> Array[Double]
+
+pub fn normalize_vectors(ArrayView[Vec3]) -> Array[Vec3] raise GeometryError
+
 pub fn normalize_weights(ArrayView[Double]) -> Array[Double] raise GeometryError
 
 pub fn normalized_residuals(ArrayView[Double], Double) -> Array[Double]
 
 pub fn orthogonal_component(Vec3, Vec3) -> Vec3 raise GeometryError
 
+pub fn orthogonal_projection_batch(ArrayView[Vec3], Vec3) -> Array[Vec3] raise GeometryError
+
 pub fn orthogonalize_rotation(Mat3) -> Mat3 raise GeometryError
 
 pub fn outer_product(Vec3, Vec3) -> Mat3
+
+pub fn outer_products(ArrayView[Vec3]) -> Array[Mat3]
+
+pub fn pairwise_distances(ArrayView[Point3]) -> Array[Double]
+
+pub fn pairwise_transform_distances(RigidTransform, ArrayView[Point3]) -> Array[Double]
 
 pub fn percentile(ArrayView[Double], fraction~ : Double) -> Double raise GeometryError
 
@@ -179,6 +301,264 @@ pub fn point2_from_homogeneous(Vec3) -> Point2 raise GeometryError
 pub fn point2_lerp(Point2, Point2, Double) -> Point2
 
 pub fn point3_lerp(Point3, Point3, Double) -> Point3
+
+pub fn point_cloud_abs(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_align_centroids(ArrayView[Point3], ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_axis_center(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_axis_maximum(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_axis_mean(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_axis_median(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_axis_minimum(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_axis_normalized(ArrayView[Point3], Int) -> Array[Double]
+
+pub fn point_cloud_axis_offset(ArrayView[Point3], Double, Double, Double) -> Array[Point3]
+
+pub fn point_cloud_axis_quantile(ArrayView[Point3], Int, Double) -> Double
+
+pub fn point_cloud_axis_range(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_axis_scale(ArrayView[Point3], Double, Double, Double) -> Array[Point3]
+
+pub fn point_cloud_axis_values(ArrayView[Point3], Int) -> Array[Double]
+
+pub fn point_cloud_batch_checksums(ArrayView[Array[Point3]]) -> Array[Double]
+
+pub fn point_cloud_batch_flatten(ArrayView[Array[Point3]]) -> Array[Point3]
+
+pub fn point_cloud_batch_largest(ArrayView[Array[Point3]]) -> Array[Point3]
+
+pub fn point_cloud_batch_nonempty(ArrayView[Array[Point3]]) -> Array[Array[Point3]]
+
+pub fn point_cloud_batch_quality(ArrayView[Array[Point3]], Int, Double) -> Array[Double]
+
+pub fn point_cloud_batch_smallest(ArrayView[Array[Point3]]) -> Array[Point3]
+
+pub fn point_cloud_batch_total(ArrayView[Array[Point3]]) -> Int
+
+pub fn point_cloud_bounds(ArrayView[Point3]) -> (Point3, Point3)
+
+pub fn point_cloud_centered(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_centroid(ArrayView[Point3]) -> Point3
+
+pub fn point_cloud_centroid_delta(ArrayView[Point3], ArrayView[Point3]) -> Vec3
+
+pub fn point_cloud_centroid_distance(ArrayView[Point3], ArrayView[Point3]) -> Double
+
+pub fn point_cloud_chamfer(ArrayView[Point3], ArrayView[Point3]) -> Double
+
+pub fn point_cloud_chamfer_one_way(ArrayView[Point3], ArrayView[Point3]) -> Double
+
+pub fn point_cloud_checksum(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_checksum_matches(ArrayView[Point3], Double, Double) -> Bool
+
+pub fn point_cloud_chunk(ArrayView[Point3], Int) -> Array[Array[Point3]]
+
+pub fn point_cloud_count_finite(ArrayView[Point3]) -> Int
+
+pub fn point_cloud_count_within(ArrayView[Point3], Point3, Double) -> Int
+
+pub fn point_cloud_csv(ArrayView[Point3]) -> String
+
+pub fn point_cloud_csv_row(Point3) -> String
+
+pub fn point_cloud_density(ArrayView[Point3], Point3, Double) -> Double
+
+pub fn point_cloud_distance_histogram(ArrayView[Point3], Int, Double) -> Array[Int]
+
+pub fn point_cloud_distances(ArrayView[Point3], Point3) -> Array[Double]
+
+pub fn point_cloud_drop(ArrayView[Point3], Int) -> Array[Point3]
+
+pub fn point_cloud_filter_box(ArrayView[Point3], Point3, Point3) -> Array[Point3]
+
+pub fn point_cloud_filter_radius(ArrayView[Point3], Point3, Double) -> Array[Point3]
+
+pub fn point_cloud_finite_ratio(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_flat_dimension(ArrayView[Double]) -> Int
+
+pub fn point_cloud_flat_is_valid(ArrayView[Double]) -> Bool
+
+pub fn point_cloud_flat_remainder(ArrayView[Double]) -> Int
+
+pub fn point_cloud_from_flat(ArrayView[Double]) -> Array[Point3]
+
+pub fn point_cloud_hausdorff(ArrayView[Point3], ArrayView[Point3]) -> Double
+
+pub fn point_cloud_hausdorff_one_way(ArrayView[Point3], ArrayView[Point3]) -> Double
+
+pub fn point_cloud_health_batch(ArrayView[Array[Point3]], Int, Double, Double) -> Array[Double]
+
+pub fn point_cloud_health_batch_mean(ArrayView[Array[Point3]], Int, Double, Double) -> Double
+
+pub fn point_cloud_health_count(ArrayView[Point3]) -> Int
+
+pub fn point_cloud_health_density(ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_health_duplicates(ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_health_finite(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_health_label(Double) -> String
+
+pub fn point_cloud_health_radius(ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_health_report(ArrayView[Point3], Int, Double, Double) -> String
+
+pub fn point_cloud_health_score(ArrayView[Point3], Int, Double, Double) -> Double
+
+pub fn point_cloud_histogram_peak(ArrayView[Int]) -> Int
+
+pub fn point_cloud_histogram_probability(ArrayView[Int]) -> Array[Double]
+
+pub fn point_cloud_histogram_total(ArrayView[Int]) -> Int
+
+pub fn point_cloud_interleave(ArrayView[Point3], ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_intersection(ArrayView[Point3], ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_is_degenerate(ArrayView[Point3], Double) -> Bool
+
+pub fn point_cloud_is_finite(ArrayView[Point3]) -> Bool
+
+pub fn point_cloud_is_planar_xy(ArrayView[Point3], Double) -> Bool
+
+pub fn point_cloud_is_planar_xz(ArrayView[Point3], Double) -> Bool
+
+pub fn point_cloud_is_planar_yz(ArrayView[Point3], Double) -> Bool
+
+pub fn point_cloud_json_number(Double) -> String
+
+pub fn point_cloud_lerp(Point3, Point3, Double) -> Point3
+
+pub fn point_cloud_lift_xy(ArrayView[Point2], Double) -> Array[Point3]
+
+pub fn point_cloud_lift_xz(ArrayView[Point2], Double) -> Array[Point3]
+
+pub fn point_cloud_lift_yz(ArrayView[Point2], Double) -> Array[Point3]
+
+pub fn point_cloud_match_score(ArrayView[Point3], ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_mean_distance(ArrayView[Point3], Point3) -> Double
+
+pub fn point_cloud_merge(ArrayView[Point3], ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_nearest_distance(Point3, ArrayView[Point3]) -> Double
+
+pub fn point_cloud_nearest_distances(ArrayView[Point3]) -> Array[Double]
+
+pub fn point_cloud_normalize_radius(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_outlier_flags(ArrayView[Point3], Double) -> Array[Bool]
+
+pub fn point_cloud_overlap(ArrayView[Point3], ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_pairwise_distances(ArrayView[Point3]) -> Array[Double]
+
+pub fn point_cloud_pairwise_maximum(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_pairwise_mean(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_path_length(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_pipeline_summary(ArrayView[Point3]) -> PointCloudPipelineSummary
+
+pub fn point_cloud_project_xy(ArrayView[Point3]) -> Array[Point2]
+
+pub fn point_cloud_project_xz(ArrayView[Point3]) -> Array[Point2]
+
+pub fn point_cloud_project_yz(ArrayView[Point3]) -> Array[Point2]
+
+pub fn point_cloud_quality_gap(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn point_cloud_quality_improved(ArrayView[Double], ArrayView[Double], Double) -> Bool
+
+pub fn point_cloud_quality_label(Double) -> String
+
+pub fn point_cloud_quality_labels(ArrayView[Double]) -> Array[String]
+
+pub fn point_cloud_quality_maximum(ArrayView[Double]) -> Double
+
+pub fn point_cloud_quality_mean(ArrayView[Double]) -> Double
+
+pub fn point_cloud_quality_minimum(ArrayView[Double]) -> Double
+
+pub fn point_cloud_quality_pass_count(ArrayView[Double], Double) -> Int
+
+pub fn point_cloud_quality_pass_ratio(ArrayView[Double], Double) -> Double
+
+pub fn point_cloud_quality_report(ArrayView[Point3], Int, Double) -> String
+
+pub fn point_cloud_quality_score(ArrayView[Point3], Int, Double) -> Double
+
+pub fn point_cloud_quality_weighted(ArrayView[Double], ArrayView[Double]) -> Double
+
+pub fn point_cloud_quality_with_reference(ArrayView[Point3], ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_radius(ArrayView[Point3], Point3) -> Double
+
+pub fn point_cloud_radius_histogram(ArrayView[Point3], Point3, Int) -> Array[Int]
+
+pub fn point_cloud_reflect_x(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_reflect_y(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_reflect_z(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_remove_duplicates(ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_remove_outliers(ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_resample_line(Point3, Point3, Int) -> Array[Point3]
+
+pub fn point_cloud_safe_mean_distance(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_safe_radius(ArrayView[Point3]) -> Double
+
+pub fn point_cloud_sample_endpoints(ArrayView[Point3], Int) -> Array[Point3]
+
+pub fn point_cloud_sample_uniform(ArrayView[Point3], Int) -> Array[Point3]
+
+pub fn point_cloud_scale(ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_sign(ArrayView[Point3]) -> Array[Point3]
+
+pub fn point_cloud_squared_distances(ArrayView[Point3], Point3) -> Array[Double]
+
+pub fn point_cloud_stride(ArrayView[Point3], Int) -> Array[Point3]
+
+pub fn point_cloud_subtract_reference(ArrayView[Point3], ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_symmetric_overlap(ArrayView[Point3], ArrayView[Point3], Double) -> Double
+
+pub fn point_cloud_take(ArrayView[Point3], Int) -> Array[Point3]
+
+pub fn point_cloud_to_flat(ArrayView[Point3]) -> Array[Double]
+
+pub fn point_cloud_translate(ArrayView[Point3], Vec3) -> Array[Point3]
+
+pub fn point_cloud_union(ArrayView[Point3], ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_validate(ArrayView[Point3], Int, Double) -> Bool
+
+pub fn point_cloud_variance_axis(ArrayView[Point3], Int) -> Double
+
+pub fn point_cloud_voxel_count(ArrayView[Point3], Double) -> Int
+
+pub fn point_cloud_voxel_sample(ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn point_cloud_weighted_centroid(ArrayView[Point3], ArrayView[Double]) -> Point3
+
+pub fn point_cloud_weighted_radius(ArrayView[Point3], ArrayView[Double]) -> Double
 
 pub fn points2_are_finite(ArrayView[Point2]) -> Bool
 
@@ -192,7 +572,13 @@ pub fn polyline_length(ArrayView[Point2]) -> Double
 
 pub fn polynomial_residuals(Quadratic, ArrayView[Double]) -> Array[Double]
 
+pub fn project_box(Double, Double, Double) -> Double
+
+pub fn project_box_batch(ArrayView[Double], Double, Double) -> Array[Double]
+
 pub fn project_vector(Vec3, Vec3) -> Vec3 raise GeometryError
+
+pub fn quantile_linear(ArrayView[Double], Double) -> Double raise GeometryError
 
 pub fn quaternion_from_axis_angle(Vec3, Double) -> Quaternion raise GeometryError
 
@@ -202,19 +588,33 @@ pub fn rect2_from_points(ArrayView[Point2]) -> Rect2 raise GeometryError
 
 pub fn relative_error(Double, Double) -> Double
 
+pub fn remap2(Double, Double, Double, Double, Double) -> Double
+
 pub fn remove_duplicate_points(ArrayView[Point2], Double) -> Array[Point2]
 
 pub fn reprojection_error(Point2, Point2) -> Double
 
+pub fn resample_array(ArrayView[Double], Int) -> Array[Double]
+
 pub fn resample_polyline(ArrayView[Point2], samples~ : Int) -> Array[Point2] raise GeometryError
+
+pub fn residual_gradient(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn residual_jacobian_diagonal(ArrayView[Double], ArrayView[Double]) -> Array[Double]
 
 pub fn residual_percentile(ArrayView[Double], Double) -> Double raise GeometryError
 
 pub fn residual_statistics(ArrayView[Double]) -> (Double, Double, Double) raise GeometryError
 
+pub fn residual_sum_squares(ArrayView[Double], ArrayView[Double]) -> Double
+
 pub fn rms_error(ArrayView[Double]) -> Double raise GeometryError
 
+pub fn robust_clip(ArrayView[Double], center~ : Double, scale~ : Double, multiplier~ : Double) -> Array[Double]
+
 pub fn robust_scale(ArrayView[Double]) -> Double raise GeometryError
+
+pub fn robust_threshold(ArrayView[Double], minimum~ : Double, multiplier~ : Double) -> Double raise GeometryError
 
 pub fn robust_weighted_centroid3(ArrayView[Point3], ArrayView[Double]) -> Point3 raise GeometryError
 
@@ -222,13 +622,29 @@ pub fn robust_weighted_covariance3(ArrayView[Point3], ArrayView[Double]) -> Mat3
 
 pub fn robust_z_scores(ArrayView[Double]) -> Array[Double] raise GeometryError
 
+pub fn robust_z_scores2(ArrayView[Double]) -> Array[Double] raise GeometryError
+
+pub fn rotate_about_point(Mat3, Point3, Point3) -> Point3
+
 pub fn rotate_points(Mat3, ArrayView[Point3]) -> Array[Point3]
+
+pub fn rotate_points_about_point(Mat3, Point3, ArrayView[Point3]) -> Array[Point3]
 
 pub fn rotation_between(Vec3, Vec3) -> Mat3 raise GeometryError
 
 pub fn rotation_from_axis_angle(Vec3, Double) -> Mat3 raise GeometryError
 
 pub fn rotation_residual(Mat3) -> Double
+
+pub fn running_maximum(ArrayView[Double]) -> Array[Double]
+
+pub fn running_mean(ArrayView[Double]) -> Array[Double]
+
+pub fn running_median_approx(ArrayView[Double]) -> Array[Double]
+
+pub fn running_minimum(ArrayView[Double]) -> Array[Double]
+
+pub fn running_variance(ArrayView[Double]) -> Array[Double]
 
 pub fn safe_divide(Double, Double) -> Double raise GeometryError
 
@@ -238,7 +654,13 @@ pub fn scale_array(ArrayView[Double], Double) -> Array[Double]
 
 pub fn scale_mesh(ArrayView[Point3], Double) -> Array[Point3]
 
+pub fn scale_points(ArrayView[Point3], Double) -> Array[Point3]
+
 pub fn scale_scalars(ArrayView[Double], Double) -> Array[Double]
+
+pub fn scale_vectors(ArrayView[Vec3], Double) -> Array[Vec3]
+
+pub fn second_difference2(ArrayView[Double]) -> Array[Double]
 
 pub fn segment_distance(Point2, Point2, Point2) -> Double
 
@@ -246,7 +668,11 @@ pub fn skew_symmetric(Vec3) -> Mat3
 
 pub fn smootherstep(edge0~ : Double, edge1~ : Double, x~ : Double) -> Double
 
+pub fn smootherstep2(Double) -> Double
+
 pub fn smoothstep(edge0~ : Double, edge1~ : Double, x~ : Double) -> Double
+
+pub fn smoothstep2(Double) -> Double
 
 pub fn soft_threshold(Double, Double) -> Double
 
@@ -256,21 +682,85 @@ pub fn solve_2x2(a00~ : Double, a01~ : Double, a10~ : Double, a11~ : Double, b0~
 
 pub fn solve_3x3(Mat3, Vec3) -> Vec3 raise GeometryError
 
+pub fn solve_diagonal(ArrayView[Double], ArrayView[Double]) -> Array[Double] raise GeometryError
+
+pub fn solve_linear_2x2(Double, Double, Double, Double, Double, Double) -> (Double, Double) raise GeometryError
+
 pub fn solve_newton(Quadratic, initial~ : Double, iterations? : Int) -> Double raise GeometryError
 
 pub fn solve_symmetric_3x3(Mat3, Vec3) -> Vec3 raise GeometryError
+
+pub fn solver_best_value(ArrayView[Double], Bool) -> Double
+
+pub fn solver_converged(ArrayView[Double], Double) -> Bool
+
+pub fn solver_improvement(ArrayView[Double], Bool) -> Double
+
+pub fn spread2(ArrayView[Point2]) -> Double raise GeometryError
+
+pub fn spread3(ArrayView[Point3]) -> Double raise GeometryError
 
 pub fn square(Double) -> Double
 
 pub fn squared_norm_array(ArrayView[Double]) -> Double
 
+pub fn streaming_add(StreamingSummary, Double) -> Unit
+
+pub fn streaming_summary(ArrayView[Double]) -> StreamingSummary
+
+pub fn streaming_summary_chunks(ArrayView[Array[Double]]) -> StreamingSummary
+
 pub fn subtract_scalars(ArrayView[Double], ArrayView[Double]) -> Array[Double]
+
+pub fn support_ratio2(ArrayView[Point2], Double) -> Double
+
+pub fn support_ratio3(ArrayView[Point3], Double) -> Double
+
+pub fn transform_bounds(RigidTransform, ArrayView[Point3]) -> Aabb3 raise GeometryError
+
+pub fn transform_centroid(RigidTransform, ArrayView[Point3]) -> Point3 raise GeometryError
+
+pub fn transform_chain_batch(TransformChain, ArrayView[Point3]) -> Array[Point3]
+
+pub fn transform_distance(RigidTransform, RigidTransform) -> Double
+
+pub fn transform_interpolate(RigidTransform, RigidTransform, Double) -> RigidTransform
+
+pub fn transform_is_identity(RigidTransform, Double) -> Bool
+
+pub fn transform_point_with_scale(RigidTransform, Point3, Double) -> Point3
 
 pub fn transform_points(TransformChain, ArrayView[Point3]) -> Array[Point3]
 
+pub fn transform_points_batch(RigidTransform, ArrayView[Point3]) -> Array[Point3]
+
+pub fn transform_points_with_scale(RigidTransform, ArrayView[Point3], Double) -> Array[Point3]
+
+pub fn transform_relative(RigidTransform, RigidTransform) -> RigidTransform
+
+pub fn transform_relative_points(RigidTransform, RigidTransform, ArrayView[Point3]) -> Array[Point3]
+
+pub fn transform_rms_radius(RigidTransform, ArrayView[Point3]) -> Double raise GeometryError
+
+pub fn transform_rotation_residual(RigidTransform) -> Double
+
+pub fn transform_trajectory_length(ArrayView[RigidTransform]) -> Double
+
+pub fn transform_trajectory_sample(ArrayView[RigidTransform], Double) -> RigidTransform
+
+pub fn transform_trajectory_sample_many(ArrayView[RigidTransform], Int) -> Array[RigidTransform]
+
+pub fn transform_translation_norm(RigidTransform) -> Double
+
 pub fn transform_vectors(TransformChain, ArrayView[Vec3]) -> Array[Vec3]
 
+pub fn transform_vectors_batch(RigidTransform, ArrayView[Vec3]) -> Array[Vec3]
+
 pub fn translate_mesh(ArrayView[Point3], Vec3) -> Array[Point3]
+
+pub fn translate_points(ArrayView[Point3], Vec3) -> Array[Point3]
+
+pub fn translate_vectors(ArrayView[Vec3], Vec3) -> Array[Vec3]
 
 pub fn triangle_area3(Point3, Point3, Point3) -> Double
 
@@ -278,21 +768,37 @@ pub fn triangle_centroid3(Point3, Point3, Point3) -> Point3
 
 pub fn triangle_plane_distance(Triangle3, Point3) -> Double raise GeometryError
 
+pub fn trilerp2(ArrayView[Double], Double, Double, Double) -> Double
+
 pub fn trimmed_mean(ArrayView[Double], trim_fraction? : Double) -> Double raise GeometryError
+
+pub fn tukey_fences(ArrayView[Double], multiplier? : Double) -> (Double, Double) raise GeometryError
 
 pub fn unique_triangle_edges(ArrayView[(Int, Int, Int)]) -> Array[(Int, Int)]
 
 pub fn validate_correspondences3d2d(ArrayView[Point3], ArrayView[Point2], Int) -> Bool
 
+pub fn values_inside_fences(ArrayView[Double], Double, Double) -> Array[Double]
+
 pub fn variance(ArrayView[Double]) -> Double raise GeometryError
 
 pub fn variance_scalars(ArrayView[Double]) -> Double
+
+pub fn vector_covariance_trace(ArrayView[Vec3]) -> Double
+
+pub fn vector_mean(ArrayView[Vec3]) -> Vec3
+
+pub fn vector_sum(ArrayView[Vec3]) -> Vec3
 
 pub fn vectors3_are_nonzero(ArrayView[Vec3], Double) -> Bool
 
 pub fn weighted_centroid3(ArrayView[Point3], ArrayView[Double]) -> Point3 raise GeometryError
 
 pub fn weighted_mean(ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
+
+pub fn weighted_mean2(ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
+
+pub fn weighted_variance2(ArrayView[Double], ArrayView[Double]) -> Double raise GeometryError
 
 pub fn winsorize(ArrayView[Double], Double, Double, limit? : Double) -> Array[Double]
 
@@ -446,6 +952,16 @@ pub fn PointCloud::positive_depth_ratio(Self) -> Double
 pub fn PointCloud::rms_radius(Self) -> Double raise GeometryError
 pub fn PointCloud::valid_depth_count(Self) -> Int
 
+pub(all) struct PointCloudPipelineSummary {
+  count : Int
+  centroid : Point3
+  minimum : Point3
+  maximum : Point3
+  radius : Double
+  mean_distance : Double
+  maximum_distance : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct Quadratic {
   a : Double
   b : Double
@@ -522,6 +1038,19 @@ pub fn ScalarGrid::new(width~ : Int, height~ : Int, fill~ : Double) -> Self
 pub fn ScalarGrid::set(Self, Int, Int, Double) -> Bool
 pub fn ScalarGrid::sum(Self) -> Double
 pub fn ScalarGrid::width(Self) -> Int
+
+pub(all) struct StreamingSummary {
+  mut count : Int
+  mut mean : Double
+  mut variance : Double
+  mut minimum : Double
+  mut maximum : Double
+} derive(Eq, @debug.Debug)
+pub fn StreamingSummary::is_empty(Self) -> Bool
+pub fn StreamingSummary::population_variance(Self) -> Double
+pub fn StreamingSummary::range(Self) -> Double
+pub fn StreamingSummary::sample_variance(Self) -> Double
+pub fn StreamingSummary::standard_deviation(Self) -> Double
 
 pub(all) struct TransformChain {
   transforms : Array[RigidTransform]
