@@ -1,13 +1,14 @@
 # Reproducible benchmark record
 
-This record is for the August 2026 MoonBit Hackathon acceptance build. It uses
-the checked-in examples and the real local MoonBit stable toolchain; it does not
-present synthetic numbers as a camera or image-dataset benchmark.
+This record describes the reproducible validation of the August 2026 MoonBit
+Hackathon geometry library. It uses checked-in examples and deterministic
+geometric data; it does not present synthetic numbers as a camera or image
+dataset benchmark.
 
 ## Environment
 
-- Moon CLI: `0.1.20260807`
-- Moonc: `0.10.7+bc794d341`
+- Moon CLI: `0.1.20260819`
+- Moonc: `0.10.9+6e6c44045`
 - Targets: wasm, wasm-gc, js and native
 - Dataset: deterministic geometric correspondences in the checked-in package
   tests and examples
@@ -24,18 +25,18 @@ moon info
 moon package
 ```
 
-The acceptance run completed 102 tests with 102 passed and 0 failed on every
-target. The current working tree contains 19,668 non-test production lines,
-1,404 test lines, and 21,072 total `.mbt` lines (counted with `rg --files`,
-excluding `_build`). Coverage summary reported 1,853 covered of 7,488
-instrumented lines; this is a whole-repository baseline and includes newly
-added APIs that are intentionally exposed for downstream users.
+The current validation run completed 115 tests with 115 passed and 0 failed on
+every target. The source tree contains approximately 20,000 MoonBit lines
+across the reusable implementation packages, tests, and examples. Coverage is
+reported as a diagnostic artifact by CI: the latest run covered 3,275 of 7,488
+instrumented lines. Coverage is not used as a substitute for behavior-focused
+tests.
 
 Measured local command wall times are regression indicators for the same
 working tree, not cross-machine speed claims. Re-run the commands below on the
-acceptance machine to refresh timing data.
+target environment to refresh timing data.
 
-The numerical acceptance thresholds are reproducible: exact pinhole projection
+The numerical quality thresholds are reproducible: exact pinhole projection
 round trips stay below `1e-9`, distortion inversion below `1e-6`, exact
 homography/epipolar residuals below `1e-5`, and injected-outlier RANSAC keeps at
 least 80% inliers.

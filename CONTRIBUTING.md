@@ -1,8 +1,8 @@
 # Contributing
 
-This repository is prepared for OSC2026 as a single-author competition entry.
-Before the competition review is complete, public contributions should be opened
-as issues or design discussions rather than direct code contributions.
+This repository is maintained as a single-author OSC2026 project. Proposed
+changes should begin as issues or design discussions so that API compatibility
+and numerical behavior can be reviewed before code is contributed.
 
 Quality expectations:
 

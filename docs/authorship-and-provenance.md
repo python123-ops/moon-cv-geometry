@@ -8,11 +8,11 @@ provenance for the OSC2026 submission `moon-cv-geometry`.
 - Participant name: Zhang Jingkai
 - Project name: moonbit视觉几何基石
 - Package name: `moon-cv-geometry`
-- Current Mooncakes module: `python123-ops/moon-cv-geometry@0.2.1`
+- Package metadata: `python123-ops/moon-cv-geometry@0.2.2`
 
 ## Repository Identities
 
-The project is maintained as a single-author OSC2026 entry. The two hosting
+The project is maintained as a single-author OSC2026 project. The two hosting
 platforms use different real accounts:
 
 - GitHub repository: `https://github.com/python123-ops/moon-cv-geometry`
@@ -24,13 +24,13 @@ Both repositories intentionally avoid synthetic or extra contributor identities.
 
 ## About The `cxh04` Mooncakes Namespace
 
-The current submitted package is `python123-ops/moon-cv-geometry`. During release
-preparation, version `0.1.0` was mistakenly published once under
-`cxh04/moon-cv-geometry` before the package namespace was corrected. That old
-Mooncakes namespace is not the competition submission namespace.
+The maintained package is `python123-ops/moon-cv-geometry`. An earlier version
+`0.1.0` was published once under `cxh04/moon-cv-geometry` before the package
+namespace was corrected. That old Mooncakes namespace is not this project's
+maintained package.
 
 The corrected package was published under `python123-ops/moon-cv-geometry`, and
-the current release line is `0.2.1`. Repository metadata, import paths,
+the current release line is `0.2.2`. Repository metadata, import paths,
 documentation, and package manifests now point to `python123-ops/moon-cv-geometry`.
 
 ## Source Provenance
@@ -45,7 +45,7 @@ The project deliberately avoids vendored code. It also avoids overlapping with
 general-purpose MoonBit linear algebra, GIS geometry, rendering geometry, image
 filtering, feature extraction, and deep-learning projects.
 
-## Audit Commands
+## Verification Commands
 
 The following commands can be used to verify contributor and source identity:
 

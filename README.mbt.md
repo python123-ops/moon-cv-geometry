@@ -65,17 +65,16 @@ GitHub and GitLink use different platform accounts, but each public repository
 keeps a single real account as its contributor identity. GitHub history is under
 `python123-ops`; GitLink history is under `python123`.
 
-The current Mooncakes release is `python123-ops/moon-cv-geometry@0.2.1`. An earlier
-mistaken publish under `cxh04/moon-cv-geometry@0.1.0` is not the competition
-submission namespace and has been superseded by the current package. See
-`docs/authorship-and-provenance.md` for the audit trail.
+The package is maintained under the `python123-ops` namespace. The repository
+metadata targets the next compatible release, `python123-ops/moon-cv-geometry@0.2.2`,
+and keeps source, examples, and release metadata together.
 
 ## Roadmap
 
 - `0.2.x`: normalized DLT over larger correspondence sets, eight-point fundamental matrix estimation, cheirality checks, triangulation angle quality, and stronger numerical conditioning.
 - Next: rank-2 fundamental matrix enforcement, calibrated pose decomposition, PnP, and bundle-adjustment-friendly residual helpers.
 
-## Validation and measured scale
+## Validation and project scope
 
 ```bash
 moon fmt --check
@@ -85,10 +84,11 @@ moon info
 moon package
 ```
 
-The acceptance snapshot contains 6,523 tracked `.mbt` source lines, including
-5,764 implementation lines, 49 tests, and runnable examples. The suite is
-executed on wasm, wasm-gc, js, and native targets. Reproducible local timings
-and numerical thresholds are recorded in [docs/benchmark.md](docs/benchmark.md).
+The source tree contains approximately 20,000 lines of MoonBit implementation
+across the four reusable packages, plus boundary tests and runnable examples.
+The suite is executed on wasm, wasm-gc, js, and native targets. Reproducible
+timings and numerical thresholds are recorded in
+[docs/benchmark.md](docs/benchmark.md).
 
 The current MoonBit CLI exposes warning denial on `moon check` and `moon test`.
 For formatting and interface generation, CI uses `moon fmt --check` and

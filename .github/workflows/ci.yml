@@ -67,6 +67,20 @@ jobs:
           moon version --all
           moon update
 
+      - name: Enforce supported MoonBit toolchain
+        shell: pwsh
+        run: |
+          $versionLine = & moonc -v | Select-Object -First 1
+          if ($versionLine -notmatch 'v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)') {
+            throw "Unable to parse Moonc version: $versionLine"
+          }
+          $version = [version]::new([int]$Matches.major, [int]$Matches.minor, [int]$Matches.patch)
+          $minimum = [version]'0.10.9'
+          Write-Host "Moonc $versionLine"
+          if ($version -lt $minimum) {
+            throw "Moonc $version is older than the supported minimum $minimum"
+          }
+
       - name: Format gate
         run: |
           moon fmt --check
