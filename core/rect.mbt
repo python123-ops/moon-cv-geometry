@@ -5,7 +5,7 @@ pub fn Rect2::new(min~ : Point2, max~ : Point2) -> Rect2 raise GeometryError {
       "Rect2 max corner must not be smaller than min corner",
     )
   }
-  { min, max }
+  { min, max, }
 }
 
 ///|

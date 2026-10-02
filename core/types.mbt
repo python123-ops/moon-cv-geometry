@@ -12,7 +12,7 @@ pub(all) struct Point2 {
 
 ///|
 pub fn Point2::new(x~ : Double, y~ : Double) -> Point2 {
-  { x, y }
+  { x, y, }
 }
 
 ///|
@@ -24,7 +24,7 @@ pub(all) struct Point3 {
 
 ///|
 pub fn Point3::new(x~ : Double, y~ : Double, z~ : Double) -> Point3 {
-  { x, y, z }
+  { x, y, z, }
 }
 
 ///|
@@ -35,7 +35,7 @@ pub(all) struct Vec2 {
 
 ///|
 pub fn Vec2::new(x~ : Double, y~ : Double) -> Vec2 {
-  { x, y }
+  { x, y, }
 }
 
 ///|
@@ -47,7 +47,7 @@ pub(all) struct Vec3 {
 
 ///|
 pub fn Vec3::new(x~ : Double, y~ : Double, z~ : Double) -> Vec3 {
-  { x, y, z }
+  { x, y, z, }
 }
 
 ///|

@@ -6,7 +6,7 @@ pub(all) struct DeterministicSampler {
 
 ///|
 pub fn DeterministicSampler::new(seed~ : Int) -> DeterministicSampler {
-  { state: if seed == 0 { 1 } else { seed.abs() } }
+  { state: if seed == 0 { 1 } else { seed.abs() }, }
 }
 
 ///|

@@ -15,7 +15,7 @@ pub fn WeightedPoseGraph::new(vertices : Int) -> WeightedPoseGraph {
     }
     rows.push(row)
   }
-  { vertices: vertices.max(0), weights: rows }
+  { vertices: vertices.max(0), weights: rows, }
 }
 
 ///|

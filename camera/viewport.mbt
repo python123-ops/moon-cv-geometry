@@ -12,7 +12,7 @@ pub fn ImageSize::new(
   if width <= 0 || height <= 0 {
     raise @core.GeometryError::DegenerateInput("image size must be positive")
   }
-  { width, height }
+  { width, height, }
 }
 
 ///|

@@ -11,7 +11,7 @@ pub(all) struct BaselineStatistics {
 ///|
 pub fn baseline_statistics(baselines : ArrayView[Double]) -> BaselineStatistics {
   if baselines.length() == 0 {
-    return { count: 0, mean: 0.0, minimum: 0.0, maximum: 0.0, rms: 0.0 }
+    return { count: 0, mean: 0.0, minimum: 0.0, maximum: 0.0, rms: 0.0, }
   }
   let mut sum = 0.0
   let mut square = 0.0

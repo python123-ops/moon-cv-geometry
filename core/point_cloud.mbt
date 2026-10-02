@@ -5,7 +5,7 @@ pub(all) struct PointCloud {
 
 ///|
 pub fn PointCloud::from_points(points : ArrayView[Point3]) -> PointCloud {
-  { points: points.to_owned() }
+  { points: points.to_owned(), }
 }
 
 ///|

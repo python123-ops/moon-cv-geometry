@@ -12,7 +12,7 @@ pub fn ImageLevel::new(
   size~ : ImageSize,
   intrinsics~ : CameraIntrinsics,
 ) -> ImageLevel {
-  { scale, size, intrinsics }
+  { scale, size, intrinsics, }
 }
 
 ///|

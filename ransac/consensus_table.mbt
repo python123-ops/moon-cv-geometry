@@ -14,7 +14,7 @@ pub(all) struct ConsensusTable {
 
 ///|
 pub fn ConsensusTable::new(threshold~ : Double) -> ConsensusTable {
-  { threshold: threshold.max(0.0), records: [] }
+  { threshold: threshold.max(0.0), records: [], }
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn ConsensusTable::observe(
       score += table.threshold - error
     }
   }
-  table.records.push({ inlier_count: count, score, residual_sum: sum })
+  table.records.push({ inlier_count: count, score, residual_sum: sum, })
 }
 
 ///|

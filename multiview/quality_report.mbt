@@ -145,7 +145,7 @@ pub fn ViewGraph::new(view_count : Int) -> ViewGraph {
     }
     rows.push(row)
   }
-  { adjacency: rows }
+  { adjacency: rows, }
 }
 
 ///|

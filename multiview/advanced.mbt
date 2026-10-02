@@ -13,7 +13,7 @@ pub fn CameraPair::new(
   intrinsics_left~ : @camera.CameraIntrinsics,
   intrinsics_right~ : @camera.CameraIntrinsics,
 ) -> CameraPair {
-  { left, right, intrinsics_left, intrinsics_right }
+  { left, right, intrinsics_left, intrinsics_right, }
 }
 
 ///|
@@ -50,7 +50,7 @@ pub fn TrackObservation::new(
   pixel~ : @core.Point2,
   view_id~ : Int,
 ) -> TrackObservation {
-  { point_id, pixel, view_id }
+  { point_id, pixel, view_id, }
 }
 
 ///|

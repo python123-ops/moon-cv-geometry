@@ -80,7 +80,7 @@ pub fn percentile_range(
   sorted.sort()
   let low_index = (lower * (sorted.length() - 1).to_double()).to_int()
   let high_index = (upper * (sorted.length() - 1).to_double()).to_int()
-  { min: sorted[low_index], max: sorted[high_index] }
+  { min: sorted[low_index], max: sorted[high_index], }
 }
 
 ///|

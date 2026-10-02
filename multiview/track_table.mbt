@@ -5,7 +5,7 @@ pub(all) struct TrackTable {
 
 ///|
 pub fn TrackTable::new() -> TrackTable {
-  { observations: [] }
+  { observations: [], }
 }
 
 ///|

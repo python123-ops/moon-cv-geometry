@@ -40,7 +40,7 @@ pub fn image_ray_grid(
       let direction = @core.Vec3::new(x=normalized.x, y=normalized.y, z=1.0).normalize() catch {
         _ => @core.Vec3::new(x=0.0, y=0.0, z=1.0)
       }
-      result.push({ origin: @core.Point3::new(x=0.0, y=0.0, z=0.0), direction })
+      result.push({ origin: @core.Point3::new(x=0.0, y=0.0, z=0.0), direction, })
     }
   }
   result
@@ -63,7 +63,7 @@ pub fn sample_pixels(
       let direction = @core.Vec3::new(x=n.x, y=n.y, z=1.0).normalize() catch {
         _ => @core.Vec3::new(x=0.0, y=0.0, z=1.0)
       }
-      result.push({ origin: @core.Point3::new(x=0.0, y=0.0, z=0.0), direction })
+      result.push({ origin: @core.Point3::new(x=0.0, y=0.0, z=0.0), direction, })
     }
   }
   result

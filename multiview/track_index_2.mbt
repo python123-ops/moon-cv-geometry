@@ -6,7 +6,7 @@ pub(all) struct TrackIndex {
 
 ///|
 pub fn TrackIndex::new() -> TrackIndex {
-  { entries: [] }
+  { entries: [], }
 }
 
 ///|

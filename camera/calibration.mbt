@@ -11,7 +11,7 @@ pub fn CalibrationObservation::new(
   pixel~ : @core.Point2,
   weight? : Double = 1.0,
 ) -> CalibrationObservation {
-  { world, pixel, weight }
+  { world, pixel, weight, }
 }
 
 ///|

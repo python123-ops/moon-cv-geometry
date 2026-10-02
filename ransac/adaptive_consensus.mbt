@@ -23,7 +23,7 @@ pub(all) struct AdaptiveConsensus {
 
 ///|
 pub fn AdaptiveConsensus::new(threshold~ : Double) -> AdaptiveConsensus {
-  { ratio: 0.0, threshold: threshold.max(0.0), iterations: 0 }
+  { ratio: 0.0, threshold: threshold.max(0.0), iterations: 0, }
 }
 
 ///|

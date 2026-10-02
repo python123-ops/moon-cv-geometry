@@ -9,7 +9,7 @@ pub fn MlesacConfig::new(
   inlier_scale~ : Double,
   outlier_scale~ : Double,
 ) -> MlesacConfig {
-  { inlier_scale, outlier_scale }
+  { inlier_scale, outlier_scale, }
 }
 
 ///|
@@ -77,7 +77,7 @@ pub fn sweep_thresholds(
     let score = Double::from_int(count) - threshold * 0.001
     let next = if count > result.inliers ||
       (count == result.inliers && score > result.score) {
-      ThresholdSweepResult::{ threshold, inliers: count, score }
+      ThresholdSweepResult::{ threshold, inliers: count, score, }
     } else {
       result
     }

@@ -7,7 +7,7 @@ pub(all) struct Triangle3 {
 
 ///|
 pub fn Triangle3::new(a~ : Point3, b~ : Point3, c~ : Point3) -> Triangle3 {
-  { a, b, c }
+  { a, b, c, }
 }
 
 ///|

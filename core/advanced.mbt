@@ -151,12 +151,12 @@ pub fn Quaternion::new(
   y~ : Double,
   z~ : Double,
 ) -> Quaternion {
-  { w, x, y, z }
+  { w, x, y, z, }
 }
 
 ///|
 pub fn Quaternion::identity() -> Quaternion {
-  { w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
+  { w: 1.0, x: 0.0, y: 0.0, z: 0.0, }
 }
 
 ///|
@@ -170,12 +170,12 @@ pub fn Quaternion::normalize(q : Quaternion) -> Quaternion raise GeometryError {
   if n <= 0.000000000001 {
     raise GeometryError::DegenerateInput("cannot normalize a zero quaternion")
   }
-  { w: q.w / n, x: q.x / n, y: q.y / n, z: q.z / n }
+  { w: q.w / n, x: q.x / n, y: q.y / n, z: q.z / n, }
 }
 
 ///|
 pub fn Quaternion::conjugate(q : Quaternion) -> Quaternion {
-  { w: q.w, x: -q.x, y: -q.y, z: -q.z }
+  { w: q.w, x: -q.x, y: -q.y, z: -q.z, }
 }
 
 ///|
@@ -190,7 +190,7 @@ pub fn Quaternion::mul(a : Quaternion, b : Quaternion) -> Quaternion {
 
 ///|
 pub fn Quaternion::rotate(q : Quaternion, v : Vec3) -> Vec3 {
-  let p = Quaternion::{ w: 0.0, x: v.x, y: v.y, z: v.z }
+  let p = Quaternion::{ w: 0.0, x: v.x, y: v.y, z: v.z, }
   let r = q.mul(p).mul(q.conjugate())
   Vec3::new(x=r.x, y=r.y, z=r.z)
 }
@@ -232,7 +232,7 @@ pub(all) struct RigidTransform {
 
 ///|
 pub fn RigidTransform::identity() -> RigidTransform {
-  { rotation: identity3(), translation: Vec3::new(x=0.0, y=0.0, z=0.0) }
+  { rotation: identity3(), translation: Vec3::new(x=0.0, y=0.0, z=0.0), }
 }
 
 ///|
@@ -240,7 +240,7 @@ pub fn RigidTransform::new(
   rotation~ : Mat3,
   translation~ : Vec3,
 ) -> RigidTransform {
-  { rotation, translation }
+  { rotation, translation, }
 }
 
 ///|

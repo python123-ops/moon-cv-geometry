@@ -9,7 +9,7 @@ pub fn PointTrack::new(
   world~ : @core.Point3,
   observations~ : Array[@camera.CalibrationObservation],
 ) -> PointTrack {
-  { world, observations }
+  { world, observations, }
 }
 
 ///|

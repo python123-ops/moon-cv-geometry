@@ -8,7 +8,7 @@ pub(all) struct Line2 {
 pub fn Line2::from_points(a : Point2, b : Point2) -> Line2 raise GeometryError {
   let direction = a.minus(b)
   let normal = Vec2::new(x=-direction.y, y=direction.x).normalize()
-  { normal, offset: -(normal.x * a.x + normal.y * a.y) }
+  { normal, offset: -(normal.x * a.x + normal.y * a.y), }
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn Plane3::from_points(
   c : Point3,
 ) -> Plane3 raise GeometryError {
   let normal = b.minus(a).cross(c.minus(a)).normalize()
-  { normal, offset: -normal.dot(a.to_vec()) }
+  { normal, offset: -normal.dot(a.to_vec()), }
 }
 
 ///|
@@ -86,7 +86,7 @@ pub fn Circle2::new(
   if radius < 0.0 {
     raise GeometryError::DegenerateInput("circle radius must be non-negative")
   }
-  { center, radius }
+  { center, radius, }
 }
 
 ///|

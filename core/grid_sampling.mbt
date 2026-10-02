@@ -16,7 +16,7 @@ pub fn ScalarGrid::new(
   for _ in 0..<(width.max(0) * height.max(0)) {
     values.push(fill)
   }
-  { width: width.max(0), height: height.max(0), values }
+  { width: width.max(0), height: height.max(0), values, }
 }
 
 ///|

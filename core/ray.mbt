@@ -3,7 +3,7 @@ pub fn Ray3::new(
   origin~ : Point3,
   direction~ : Vec3,
 ) -> Ray3 raise GeometryError {
-  { origin, direction: direction.normalize() }
+  { origin, direction: direction.normalize(), }
 }
 
 ///|

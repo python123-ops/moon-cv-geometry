@@ -7,7 +7,7 @@ pub fn mat3_from_rows(
   let (m00, m01, m02) = r0
   let (m10, m11, m12) = r1
   let (m20, m21, m22) = r2
-  { m00, m01, m02, m10, m11, m12, m20, m21, m22 }
+  { m00, m01, m02, m10, m11, m12, m20, m21, m22, }
 }
 
 ///|
@@ -19,7 +19,7 @@ pub fn mat34_from_rows(
   let (m00, m01, m02, m03) = r0
   let (m10, m11, m12, m13) = r1
   let (m20, m21, m22, m23) = r2
-  { m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23 }
+  { m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, }
 }
 
 ///|

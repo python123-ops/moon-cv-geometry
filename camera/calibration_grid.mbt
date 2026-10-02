@@ -16,7 +16,7 @@ pub fn CalibrationGrid::new(
       "calibration grid dimensions are invalid",
     )
   }
-  { columns, rows, spacing }
+  { columns, rows, spacing, }
 }
 
 ///|

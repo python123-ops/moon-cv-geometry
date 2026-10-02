@@ -10,7 +10,7 @@ pub(all) struct BundleStatistics {
 ///|
 pub fn bundle_statistics(residuals : ArrayView[Double]) -> BundleStatistics {
   if residuals.length() == 0 {
-    return { count: 0, mean: 0.0, rms: 0.0, maximum: 0.0 }
+    return { count: 0, mean: 0.0, rms: 0.0, maximum: 0.0, }
   }
   let mut sum = 0.0
   let mut square = 0.0

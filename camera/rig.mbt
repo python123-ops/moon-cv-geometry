@@ -11,7 +11,7 @@ pub fn CameraView::new(
   intrinsics~ : CameraIntrinsics,
   pose~ : CameraPose,
 ) -> CameraView {
-  { view_id: id, intrinsics, pose }
+  { view_id: id, intrinsics, pose, }
 }
 
 ///|
@@ -27,7 +27,7 @@ pub(all) struct CameraRig {
 
 ///|
 pub fn CameraRig::new(views : ArrayView[CameraView]) -> CameraRig {
-  { views: views.to_owned() }
+  { views: views.to_owned(), }
 }
 
 ///|

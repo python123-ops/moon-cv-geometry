@@ -7,7 +7,7 @@ pub(all) struct TransformChain {
 pub fn TransformChain::new(
   transforms : ArrayView[RigidTransform],
 ) -> TransformChain {
-  { transforms: transforms.to_owned() }
+  { transforms: transforms.to_owned(), }
 }
 
 ///|

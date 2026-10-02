@@ -117,7 +117,7 @@ pub fn depth_histogram(
       valid += 1
     }
   }
-  { bins: counts, total: depths.length(), valid, minimum, maximum }
+  { bins: counts, total: depths.length(), valid, minimum, maximum, }
 }
 
 ///|

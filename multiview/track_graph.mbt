@@ -7,7 +7,7 @@ pub(all) struct TrackGraph {
 
 ///|
 pub fn TrackGraph::new(view_count~ : Int) -> TrackGraph {
-  { view_count: view_count.max(0), edges: [] }
+  { view_count: view_count.max(0), edges: [], }
 }
 
 ///|

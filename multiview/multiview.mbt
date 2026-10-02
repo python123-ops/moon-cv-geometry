@@ -421,7 +421,7 @@ pub fn triangulate_from_rays(
 ) -> TriangulatedPoint raise @core.GeometryError {
   let point = left.closest_midpoint(right)
   let separation = left.closest_separation(right)
-  { point, separation }
+  { point, separation, }
 }
 
 ///|

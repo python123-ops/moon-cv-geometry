@@ -22,7 +22,7 @@ pub fn nearest_point(
       best_distance = current
     }
   }
-  { left_index: -1, right_index: best, distance: best_distance }
+  { left_index: -1, right_index: best, distance: best_distance, }
 }
 
 ///|

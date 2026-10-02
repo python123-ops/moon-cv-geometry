@@ -14,7 +14,7 @@ pub fn RollingShutter::new(
       "rolling shutter parameters are invalid",
     )
   }
-  { readout_seconds, image_height }
+  { readout_seconds, image_height, }
 }
 
 ///|

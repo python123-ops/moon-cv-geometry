@@ -15,7 +15,7 @@ pub fn CameraIntrinsics::new(
   cy~ : Double,
   skew? : Double = 0.0,
 ) -> CameraIntrinsics {
-  { fx, fy, cx, cy, skew }
+  { fx, fy, cx, cy, skew, }
 }
 
 ///|
@@ -29,7 +29,7 @@ pub(all) struct Distortion {
 
 ///|
 pub fn Distortion::none() -> Distortion {
-  { k1: 0.0, k2: 0.0, p1: 0.0, p2: 0.0, k3: 0.0 }
+  { k1: 0.0, k2: 0.0, p1: 0.0, p2: 0.0, k3: 0.0, }
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn Distortion::brown_conrady(
   p2? : Double = 0.0,
   k3? : Double = 0.0,
 ) -> Distortion {
-  { k1, k2, p1, p2, k3 }
+  { k1, k2, p1, p2, k3, }
 }
 
 ///|

@@ -32,13 +32,13 @@ test "robust losses downweight outliers" {
   assert_true(tukey_weight(residual=2.0, cutoff=1.0) == 0.0)
   assert_true(huber_loss(residual=10.0, delta=1.0) < 50.0)
   assert_true(
-    consensus_ratio(InlierMask::{ values: [true, false, true] }) > 0.5,
+    consensus_ratio(InlierMask::{ values: [true, false, true], }) > 0.5,
   )
 }
 
 ///|
 test "mask bounds are checked" {
-  let mask = InlierMask::{ values: [true, false] }
+  let mask = InlierMask::{ values: [true, false], }
   assert_true(mask.count() == 1)
   assert_true(mask.indices() == [0])
   assert_true(validate_mask(mask, expected_length=2))

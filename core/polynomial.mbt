@@ -7,7 +7,7 @@ pub(all) struct Quadratic {
 
 ///|
 pub fn Quadratic::new(a~ : Double, b~ : Double, c~ : Double) -> Quadratic {
-  { a, b, c }
+  { a, b, c, }
 }
 
 ///|

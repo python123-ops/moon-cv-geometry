@@ -16,7 +16,7 @@ pub fn StereoPair::new(
       "stereo pair parameters are invalid",
     )
   }
-  { left, right, baseline }
+  { left, right, baseline, }
 }
 
 ///|

@@ -128,7 +128,7 @@ pub fn has_area2(points : ArrayView[Point2], minimum_area : Double) -> Bool {
     false
   } else {
     let rect = rect2_from_points(points) catch {
-      _ => { min: Point2::new(x=0.0, y=0.0), max: Point2::new(x=0.0, y=0.0) }
+      _ => { min: Point2::new(x=0.0, y=0.0), max: Point2::new(x=0.0, y=0.0), }
     }
     rect.area() >= minimum_area
   }

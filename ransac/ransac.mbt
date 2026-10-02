@@ -13,7 +13,7 @@ pub fn RansacConfig::new(
   min_inliers? : Int = 4,
   seed? : UInt = 1U,
 ) -> RansacConfig {
-  { iterations, threshold, min_inliers, seed }
+  { iterations, threshold, min_inliers, seed, }
 }
 
 ///|
@@ -116,7 +116,7 @@ pub fn estimate_homography_ransac(
     )
   }
   let fallback = @multiview.estimate_homography_from_four(src, dst)
-  let empty_mask = InlierMask::{ values: [] }
+  let empty_mask = InlierMask::{ values: [], }
   let initial = RansacResult::{
     model: fallback,
     inliers: empty_mask,
@@ -151,7 +151,7 @@ pub fn estimate_homography_ransac(
           (count == best.inlier_count && score < best.score) {
           RansacResult::{
             model: h,
-            inliers: InlierMask::{ values: mask },
+            inliers: InlierMask::{ values: mask, },
             inlier_count: count,
             score,
           }
@@ -191,7 +191,7 @@ pub fn estimate_fundamental_ransac(
     let fallback = @multiview.estimate_fundamental(left, right)
     let initial = RansacResult::{
       model: fallback,
-      inliers: InlierMask::{ values: [] },
+      inliers: InlierMask::{ values: [], },
       inlier_count: -1,
       score: 1.0e100,
     }
@@ -249,7 +249,7 @@ fn score_fundamental_candidate(
     (count == best.inlier_count && score < best.score) {
     RansacResult::{
       model,
-      inliers: InlierMask::{ values: mask },
+      inliers: InlierMask::{ values: mask, },
       inlier_count: count,
       score,
     }
@@ -267,7 +267,7 @@ fn score_fundamental(
 ) -> RansacResult[@multiview.FundamentalMatrix] raise @core.GeometryError {
   let empty = RansacResult::{
     model,
-    inliers: InlierMask::{ values: [] },
+    inliers: InlierMask::{ values: [], },
     inlier_count: -1,
     score: 1.0e100,
   }

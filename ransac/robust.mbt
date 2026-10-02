@@ -130,7 +130,7 @@ pub fn score_residuals(
   }
   {
     model: residuals.to_owned(),
-    inliers: InlierMask::{ values: mask },
+    inliers: InlierMask::{ values: mask, },
     inlier_count: count,
     score,
   }
