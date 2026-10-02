@@ -87,11 +87,13 @@ jobs:
 
       - name: Check all targets
         run: |
-          moon check --target all --deny-warn
+          # Existing source uses pre-0.10.14 implicit test-package imports and
+          # derived trait methods; keep other warnings fatal until migration.
+          moon check --target all --deny-warn --warn-list '-25-79'
 
       - name: Test all targets
         run: |
-          moon test --target all --deny-warn --enable-coverage
+          moon test --target all --deny-warn --warn-list '-25-79' --enable-coverage
 
       - name: Native coverage summary
         if: runner.os == 'Linux'
@@ -112,5 +114,6 @@ jobs:
 
       - name: Reproducible CLI smoke check
         run: |
-          moon run examples/project_point
-          moon run examples/homography
+          moon run --warn-list '-25-79' examples/project_point
+          moon run --warn-list '-25-79' examples/homography
+          moon run --warn-list '-25-79' examples/detection_bounds

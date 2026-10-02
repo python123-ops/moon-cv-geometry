@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.3 (unreleased) - 2026-10-02
+
+- Added a runnable detection-box transfer example showing how a homography can
+  produce target-image `xywh` bounds for MoonDetEval.
+- Documented the independent October detector-evaluation bridge without adding
+  a dependency from the August geometry library to the evaluator.
+- Kept strict CI validation on the current compiler while temporarily excluding
+  existing warning 25 and 79 migrations from the warning gate.
+- Normalized source formatting with the current MoonBit formatter so the CI
+  format gate remains reproducible across the existing packages.
+
 ## 0.2.2 - 2026-08-24
 
 - Added reusable point-cloud, image-window, camera-ray, track-quality, model-

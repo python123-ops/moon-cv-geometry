@@ -41,9 +41,24 @@ moon run examples/project_point
 moon run examples/undistort
 moon run examples/homography
 moon run examples/fundamental_ransac
+moon run examples/detection_bounds
 ```
 
 See `examples/README.md` for the short purpose of each example.
+
+## Detection evaluation interop
+
+The August geometry library can map a detector's source-image rectangle into a
+target image using a homography. `moon run examples/detection_bounds` prints the
+axis-aligned envelope as continuous `xywh` coordinates. The October
+[MoonDetEval](https://github.com/python123-ops/moondeteval) library can consume
+that rectangle as a scored detection and calculate COCO-style bbox metrics.
+Its [independent consumer example](https://github.com/python123-ops/moondeteval/tree/main/examples/consumer)
+imports `python123-ops/moon-cv-geometry@0.2.2` and exercises the complete path:
+source rectangle → homography → target box → AP50. A projective horizon crossing
+the rectangle is rejected by that adapter; bounding four corners is only valid
+for a bounded mapped region. This geometry module has no MoonDetEval runtime
+dependency, so the two packages remain separately reusable.
 
 ## Ecosystem Position
 
@@ -66,7 +81,7 @@ keeps a single real account as its contributor identity. GitHub history is under
 `python123-ops`; GitLink history is under `python123`.
 
 The package is maintained under the `python123-ops` namespace. The repository
-metadata targets the next compatible release, `python123-ops/moon-cv-geometry@0.2.2`,
+metadata targets the next compatible release, `python123-ops/moon-cv-geometry@0.2.3`,
 and keeps source, examples, and release metadata together.
 
 ## Roadmap
@@ -78,8 +93,8 @@ and keeps source, examples, and release metadata together.
 
 ```bash
 moon fmt --check
-moon check --target all --deny-warn
-moon test --target all --deny-warn
+moon check --target all --deny-warn --warn-list '-25-79'
+moon test --target all --deny-warn --warn-list '-25-79'
 moon info
 moon package
 ```
@@ -91,5 +106,8 @@ timings and numerical thresholds are recorded in
 [docs/benchmark.md](docs/benchmark.md).
 
 The current MoonBit CLI exposes warning denial on `moon check` and `moon test`.
+The warning list temporarily excludes 25 (implicit test-package imports) and
+79 (derived trait method promotion) in this older codebase; all other warnings
+remain fatal. Those two warnings require a separate repository-wide migration.
 For formatting and interface generation, CI uses `moon fmt --check` and
 `moon info` followed by a generated-interface diff check.

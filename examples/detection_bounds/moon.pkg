@@ -1,0 +1,6 @@
+import {
+  "python123-ops/moon-cv-geometry/core",
+  "python123-ops/moon-cv-geometry/multiview",
+}
+
+pkgtype(kind: "executable")
