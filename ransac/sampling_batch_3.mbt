@@ -10,6 +10,12 @@ pub(all) struct SampleBatchSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend SampleBatchSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend SampleBatchSummary with Eq::{equal, not_equal}
+
+///|
 pub fn sample_batch_unique(indices : ArrayView[Int]) -> Array[Int] {
   let result : Array[Int] = []
   for index in indices {

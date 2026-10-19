@@ -67,6 +67,12 @@ pub(all) struct NumericRange {
 } derive(Debug, Eq)
 
 ///|
+pub extend NumericRange with @debug.Debug::{to_repr}
+
+///|
+pub extend NumericRange with Eq::{equal, not_equal}
+
+///|
 /// Approximate a percentile interval using sorted samples.
 pub fn percentile_range(
   values : ArrayView[Double],
@@ -88,7 +94,12 @@ pub fn percentile_range(
 pub fn finite_points3(points : ArrayView[Point3]) -> Array[Point3] {
   let result : Array[Point3] = []
   for p in points {
-    if p.x == p.x && p.y == p.y && p.z == p.z {
+    if !p.x.is_nan() &&
+      !p.x.is_inf() &&
+      !p.y.is_nan() &&
+      !p.y.is_inf() &&
+      !p.z.is_nan() &&
+      !p.z.is_inf() {
       result.push(p)
     }
   }

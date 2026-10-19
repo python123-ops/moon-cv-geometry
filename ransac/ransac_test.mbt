@@ -14,10 +14,10 @@ test "homography RANSAC ignores one clear outlier" {
     @core.Point2::new(x=12.0, y=23.0),
     @core.Point2::new(x=-100.0, y=-100.0),
   ]
-  let result = estimate_homography_ransac(
+  let result = @ransac.estimate_homography_ransac(
     src,
     dst,
-    config=RansacConfig::new(
+    config=@ransac.RansacConfig::new(
       iterations=64,
       threshold=0.001,
       min_inliers=4,
@@ -41,10 +41,10 @@ test "fundamental RANSAC scores stereo-like matches" {
     @core.Point2::new(x=-0.1, y=0.4),
     @core.Point2::new(x=-0.4, y=0.7),
   ]
-  let result = estimate_fundamental_ransac(
+  let result = @ransac.estimate_fundamental_ransac(
     left,
     right,
-    config=RansacConfig::new(threshold=0.000001, min_inliers=3),
+    config=@ransac.RansacConfig::new(threshold=0.000001, min_inliers=3),
   )
   assert_eq(result.inlier_count, 3)
   assert_true(result.inliers.is_inlier(1))
@@ -76,10 +76,10 @@ test "fundamental RANSAC uses eight point samples" {
     @core.Point2::new(x=99.0, y=-80.0),
     @core.Point2::new(x=-70.0, y=90.0),
   ]
-  let result = estimate_fundamental_ransac(
+  let result = @ransac.estimate_fundamental_ransac(
     left,
     right,
-    config=RansacConfig::new(
+    config=@ransac.RansacConfig::new(
       iterations=64,
       threshold=0.0001,
       min_inliers=8,

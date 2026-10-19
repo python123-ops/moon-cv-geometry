@@ -9,6 +9,12 @@ pub(all) struct BaselineStatistics {
 } derive(Debug, Eq)
 
 ///|
+pub extend BaselineStatistics with @debug.Debug::{to_repr}
+
+///|
+pub extend BaselineStatistics with Eq::{equal, not_equal}
+
+///|
 pub fn baseline_statistics(baselines : ArrayView[Double]) -> BaselineStatistics {
   if baselines.length() == 0 {
     return { count: 0, mean: 0.0, minimum: 0.0, maximum: 0.0, rms: 0.0, }

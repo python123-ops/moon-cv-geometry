@@ -7,6 +7,12 @@ pub(all) struct ReconstructionReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend ReconstructionReport with @debug.Debug::{to_repr}
+
+///|
+pub extend ReconstructionReport with Eq::{equal, not_equal}
+
+///|
 pub fn reconstruction_report(
   points : ArrayView[@core.Point3],
   left : ArrayView[@core.Ray3],

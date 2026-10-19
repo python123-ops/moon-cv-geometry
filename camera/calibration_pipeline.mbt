@@ -9,6 +9,12 @@ pub(all) struct CalibrationBatchReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend CalibrationBatchReport with @debug.Debug::{to_repr}
+
+///|
+pub extend CalibrationBatchReport with Eq::{equal, not_equal}
+
+///|
 pub fn calibration_batch_report(
   points : ArrayView[@core.Point3],
   pixels : ArrayView[@core.Point2],
@@ -56,6 +62,12 @@ pub(all) struct CalibrationResidual {
   norm : Double
   valid : Bool
 } derive(Debug, Eq)
+
+///|
+pub extend CalibrationResidual with @debug.Debug::{to_repr}
+
+///|
+pub extend CalibrationResidual with Eq::{equal, not_equal}
 
 ///|
 pub fn calibration_residuals(

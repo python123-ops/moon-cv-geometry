@@ -5,6 +5,12 @@ pub(all) struct Line2 {
 } derive(Debug, Eq)
 
 ///|
+pub extend Line2 with @debug.Debug::{to_repr}
+
+///|
+pub extend Line2 with Eq::{equal, not_equal}
+
+///|
 pub fn Line2::from_points(a : Point2, b : Point2) -> Line2 raise GeometryError {
   let direction = a.minus(b)
   let normal = Vec2::new(x=-direction.y, y=direction.x).normalize()
@@ -43,6 +49,12 @@ pub(all) struct Plane3 {
 } derive(Debug, Eq)
 
 ///|
+pub extend Plane3 with @debug.Debug::{to_repr}
+
+///|
+pub extend Plane3 with Eq::{equal, not_equal}
+
+///|
 pub fn Plane3::from_points(
   a : Point3,
   b : Point3,
@@ -77,6 +89,12 @@ pub(all) struct Circle2 {
   center : Point2
   radius : Double
 } derive(Debug, Eq)
+
+///|
+pub extend Circle2 with @debug.Debug::{to_repr}
+
+///|
+pub extend Circle2 with Eq::{equal, not_equal}
 
 ///|
 pub fn Circle2::new(

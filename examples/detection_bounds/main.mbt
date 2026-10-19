@@ -12,7 +12,18 @@ fn mapped_detection_bounds(
     @core.Point2::new(x=rect.min.x, y=rect.max.y),
   ]
   let mapped : Array[@core.Point2] = []
+  let matrix = homography.matrix
+  let reference = matrix.m20 * rect.min.x + matrix.m21 * rect.min.y + matrix.m22
   for corner in corners {
+    let scale = matrix.m20 * corner.x + matrix.m21 * corner.y + matrix.m22
+    if scale.is_nan() ||
+      scale.is_inf() ||
+      scale.abs() <= 0.000000000001 ||
+      (scale > 0.0) != (reference > 0.0) {
+      raise @core.GeometryError::DegenerateInput(
+        "rectangle crosses the projective horizon",
+      )
+    }
     mapped.push(homography.apply(corner))
   }
   @core.rect2_from_points(mapped)
@@ -69,4 +80,25 @@ test "mapped detection bounds enclose four transformed corners" {
   assert_true((bounds.min.y - 30.0).abs() < 0.000000001)
   assert_true((bounds.width() - 20.0).abs() < 0.000000001)
   assert_true((bounds.height() - 20.0).abs() < 0.000000001)
+}
+
+///|
+test "mapped detection bounds reject a horizon between finite corners" {
+  let rect = @core.Rect2::new(
+    min=@core.Point2::new(x=0.0, y=0.0),
+    max=@core.Point2::new(x=10.0, y=10.0),
+  )
+  let homography = @multiview.Homography::new(
+    matrix=@core.mat3_from_rows(
+      (1.0, 0.0, 0.0),
+      (0.0, 1.0, 0.0),
+      (0.2, 0.0, -1.0),
+    ),
+  )
+  try mapped_detection_bounds(rect, homography) catch {
+    @core.GeometryError::DegenerateInput(_) => ()
+    _ => fail("unexpected error")
+  } noraise {
+    _ => fail("expected unbounded rectangle mapping to fail")
+  }
 }

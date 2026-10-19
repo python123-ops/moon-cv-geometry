@@ -8,6 +8,12 @@ pub(all) struct CameraIntrinsics {
 } derive(Debug, Eq)
 
 ///|
+pub extend CameraIntrinsics with @debug.Debug::{to_repr}
+
+///|
+pub extend CameraIntrinsics with Eq::{equal, not_equal}
+
+///|
 pub fn CameraIntrinsics::new(
   fx~ : Double,
   fy~ : Double,
@@ -26,6 +32,12 @@ pub(all) struct Distortion {
   p2 : Double
   k3 : Double
 } derive(Debug, Eq)
+
+///|
+pub extend Distortion with @debug.Debug::{to_repr}
+
+///|
+pub extend Distortion with Eq::{equal, not_equal}
 
 ///|
 pub fn Distortion::none() -> Distortion {
@@ -47,6 +59,12 @@ pub fn Distortion::brown_conrady(
 pub(all) struct CameraPose {
   world_to_camera : @core.Mat34
 } derive(Debug, Eq)
+
+///|
+pub extend CameraPose with @debug.Debug::{to_repr}
+
+///|
+pub extend CameraPose with Eq::{equal, not_equal}
 
 ///|
 pub fn CameraPose::identity() -> CameraPose {
@@ -124,12 +142,24 @@ pub fn focal_from_fov(
   sensor_extent~ : Double,
   fov_radians~ : Double,
 ) -> Double raise @core.GeometryError {
-  if sensor_extent <= 0.0 || fov_radians <= 0.0 {
+  if sensor_extent.is_nan() ||
+    sensor_extent.is_inf() ||
+    sensor_extent <= 0.0 ||
+    fov_radians.is_nan() ||
+    fov_radians.is_inf() ||
+    fov_radians <= 0.0 ||
+    fov_radians >= 3.141592653589793 {
     raise @core.GeometryError::DegenerateInput(
-      "sensor extent and fov must be positive",
+      "sensor extent must be finite and positive; fov must be between zero and pi",
     )
   }
-  sensor_extent / (2.0 * @math.tan(fov_radians / 2.0))
+  let focal = sensor_extent / (2.0 * @math.tan(fov_radians / 2.0))
+  if focal.is_nan() || focal.is_inf() || focal <= 0.0 {
+    raise @core.GeometryError::DegenerateInput(
+      "focal length is not finite and positive",
+    )
+  }
+  focal
 }
 
 ///|
@@ -137,12 +167,17 @@ pub fn horizontal_fov(
   intrinsics : CameraIntrinsics,
   width~ : Double,
 ) -> Double raise @core.GeometryError {
-  if intrinsics.fx <= 0.0 || width <= 0.0 {
+  if intrinsics.fx.is_nan() ||
+    intrinsics.fx.is_inf() ||
+    intrinsics.fx <= 0.0 ||
+    width.is_nan() ||
+    width.is_inf() ||
+    width <= 0.0 {
     raise @core.GeometryError::DegenerateInput(
       "fx and image width must be positive",
     )
   }
-  2.0 * @math.atan(width / (2.0 * intrinsics.fx))
+  2.0 * @math.atan(width / intrinsics.fx / 2.0)
 }
 
 ///|
@@ -150,12 +185,17 @@ pub fn vertical_fov(
   intrinsics : CameraIntrinsics,
   height~ : Double,
 ) -> Double raise @core.GeometryError {
-  if intrinsics.fy <= 0.0 || height <= 0.0 {
+  if intrinsics.fy.is_nan() ||
+    intrinsics.fy.is_inf() ||
+    intrinsics.fy <= 0.0 ||
+    height.is_nan() ||
+    height.is_inf() ||
+    height <= 0.0 {
     raise @core.GeometryError::DegenerateInput(
       "fy and image height must be positive",
     )
   }
-  2.0 * @math.atan(height / (2.0 * intrinsics.fy))
+  2.0 * @math.atan(height / intrinsics.fy / 2.0)
 }
 
 ///|
@@ -164,7 +204,8 @@ pub fn project_point(
   intrinsics : CameraIntrinsics,
   distortion? : Distortion = Distortion::none(),
 ) -> @core.Point2 raise @core.GeometryError {
-  if camera_point.z <= 0.000000000001 {
+  check_intrinsics(intrinsics)
+  if !@core.finite_point3(camera_point) || camera_point.z <= 0.000000000001 {
     raise @core.GeometryError::DegenerateInput(
       "point is behind the camera or on the image plane",
     )
@@ -173,7 +214,16 @@ pub fn project_point(
     x=camera_point.x / camera_point.z,
     y=camera_point.y / camera_point.z,
   )
-  normalized_to_pixel(distort_point(normalized, distortion), intrinsics)
+  let pixel = normalized_to_pixel(
+    distort_point(normalized, distortion),
+    intrinsics,
+  )
+  if !@core.finite_point2(pixel) {
+    raise @core.GeometryError::DegenerateInput(
+      "projection result is not finite",
+    )
+  }
+  pixel
 }
 
 ///|
@@ -193,7 +243,44 @@ pub fn bearing_from_pixel(
   intrinsics : CameraIntrinsics,
   distortion? : Distortion = Distortion::none(),
 ) -> @core.Vec3 raise @core.GeometryError {
+  check_intrinsics(intrinsics)
+  if !@core.finite_point2(pixel) {
+    raise @core.GeometryError::DegenerateInput(
+      "pixel coordinates must be finite",
+    )
+  }
   let normalized = pixel_to_normalized(pixel, intrinsics)
   let undistorted = undistort_point_iterative(normalized, distortion)
-  @core.Vec3::new(x=undistorted.x, y=undistorted.y, z=1.0).normalize()
+  let direction = @core.Vec3::new(x=undistorted.x, y=undistorted.y, z=1.0).normalize()
+  if !@core.finite_vec3(direction) || direction.norm() <= 0.000000000001 {
+    raise @core.GeometryError::DegenerateInput(
+      "bearing direction is not finite and nonzero",
+    )
+  }
+  direction
+}
+
+///|
+fn check_intrinsics(
+  intrinsics : CameraIntrinsics,
+) -> Unit raise @core.GeometryError {
+  for
+    value in [
+      intrinsics.fx,
+      intrinsics.fy,
+      intrinsics.cx,
+      intrinsics.cy,
+      intrinsics.skew,
+    ] {
+    if value.is_nan() || value.is_inf() {
+      raise @core.GeometryError::DegenerateInput(
+        "camera intrinsics must be finite",
+      )
+    }
+  }
+  if intrinsics.fx <= 0.0 || intrinsics.fy <= 0.0 {
+    raise @core.GeometryError::DegenerateInput(
+      "camera focal lengths must be positive",
+    )
+  }
 }

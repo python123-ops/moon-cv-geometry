@@ -10,6 +10,12 @@ pub(all) struct ModelSelectionSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend ModelSelectionSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend ModelSelectionSummary with Eq::{equal, not_equal}
+
+///|
 pub fn model_report_score(
   report : ModelReport,
   ratio_weight : Double,

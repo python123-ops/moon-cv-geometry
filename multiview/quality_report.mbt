@@ -8,6 +8,12 @@ pub(all) struct PointCloudReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend PointCloudReport with @debug.Debug::{to_repr}
+
+///|
+pub extend PointCloudReport with Eq::{equal, not_equal}
+
+///|
 pub fn PointCloudReport::from_points(
   points : ArrayView[@core.Point3],
 ) -> PointCloudReport {
@@ -79,6 +85,12 @@ pub(all) struct ReprojectionSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend ReprojectionSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend ReprojectionSummary with Eq::{equal, not_equal}
+
+///|
 pub fn reprojection_summary(
   residuals : ArrayView[Double],
   outlier_threshold~ : Double,
@@ -134,6 +146,12 @@ pub fn ReprojectionSummary::is_good(
 pub(all) struct ViewGraph {
   adjacency : Array[Array[Bool]]
 } derive(Debug, Eq)
+
+///|
+pub extend ViewGraph with @debug.Debug::{to_repr}
+
+///|
+pub extend ViewGraph with Eq::{equal, not_equal}
 
 ///|
 pub fn ViewGraph::new(view_count : Int) -> ViewGraph {

@@ -607,6 +607,9 @@ pub(all) struct CalibrationBatchReport {
   maximum : Double
   valid_count : Int
 } derive(Eq, @debug.Debug)
+pub fn CalibrationBatchReport::equal(Self, Self) -> Bool
+pub fn CalibrationBatchReport::not_equal(Self, Self) -> Bool
+pub fn CalibrationBatchReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CalibrationBatchSummary {
   count : Int
@@ -616,6 +619,9 @@ pub(all) struct CalibrationBatchSummary {
   valid_ratio : Double
   score : Double
 } derive(Eq, @debug.Debug)
+pub fn CalibrationBatchSummary::equal(Self, Self) -> Bool
+pub fn CalibrationBatchSummary::not_equal(Self, Self) -> Bool
+pub fn CalibrationBatchSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CalibrationGrid {
   columns : Int
@@ -624,9 +630,12 @@ pub(all) struct CalibrationGrid {
 } derive(Eq, @debug.Debug)
 pub fn CalibrationGrid::bounds(Self) -> @core.Rect2 raise @core.GeometryError
 pub fn CalibrationGrid::coverage(Self, ImageSize, CameraIntrinsics) -> Double raise @core.GeometryError
+pub fn CalibrationGrid::equal(Self, Self) -> Bool
 pub fn CalibrationGrid::length(Self) -> Int
 pub fn CalibrationGrid::new(columns~ : Int, rows~ : Int, spacing~ : Double) -> Self raise @core.GeometryError
+pub fn CalibrationGrid::not_equal(Self, Self) -> Bool
 pub fn CalibrationGrid::points(Self) -> Array[@core.Point3]
+pub fn CalibrationGrid::to_repr(Self) -> @debug.Repr
 pub fn CalibrationGrid::world_point(Self, Int) -> @core.Point3 raise @core.GeometryError
 
 pub(all) struct CalibrationObservation {
@@ -634,8 +643,11 @@ pub(all) struct CalibrationObservation {
   pixel : @core.Point2
   weight : Double
 } derive(Eq, @debug.Debug)
+pub fn CalibrationObservation::equal(Self, Self) -> Bool
 pub fn CalibrationObservation::new(world~ : @core.Point3, pixel~ : @core.Point2, weight? : Double) -> Self
+pub fn CalibrationObservation::not_equal(Self, Self) -> Bool
 pub fn CalibrationObservation::residual(Self, CameraIntrinsics, CameraPose, distortion? : Distortion) -> @core.Vec2 raise @core.GeometryError
+pub fn CalibrationObservation::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CalibrationReport {
   observations : Int
@@ -644,6 +656,9 @@ pub(all) struct CalibrationReport {
   max_error : Double
   valid : Bool
 } derive(Eq, @debug.Debug)
+pub fn CalibrationReport::equal(Self, Self) -> Bool
+pub fn CalibrationReport::not_equal(Self, Self) -> Bool
+pub fn CalibrationReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CalibrationResidual {
   index : Int
@@ -651,6 +666,9 @@ pub(all) struct CalibrationResidual {
   norm : Double
   valid : Bool
 } derive(Eq, @debug.Debug)
+pub fn CalibrationResidual::equal(Self, Self) -> Bool
+pub fn CalibrationResidual::not_equal(Self, Self) -> Bool
+pub fn CalibrationResidual::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CameraIntrinsics {
   fx : Double
@@ -660,12 +678,15 @@ pub(all) struct CameraIntrinsics {
   skew : Double
 } derive(Eq, @debug.Debug)
 pub fn CameraIntrinsics::as_matrix(Self) -> @core.Mat3
+pub fn CameraIntrinsics::equal(Self, Self) -> Bool
 pub fn CameraIntrinsics::focal_mean(Self) -> Double
 pub fn CameraIntrinsics::for_centered_image(focal~ : Double, ImageSize, skew? : Double) -> Self raise @core.GeometryError
 pub fn CameraIntrinsics::new(fx~ : Double, fy~ : Double, cx~ : Double, cy~ : Double, skew? : Double) -> Self
+pub fn CameraIntrinsics::not_equal(Self, Self) -> Bool
 pub fn CameraIntrinsics::pixel_aspect(Self) -> Double raise @core.GeometryError
 pub fn CameraIntrinsics::principal_point(Self) -> @core.Point2
 pub fn CameraIntrinsics::scaled(Self, scale_x~ : Double, scale_y~ : Double) -> Self raise @core.GeometryError
+pub fn CameraIntrinsics::to_repr(Self) -> @debug.Repr
 pub fn CameraIntrinsics::valid(Self) -> Bool
 pub fn CameraIntrinsics::with_principal_point(Self, @core.Point2) -> Self
 
@@ -673,12 +694,15 @@ pub(all) struct CameraPose {
   world_to_camera : @core.Mat34
 } derive(Eq, @debug.Debug)
 pub fn CameraPose::camera_center(Self) -> @core.Point3
+pub fn CameraPose::equal(Self, Self) -> Bool
 pub fn CameraPose::from_rotation_translation(@core.Mat3, @core.Vec3) -> Self
 pub fn CameraPose::identity() -> Self
 pub fn CameraPose::interpolate(Self, Self, Double) -> Self
 pub fn CameraPose::inverse_transform_point(Self, @core.Point3) -> @core.Point3
 pub fn CameraPose::new(world_to_camera~ : @core.Mat34) -> Self
+pub fn CameraPose::not_equal(Self, Self) -> Bool
 pub fn CameraPose::rotation(Self) -> @core.Mat3
+pub fn CameraPose::to_repr(Self) -> @debug.Repr
 pub fn CameraPose::transform_point(Self, @core.Point3) -> @core.Point3
 pub fn CameraPose::translation(Self) -> @core.Vec3
 
@@ -686,10 +710,13 @@ pub(all) struct CameraRig {
   views : Array[CameraView]
 } derive(Eq, @debug.Debug)
 pub fn CameraRig::common_projection(Self, @core.Point3) -> Array[ProjectedObservation] raise @core.GeometryError
+pub fn CameraRig::equal(Self, Self) -> Bool
 pub fn CameraRig::find(Self, Int) -> CameraView?
 pub fn CameraRig::length(Self) -> Int
 pub fn CameraRig::new(ArrayView[CameraView]) -> Self
+pub fn CameraRig::not_equal(Self, Self) -> Bool
 pub fn CameraRig::project(Self, @core.Point3) -> Array[ProjectedObservation] raise @core.GeometryError
+pub fn CameraRig::to_repr(Self) -> @debug.Repr
 pub fn CameraRig::visible_in_all(Self, @core.Point3) -> Bool
 
 pub(all) struct CameraView {
@@ -697,7 +724,10 @@ pub(all) struct CameraView {
   intrinsics : CameraIntrinsics
   pose : CameraPose
 } derive(Eq, @debug.Debug)
+pub fn CameraView::equal(Self, Self) -> Bool
 pub fn CameraView::new(id~ : Int, intrinsics~ : CameraIntrinsics, pose~ : CameraPose) -> Self
+pub fn CameraView::not_equal(Self, Self) -> Bool
+pub fn CameraView::to_repr(Self) -> @debug.Repr
 
 pub(all) struct DepthHistogram {
   bins : Array[Int]
@@ -706,6 +736,9 @@ pub(all) struct DepthHistogram {
   minimum : Double
   maximum : Double
 } derive(Eq, @debug.Debug)
+pub fn DepthHistogram::equal(Self, Self) -> Bool
+pub fn DepthHistogram::not_equal(Self, Self) -> Bool
+pub fn DepthHistogram::to_repr(Self) -> @debug.Repr
 
 pub(all) struct DepthQuality {
   valid_count : Int
@@ -713,6 +746,9 @@ pub(all) struct DepthQuality {
   valid_ratio : Double
   span : Double
 } derive(Eq, @debug.Debug)
+pub fn DepthQuality::equal(Self, Self) -> Bool
+pub fn DepthQuality::not_equal(Self, Self) -> Bool
+pub fn DepthQuality::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Distortion {
   k1 : Double
@@ -722,7 +758,10 @@ pub(all) struct Distortion {
   k3 : Double
 } derive(Eq, @debug.Debug)
 pub fn Distortion::brown_conrady(k1? : Double, k2? : Double, p1? : Double, p2? : Double, k3? : Double) -> Self
+pub fn Distortion::equal(Self, Self) -> Bool
 pub fn Distortion::none() -> Self
+pub fn Distortion::not_equal(Self, Self) -> Bool
+pub fn Distortion::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Frustum {
   left : Double
@@ -733,7 +772,10 @@ pub(all) struct Frustum {
   far : Double
 } derive(Eq, @debug.Debug)
 pub fn Frustum::contains(Self, @core.Point3) -> Bool
+pub fn Frustum::equal(Self, Self) -> Bool
 pub fn Frustum::from_intrinsics(CameraIntrinsics, ImageSize, near~ : Double, far~ : Double) -> Self raise @core.GeometryError
+pub fn Frustum::not_equal(Self, Self) -> Bool
+pub fn Frustum::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ImageLevel {
   scale : Double
@@ -749,13 +791,19 @@ pub(all) struct ImagePyramidLevel {
   intrinsics : CameraIntrinsics
   level : Int
 } derive(Eq, @debug.Debug)
+pub fn ImagePyramidLevel::equal(Self, Self) -> Bool
+pub fn ImagePyramidLevel::not_equal(Self, Self) -> Bool
+pub fn ImagePyramidLevel::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ImageSize {
   width : Int
   height : Int
 } derive(Eq, @debug.Debug)
 pub fn ImageSize::as_rect(Self) -> @core.Rect2 raise @core.GeometryError
+pub fn ImageSize::equal(Self, Self) -> Bool
 pub fn ImageSize::new(width~ : Int, height~ : Int) -> Self raise @core.GeometryError
+pub fn ImageSize::not_equal(Self, Self) -> Bool
+pub fn ImageSize::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ImageSupport {
   total : Int
@@ -764,6 +812,9 @@ pub(all) struct ImageSupport {
   valid_ratio : Double
   margin_min : Double
 } derive(Eq, @debug.Debug)
+pub fn ImageSupport::equal(Self, Self) -> Bool
+pub fn ImageSupport::not_equal(Self, Self) -> Bool
+pub fn ImageSupport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ImageWindowStats {
   count : Int
@@ -773,11 +824,17 @@ pub(all) struct ImageWindowStats {
   variance : Double
   energy : Double
 } derive(Eq, @debug.Debug)
+pub fn ImageWindowStats::equal(Self, Self) -> Bool
+pub fn ImageWindowStats::not_equal(Self, Self) -> Bool
+pub fn ImageWindowStats::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ProjectedObservation {
   view_id : Int
   pixel : @core.Point2
 } derive(Eq, @debug.Debug)
+pub fn ProjectedObservation::equal(Self, Self) -> Bool
+pub fn ProjectedObservation::not_equal(Self, Self) -> Bool
+pub fn ProjectedObservation::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ProjectionJacobian {
   du_dx : Double
@@ -787,6 +844,9 @@ pub(all) struct ProjectionJacobian {
   dv_dy : Double
   dv_dz : Double
 } derive(Eq, @debug.Debug)
+pub fn ProjectionJacobian::equal(Self, Self) -> Bool
+pub fn ProjectionJacobian::not_equal(Self, Self) -> Bool
+pub fn ProjectionJacobian::to_repr(Self) -> @debug.Repr
 
 pub(all) struct RayBundleReport {
   count : Int
@@ -794,14 +854,20 @@ pub(all) struct RayBundleReport {
   min_direction_z : Double
   max_direction_z : Double
 } derive(Eq, @debug.Debug)
+pub fn RayBundleReport::equal(Self, Self) -> Bool
+pub fn RayBundleReport::not_equal(Self, Self) -> Bool
+pub fn RayBundleReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct RollingShutter {
   readout_seconds : Double
   image_height : Int
 } derive(Eq, @debug.Debug)
+pub fn RollingShutter::equal(Self, Self) -> Bool
 pub fn RollingShutter::midpoint_time(Self) -> Double
 pub fn RollingShutter::new(readout_seconds~ : Double, image_height~ : Int) -> Self raise @core.GeometryError
+pub fn RollingShutter::not_equal(Self, Self) -> Bool
 pub fn RollingShutter::row_time(Self, Double) -> Double
+pub fn RollingShutter::to_repr(Self) -> @debug.Repr
 
 pub(all) struct StereoDepthReport {
   total : Int
@@ -811,6 +877,9 @@ pub(all) struct StereoDepthReport {
   minimum : Double
   maximum : Double
 } derive(Eq, @debug.Debug)
+pub fn StereoDepthReport::equal(Self, Self) -> Bool
+pub fn StereoDepthReport::not_equal(Self, Self) -> Bool
+pub fn StereoDepthReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct StereoPair {
   left : CameraIntrinsics
@@ -820,7 +889,10 @@ pub(all) struct StereoPair {
 pub fn StereoPair::depth(Self, Double) -> Double raise @core.GeometryError
 pub fn StereoPair::depth_point(Self, @core.Point2, Double) -> @core.Point3 raise @core.GeometryError
 pub fn StereoPair::disparity(Self, Double) -> Double raise @core.GeometryError
+pub fn StereoPair::equal(Self, Self) -> Bool
 pub fn StereoPair::new(left~ : CameraIntrinsics, right~ : CameraIntrinsics, baseline~ : Double) -> Self raise @core.GeometryError
+pub fn StereoPair::not_equal(Self, Self) -> Bool
+pub fn StereoPair::to_repr(Self) -> @debug.Repr
 pub fn StereoPair::valid_disparity(Self, Double, minimum? : Double) -> Bool
 
 // Type aliases

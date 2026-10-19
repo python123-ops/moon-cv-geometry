@@ -74,6 +74,12 @@ pub(all) struct TrackQuality {
 } derive(Debug, Eq)
 
 ///|
+pub extend TrackQuality with @debug.Debug::{to_repr}
+
+///|
+pub extend TrackQuality with Eq::{equal, not_equal}
+
+///|
 pub fn track_quality(
   observations : ArrayView[TrackObservation],
 ) -> TrackQuality {

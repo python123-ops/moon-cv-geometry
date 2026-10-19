@@ -5,6 +5,12 @@ pub(all) struct MlesacConfig {
 } derive(Debug, Eq)
 
 ///|
+pub extend MlesacConfig with @debug.Debug::{to_repr}
+
+///|
+pub extend MlesacConfig with Eq::{equal, not_equal}
+
+///|
 pub fn MlesacConfig::new(
   inlier_scale~ : Double,
   outlier_scale~ : Double,
@@ -55,6 +61,12 @@ pub(all) struct ThresholdSweepResult {
   inliers : Int
   score : Double
 } derive(Debug, Eq)
+
+///|
+pub extend ThresholdSweepResult with @debug.Debug::{to_repr}
+
+///|
+pub extend ThresholdSweepResult with Eq::{equal, not_equal}
 
 ///|
 pub fn sweep_thresholds(

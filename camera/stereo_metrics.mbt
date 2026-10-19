@@ -10,6 +10,12 @@ pub(all) struct StereoDepthReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend StereoDepthReport with @debug.Debug::{to_repr}
+
+///|
+pub extend StereoDepthReport with Eq::{equal, not_equal}
+
+///|
 pub fn disparity_to_depth(
   disparity : Double,
   baseline : Double,

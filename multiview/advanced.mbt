@@ -7,6 +7,12 @@ pub(all) struct CameraPair {
 } derive(Debug, Eq)
 
 ///|
+pub extend CameraPair with @debug.Debug::{to_repr}
+
+///|
+pub extend CameraPair with Eq::{equal, not_equal}
+
+///|
 pub fn CameraPair::new(
   left~ : @camera.CameraPose,
   right~ : @camera.CameraPose,
@@ -43,6 +49,12 @@ pub(all) struct TrackObservation {
   pixel : @core.Point2
   view_id : Int
 } derive(Debug, Eq)
+
+///|
+pub extend TrackObservation with @debug.Debug::{to_repr}
+
+///|
+pub extend TrackObservation with Eq::{equal, not_equal}
 
 ///|
 pub fn TrackObservation::new(

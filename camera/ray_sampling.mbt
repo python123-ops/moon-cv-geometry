@@ -8,6 +8,12 @@ pub(all) struct RayBundleReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend RayBundleReport with @debug.Debug::{to_repr}
+
+///|
+pub extend RayBundleReport with Eq::{equal, not_equal}
+
+///|
 /// Create a ray through every point of a regular image lattice.
 pub fn image_ray_grid(
   size : ImageSize,

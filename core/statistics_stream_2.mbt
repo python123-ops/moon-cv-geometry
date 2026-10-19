@@ -9,6 +9,12 @@ pub(all) struct StreamingSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend StreamingSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend StreamingSummary with Eq::{equal, not_equal}
+
+///|
 pub fn streaming_summary(values : ArrayView[Double]) -> StreamingSummary {
   let summary = {
     count: 0,

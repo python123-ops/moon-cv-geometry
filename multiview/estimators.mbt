@@ -9,6 +9,12 @@ pub(all) struct Affine2D {
 } derive(Debug, Eq)
 
 ///|
+pub extend Affine2D with @debug.Debug::{to_repr}
+
+///|
+pub extend Affine2D with Eq::{equal, not_equal}
+
+///|
 pub fn Affine2D::identity() -> Affine2D {
   { a00: 1.0, a01: 0.0, a02: 0.0, a10: 0.0, a11: 1.0, a12: 0.0, }
 }

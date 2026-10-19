@@ -10,6 +10,12 @@ pub(all) struct ModelReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend ModelReport with @debug.Debug::{to_repr}
+
+///|
+pub extend ModelReport with Eq::{equal, not_equal}
+
+///|
 pub fn make_model_report(
   iterations~ : Int,
   inliers~ : Int,

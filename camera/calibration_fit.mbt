@@ -8,6 +8,12 @@ pub(all) struct CalibrationReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend CalibrationReport with @debug.Debug::{to_repr}
+
+///|
+pub extend CalibrationReport with Eq::{equal, not_equal}
+
+///|
 pub fn calibration_report(
   observations : ArrayView[CalibrationObservation],
   intrinsics : CameraIntrinsics,

@@ -10,6 +10,12 @@ pub(all) struct ImageWindowStats {
 } derive(Debug, Eq)
 
 ///|
+pub extend ImageWindowStats with @debug.Debug::{to_repr}
+
+///|
+pub extend ImageWindowStats with Eq::{equal, not_equal}
+
+///|
 pub fn image_window_index(width : Int, x : Int, y : Int) -> Int {
   y * width + x
 }

@@ -10,6 +10,12 @@ pub(all) struct TrackWindowSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend TrackWindowSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend TrackWindowSummary with Eq::{equal, not_equal}
+
+///|
 pub fn track_window_summary(
   observations : ArrayView[TrackObservation],
 ) -> TrackWindowSummary {

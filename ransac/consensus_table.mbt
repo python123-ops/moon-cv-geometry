@@ -7,6 +7,12 @@ pub(all) struct ConsensusRecord {
 } derive(Debug, Eq)
 
 ///|
+pub extend ConsensusRecord with @debug.Debug::{to_repr}
+
+///|
+pub extend ConsensusRecord with Eq::{equal, not_equal}
+
+///|
 pub(all) struct ConsensusTable {
   threshold : Double
   records : Array[ConsensusRecord]

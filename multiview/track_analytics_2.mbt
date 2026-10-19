@@ -10,6 +10,12 @@ pub(all) struct TrackAnalytics {
 } derive(Debug, Eq)
 
 ///|
+pub extend TrackAnalytics with @debug.Debug::{to_repr}
+
+///|
+pub extend TrackAnalytics with Eq::{equal, not_equal}
+
+///|
 pub fn track_analytics(
   observations : ArrayView[TrackObservation],
 ) -> TrackAnalytics {

@@ -10,6 +10,12 @@ pub(all) struct ConsensusCandidate2 {
 } derive(Debug, Eq)
 
 ///|
+pub extend ConsensusCandidate2 with @debug.Debug::{to_repr}
+
+///|
+pub extend ConsensusCandidate2 with Eq::{equal, not_equal}
+
+///|
 pub fn consensus_candidate(
   residuals : ArrayView[Double],
   threshold : Double,

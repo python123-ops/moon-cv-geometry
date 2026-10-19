@@ -4,6 +4,12 @@ pub(all) struct TransformChain {
 } derive(Debug, Eq)
 
 ///|
+pub extend TransformChain with @debug.Debug::{to_repr}
+
+///|
+pub extend TransformChain with Eq::{equal, not_equal}
+
+///|
 pub fn TransformChain::new(
   transforms : ArrayView[RigidTransform],
 ) -> TransformChain {

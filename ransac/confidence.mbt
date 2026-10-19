@@ -3,16 +3,12 @@ pub fn confidence_from_success(
   iterations~ : Int,
   success_probability~ : Double,
 ) -> Double raise @core.GeometryError {
-  if iterations < 0 || success_probability < 0.0 || success_probability > 1.0 {
+  if iterations < 0 || !finite_probability(success_probability) {
     raise @core.GeometryError::DegenerateInput(
       "confidence parameters are invalid",
     )
   }
-  let mut failure = 1.0
-  for _ in 0..<iterations {
-    failure *= 1.0 - success_probability
-  }
-  1.0 - failure
+  success_after(success_probability, iterations)
 }
 
 ///|
@@ -20,21 +16,16 @@ pub fn required_iterations(
   success_probability~ : Double,
   confidence? : Double = 0.99,
 ) -> Int raise @core.GeometryError {
-  if success_probability <= 0.0 ||
-    success_probability > 1.0 ||
+  if !finite_probability(success_probability) ||
+    success_probability <= 0.0 ||
+    !finite_probability(confidence) ||
     confidence <= 0.0 ||
     confidence >= 1.0 {
     raise @core.GeometryError::DegenerateInput(
       "iteration probability parameters are invalid",
     )
   }
-  let mut failure = 1.0 - success_probability
-  let mut result = 1
-  while result < 1000000 && failure > 1.0 - confidence {
-    failure *= 1.0 - success_probability
-    result += 1
-  }
-  result
+  bounded_iterations(success_probability, confidence, 1000000)
 }
 
 ///|

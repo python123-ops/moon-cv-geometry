@@ -7,6 +7,12 @@ pub(all) struct RansacConfig {
 } derive(Debug, Eq)
 
 ///|
+pub extend RansacConfig with @debug.Debug::{to_repr}
+
+///|
+pub extend RansacConfig with Eq::{equal, not_equal}
+
+///|
 pub fn RansacConfig::new(
   iterations? : Int = 128,
   threshold? : Double = 2.0,
@@ -22,12 +28,41 @@ pub(all) struct InlierMask {
 } derive(Debug, Eq)
 
 ///|
+pub extend InlierMask with @debug.Debug::{to_repr}
+
+///|
+pub extend InlierMask with Eq::{equal, not_equal}
+
+///|
 pub(all) struct RansacResult[T] {
   model : T
   inliers : InlierMask
   inlier_count : Int
   score : Double
 } derive(Debug, Eq)
+
+///|
+pub fn[T : Eq] RansacResult::equal(
+  self : RansacResult[T],
+  other : RansacResult[T],
+) -> Bool {
+  Eq::equal(self, other)
+}
+
+///|
+pub fn[T : Eq] RansacResult::not_equal(
+  self : RansacResult[T],
+  other : RansacResult[T],
+) -> Bool {
+  !Eq::equal(self, other)
+}
+
+///|
+pub fn[T : @debug.Debug] RansacResult::to_repr(
+  self : RansacResult[T],
+) -> @debug.Repr {
+  @debug.Debug::to_repr(self)
+}
 
 ///|
 pub fn InlierMask::length(mask : InlierMask) -> Int {
@@ -67,15 +102,22 @@ fn pick_index(state : UInt, len : Int) -> Int {
 
 ///|
 fn sample_four(len : Int, seed : UInt, iter : Int) -> (Int, Int, Int, Int) {
-  let s0 = lcg_next(seed + iter.reinterpret_as_uint() * 747796405U)
-  let i0 = pick_index(s0, len)
-  let s1 = lcg_next(s0)
-  let i1 = (pick_index(s1, len - 1) + i0 + 1) % len
-  let s2 = lcg_next(s1)
-  let i2 = (pick_index(s2, len - 2) + i1 + 1) % len
-  let s3 = lcg_next(s2)
-  let i3 = (pick_index(s3, len - 3) + i2 + 1) % len
-  (i0, i1, i2, i3)
+  let selected : Array[Int] = []
+  let mut state = seed + iter.reinterpret_as_uint() * 747796405U
+  for _ in 0..<4 {
+    state = lcg_next(state)
+    // Choose a rank among the unselected indices, then map back to the population.
+    let mut index = pick_index(state, len - selected.length())
+    let ordered = selected.copy()
+    ordered.sort()
+    for used in ordered {
+      if index >= used {
+        index += 1
+      }
+    }
+    selected.push(index)
+  }
+  (selected[0], selected[1], selected[2], selected[3])
 }
 
 ///|
@@ -115,59 +157,62 @@ pub fn estimate_homography_ransac(
       "homography RANSAC needs at least four paired points",
     )
   }
-  let fallback = @multiview.estimate_homography_from_four(src, dst)
-  let empty_mask = InlierMask::{ values: [], }
-  let initial = RansacResult::{
-    model: fallback,
-    inliers: empty_mask,
-    inlier_count: -1,
-    score: 1.0e100,
+  let config = config.validated(data_size=src.length())
+  if !@core.points2_are_finite(src) || !@core.points2_are_finite(dst) {
+    raise @core.GeometryError::DegenerateInput(
+      "RANSAC coordinates must be finite",
+    )
   }
-  for best = initial, iter = 0; iter < config.iterations; {
+  let mut best : RansacResult[@multiview.Homography]? = None
+  for iter in 0..<config.iterations {
     let indices = sample_four(src.length(), config.seed, iter)
-    let candidate_src = make_four(src, indices)
-    let candidate_dst = make_four(dst, indices)
-    let candidate = try
-      @multiview.estimate_homography_from_four(candidate_src, candidate_dst)
+    try
+      @multiview.estimate_homography_from_four(
+        make_four(src, indices),
+        make_four(dst, indices),
+      )
     catch {
-      _ => best
+      _ => ()
     } noraise {
-      h => {
+      model => {
         let mask : Array[Bool] = []
         let mut count = 0
         let mut score = 0.0
         for i in 0..<src.length() {
-          let err = @multiview.homography_reprojection_error(h, src[i], dst[i]) catch {
-            _ => 1.0e100
+          let error = try
+            @multiview.homography_reprojection_error(model, src[i], dst[i])
+          catch {
+            _ => None
+          } noraise {
+            value => Some(value)
           }
-          let ok = err <= config.threshold
+          let ok = match error {
+            Some(value) =>
+              !value.is_nan() && !value.is_inf() && value <= config.threshold
+            None => false
+          }
           mask.push(ok)
           if ok {
             count += 1
-            score += err
+            score += error.unwrap()
           }
         }
-        if count > best.inlier_count ||
-          (count == best.inlier_count && score < best.score) {
-          RansacResult::{
-            model: h,
-            inliers: InlierMask::{ values: mask, },
-            inlier_count: count,
-            score,
-          }
-        } else {
-          best
+        let candidate = RansacResult::{
+          model,
+          inliers: InlierMask::{ values: mask, },
+          inlier_count: count,
+          score,
         }
+        best = Some(prefer_candidate(candidate, best))
       }
     }
-    continue candidate, iter + 1
-  } nobreak {
-    if best.inlier_count < config.min_inliers {
+  }
+  match best {
+    Some(result) if result.inlier_count >= config.min_inliers => result
+    _ =>
       raise @core.GeometryError::DegenerateInput(
         "RANSAC could not find enough homography inliers",
       )
-    }
-    best
   }
 }
 
@@ -182,41 +227,55 @@ pub fn estimate_fundamental_ransac(
       "fundamental RANSAC needs paired points",
     )
   }
+  let config = config.validated(data_size=left.length())
+  if !@core.points2_are_finite(left) || !@core.points2_are_finite(right) {
+    raise @core.GeometryError::DegenerateInput(
+      "RANSAC coordinates must be finite",
+    )
+  }
   if left.length() < 8 {
     let model = @multiview.estimate_fundamental_from_translation(
       @core.Vec3::new(x=1.0, y=0.0, z=0.0),
     )
     score_fundamental(model, left, right, config)
   } else {
-    let fallback = @multiview.estimate_fundamental(left, right)
-    let initial = RansacResult::{
-      model: fallback,
-      inliers: InlierMask::{ values: [], },
-      inlier_count: -1,
-      score: 1.0e100,
-    }
-    for best = initial, iter = 0; iter < config.iterations; {
+    let mut best : RansacResult[@multiview.FundamentalMatrix]? = None
+    for iter in 0..<config.iterations {
       let start = pick_index(
         lcg_next(config.seed + iter.reinterpret_as_uint() * 747796405U),
         left.length(),
       )
-      let candidate_left = make_eight(left, start)
-      let candidate_right = make_eight(right, start)
-      let candidate = try
-        @multiview.estimate_fundamental(candidate_left, candidate_right)
+      try
+        @multiview.estimate_fundamental(
+          make_eight(left, start),
+          make_eight(right, start),
+        )
       catch {
-        _ => best
+        _ => ()
       } noraise {
-        f => score_fundamental_candidate(f, left, right, config, best)
+        model => {
+          let initial = RansacResult::{
+            model,
+            inliers: InlierMask::{ values: [], },
+            inlier_count: -1,
+            score: 1.0e100,
+          }
+          let previous = match best {
+            Some(result) => result
+            None => initial
+          }
+          best = Some(
+            score_fundamental_candidate(model, left, right, config, previous),
+          )
+        }
       }
-      continue candidate, iter + 1
-    } nobreak {
-      if best.inlier_count < config.min_inliers {
+    }
+    match best {
+      Some(result) if result.inlier_count >= config.min_inliers => result
+      _ =>
         raise @core.GeometryError::DegenerateInput(
           "RANSAC could not find enough fundamental inliers",
         )
-      }
-      best
     }
   }
 }
@@ -234,15 +293,19 @@ fn score_fundamental_candidate(
   let mut score = 0.0
   for i in 0..<left.length() {
     let error = try @multiview.sampson_error(model, left[i], right[i]) catch {
-      _ => 1.0e100
+      _ => None
     } noraise {
-      value => value.sqrt()
+      value => Some(value.sqrt())
     }
-    let ok = error <= config.threshold
+    let ok = match error {
+      Some(value) =>
+        !value.is_nan() && !value.is_inf() && value <= config.threshold
+      None => false
+    }
     mask.push(ok)
     if ok {
       count += 1
-      score += error
+      score += error.unwrap()
     }
   }
   if count > best.inlier_count ||
@@ -278,4 +341,19 @@ fn score_fundamental(
     )
   }
   result
+}
+
+///|
+fn[T] prefer_candidate(
+  candidate : RansacResult[T],
+  best : RansacResult[T]?,
+) -> RansacResult[T] {
+  match best {
+    Some(previous) if previous.inlier_count > candidate.inlier_count ||
+      (
+        previous.inlier_count == candidate.inlier_count &&
+        previous.score <= candidate.score
+      ) => previous
+    _ => candidate
+  }
 }

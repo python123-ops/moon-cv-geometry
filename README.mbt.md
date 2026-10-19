@@ -34,6 +34,23 @@ test "project a 3D camera point" {
 - `multiview`: normalized DLT, affine estimation, epipolar/Sampson diagnostics, triangulation, cheirality, point matching, track residuals, reconstruction reports, and pose-quality constraints.
 - `ransac`: deterministic RANSAC configuration and estimators for homography and eight-point fundamental matrices, with a small-data compatibility path for the stereo translation baseline.
 
+## 0.2.4 source maintenance update
+
+- Migrates implicit test imports and Debug/Eq method promotion to explicit syntax;
+  strict diagnostics no longer suppress warnings 25 or 79. Existing public
+  signatures, fields, and enum variants remain available.
+- Rejects NaN and infinity in finite-coordinate helpers and checked projection
+  boundaries, including homogeneous-division overflow and invalid camera intrinsics.
+- Computes RANSAC confidence stably for tiny probabilities and large iteration
+  budgets, fixes an adaptive-count off-by-one, and avoids Int overflow in checkpoints.
+- Keeps four-point samples distinct and skips degenerate models during RANSAC
+  search; invalid configuration is rejected before estimating models.
+- Checks all five examples numerically on wasm-gc and native, alongside tests
+  on wasm, wasm-gc, JavaScript, and native.
+
+This is a local source update; no new Mooncakes publication or hosting synchronization
+is performed by this maintenance pass.
+
 ## Examples
 
 ```bash
@@ -59,6 +76,8 @@ source rectangle → homography → target box → AP50. A projective horizon cr
 the rectangle is rejected by that adapter; bounding four corners is only valid
 for a bounded mapped region. This geometry module has no MoonDetEval runtime
 dependency, so the two packages remain separately reusable.
+The local detection-bounds example also rejects rectangles whose homogeneous
+denominator crosses zero between corners, even when every corner maps to a finite point.
 
 ## Ecosystem Position
 
@@ -81,7 +100,7 @@ keeps a single real account as its contributor identity. GitHub history is under
 `python123-ops`; GitLink history is under `python123`.
 
 The package is maintained under the `python123-ops` namespace. The repository
-metadata targets the next compatible release, `python123-ops/moon-cv-geometry@0.2.3`,
+metadata targets the next compatible release, `python123-ops/moon-cv-geometry@0.2.4`,
 and keeps source, examples, and release metadata together.
 
 ## Roadmap
@@ -93,8 +112,8 @@ and keeps source, examples, and release metadata together.
 
 ```bash
 moon fmt --check
-moon check --target all --deny-warn --warn-list '-25-79'
-moon test --target all --deny-warn --warn-list '-25-79'
+moon check --target all --deny-warn
+moon test --target all --deny-warn
 moon info
 moon package
 ```
@@ -105,9 +124,11 @@ The suite is executed on wasm, wasm-gc, js, and native targets. Reproducible
 timings and numerical thresholds are recorded in
 [docs/benchmark.md](docs/benchmark.md).
 
-The current MoonBit CLI exposes warning denial on `moon check` and `moon test`.
-The warning list temporarily excludes 25 (implicit test-package imports) and
-79 (derived trait method promotion) in this older codebase; all other warnings
-remain fatal. Those two warnings require a separate repository-wide migration.
-For formatting and interface generation, CI uses `moon fmt --check` and
-`moon info` followed by a generated-interface diff check.
+For complete verification, use `python scripts/verify.py --report _build/verification.json`
+with Python 3.8+, Moonc 0.10.14 or newer, a native C compiler, and Node.js for the JS target.
+No extra Python packages or MoonBit dependencies are required.
+CI retains its Linux, macOS, and Windows matrix. Local maintenance validation
+uses Windows/MSVC and Ubuntu 24.04 WSL/GCC with moon 0.1.20260920 / moonc v0.10.14.
+The benchmark document contains historical timing records; this update does not
+claim a new benchmark run. Strict checks and tests use no warning exclusions;
+interface regeneration and reviewed generated-interface diffs remain quality gates.

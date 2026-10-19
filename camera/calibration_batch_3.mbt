@@ -10,6 +10,12 @@ pub(all) struct CalibrationBatchSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend CalibrationBatchSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend CalibrationBatchSummary with Eq::{equal, not_equal}
+
+///|
 pub fn calibration_error_stats(
   errors : ArrayView[Double],
 ) -> CalibrationBatchSummary {

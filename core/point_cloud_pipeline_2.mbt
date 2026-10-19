@@ -15,6 +15,12 @@ pub(all) struct PointCloudPipelineSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend PointCloudPipelineSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend PointCloudPipelineSummary with Eq::{equal, not_equal}
+
+///|
 fn point3_zero() -> Point3 {
   Point3::new(x=0.0, y=0.0, z=0.0)
 }

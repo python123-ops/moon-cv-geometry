@@ -8,6 +8,12 @@ pub(all) struct DepthQuality {
 } derive(Debug, Eq)
 
 ///|
+pub extend DepthQuality with @debug.Debug::{to_repr}
+
+///|
+pub extend DepthQuality with Eq::{equal, not_equal}
+
+///|
 pub fn depth_quality(
   depths : ArrayView[Double],
   minimum~ : Double,

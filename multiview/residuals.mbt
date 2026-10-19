@@ -5,6 +5,12 @@ pub(all) struct PointTrack {
 } derive(Debug, Eq)
 
 ///|
+pub extend PointTrack with @debug.Debug::{to_repr}
+
+///|
+pub extend PointTrack with Eq::{equal, not_equal}
+
+///|
 pub fn PointTrack::new(
   world~ : @core.Point3,
   observations~ : Array[@camera.CalibrationObservation],

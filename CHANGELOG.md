@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.2.4 (unreleased) - 2026-10-19
+
+- Migrated implicit test-package references and Debug/Eq method promotion;
+  all four backends now use strict warning gates without exclusions.
+- Preserved existing public APIs and explicitly retained previously promoted
+  equality/debug methods in generated interfaces. No new runtime dependencies.
+- Fixed finite-coordinate predicates and filters to reject infinity, and checked
+  projection/homogeneous mapping to reject non-finite input and division overflow.
+- Validated physical FOV ranges and camera intrinsics at checked entry points.
+- Replaced iteration-length probability loops with stable log1p/expm1 arithmetic
+  and bounded bisection, fixed adaptive-count off-by-one, and used Int64 checkpoint arithmetic.
+- Made four-point RANSAC samples unique, validated estimator configuration, and
+  removed eager fallback solves so degenerate prefixes do not abort robust search.
+- Rejected projective-horizon crossings in the detection-bounds example.
+- Added focused numerical regressions and one cross-platform verification script
+  covering four backends, ten numerical example runs, interface drift, and packaging.
+- Updated CI/toolchain documentation. This source update does not publish packages,
+  rewrite competition provenance, or synchronize remote hosting.
+
 ## 0.2.3 (unreleased) - 2026-10-02
 
 - Added a runnable detection-box transfer example showing how a homography can

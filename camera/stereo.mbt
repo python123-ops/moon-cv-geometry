@@ -6,6 +6,12 @@ pub(all) struct StereoPair {
 } derive(Debug, Eq)
 
 ///|
+pub extend StereoPair with @debug.Debug::{to_repr}
+
+///|
+pub extend StereoPair with Eq::{equal, not_equal}
+
+///|
 pub fn StereoPair::new(
   left~ : CameraIntrinsics,
   right~ : CameraIntrinsics,

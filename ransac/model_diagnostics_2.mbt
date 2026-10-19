@@ -12,6 +12,12 @@ pub(all) struct DiagnosticReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend DiagnosticReport with @debug.Debug::{to_repr}
+
+///|
+pub extend DiagnosticReport with Eq::{equal, not_equal}
+
+///|
 pub fn make_diagnostic_report(
   residuals : ArrayView[Double],
   threshold~ : Double,

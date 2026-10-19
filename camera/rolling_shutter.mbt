@@ -5,6 +5,12 @@ pub(all) struct RollingShutter {
 } derive(Debug, Eq)
 
 ///|
+pub extend RollingShutter with @debug.Debug::{to_repr}
+
+///|
+pub extend RollingShutter with Eq::{equal, not_equal}
+
+///|
 pub fn RollingShutter::new(
   readout_seconds~ : Double,
   image_height~ : Int,

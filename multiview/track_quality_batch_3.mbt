@@ -10,6 +10,12 @@ pub(all) struct TrackQualityBatchSummary {
 } derive(Debug, Eq)
 
 ///|
+pub extend TrackQualityBatchSummary with @debug.Debug::{to_repr}
+
+///|
+pub extend TrackQualityBatchSummary with Eq::{equal, not_equal}
+
+///|
 pub fn track_quality_batch_ids(
   observations : ArrayView[TrackObservation],
 ) -> Array[Int] {

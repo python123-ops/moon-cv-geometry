@@ -133,7 +133,7 @@ pub fn cumulative_sum(values : ArrayView[Double]) -> Array[Double] {
 pub fn finite_scalars(values : ArrayView[Double]) -> Array[Double] {
   let result : Array[Double] = []
   for value in values {
-    if value == value {
+    if !value.is_nan() && !value.is_inf() {
       result.push(value)
     }
   }

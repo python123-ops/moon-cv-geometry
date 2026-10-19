@@ -6,6 +6,12 @@ pub(all) struct Quadratic {
 } derive(Debug, Eq)
 
 ///|
+pub extend Quadratic with @debug.Debug::{to_repr}
+
+///|
+pub extend Quadratic with Eq::{equal, not_equal}
+
+///|
 pub fn Quadratic::new(a~ : Double, b~ : Double, c~ : Double) -> Quadratic {
   { a, b, c, }
 }

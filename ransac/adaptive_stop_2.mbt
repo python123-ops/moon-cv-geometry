@@ -9,6 +9,12 @@ pub(all) struct AdaptiveStopState {
 } derive(Debug, Eq)
 
 ///|
+pub extend AdaptiveStopState with @debug.Debug::{to_repr}
+
+///|
+pub extend AdaptiveStopState with Eq::{equal, not_equal}
+
+///|
 pub fn AdaptiveStopState::new(
   minimum_iterations~ : Int,
   target_ratio~ : Double,
@@ -85,15 +91,7 @@ pub fn adaptive_confidence(
   sample_size : Int,
   iterations : Int,
 ) -> Double {
-  let mut success = 1.0
-  let mut one_sample = 1.0
-  for _ in 0..<sample_size.max(0) {
-    one_sample *= ratio.max(0.0).min(1.0)
-  }
-  for _ in 0..<iterations.max(0) {
-    success *= 1.0 - one_sample
-  }
-  (1.0 - success).max(0.0).min(1.0)
+  success_after(sample_success(ratio, sample_size), iterations.max(0))
 }
 
 ///|
@@ -103,13 +101,11 @@ pub fn adaptive_required_iterations(
   target_confidence : Double,
   maximum : Int,
 ) -> Int {
-  let target = target_confidence.max(0.0).min(1.0)
-  let mut iterations = 0
-  while iterations < maximum.max(1) &&
-        adaptive_confidence(ratio, sample_size, iterations) < target {
-    iterations += 1
-  }
-  iterations.max(1).min(maximum.max(1))
+  bounded_iterations(
+    sample_success(ratio, sample_size),
+    target_confidence,
+    maximum,
+  )
 }
 
 ///|

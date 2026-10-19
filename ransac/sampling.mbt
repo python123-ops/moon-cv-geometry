@@ -12,16 +12,12 @@ pub fn sample_probability(
   inlier_ratio~ : Double,
   sample_size~ : Int,
 ) -> Double raise @core.GeometryError {
-  if inlier_ratio < 0.0 || inlier_ratio > 1.0 || sample_size <= 0 {
+  if !finite_probability(inlier_ratio) || sample_size <= 0 {
     raise @core.GeometryError::DegenerateInput(
       "invalid sample probability parameters",
     )
   }
-  let mut result = 1.0
-  for _ in 0..<sample_size {
-    result *= inlier_ratio
-  }
-  result
+  sample_success(inlier_ratio, sample_size)
 }
 
 ///|
@@ -35,12 +31,7 @@ pub fn expected_successes(
       "iterations must be non-negative",
     )
   }
-  let probability = sample_probability(inlier_ratio~, sample_size~)
-  let mut failure = 1.0
-  for _ in 0..<iterations {
-    failure *= 1.0 - probability
-  }
-  1.0 - failure
+  success_after(sample_probability(inlier_ratio~, sample_size~), iterations)
 }
 
 ///|

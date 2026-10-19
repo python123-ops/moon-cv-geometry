@@ -6,6 +6,12 @@ pub(all) struct CalibrationObservation {
 } derive(Debug, Eq)
 
 ///|
+pub extend CalibrationObservation with @debug.Debug::{to_repr}
+
+///|
+pub extend CalibrationObservation with Eq::{equal, not_equal}
+
+///|
 pub fn CalibrationObservation::new(
   world~ : @core.Point3,
   pixel~ : @core.Point2,
@@ -61,6 +67,12 @@ pub(all) struct ProjectionJacobian {
   dv_dy : Double
   dv_dz : Double
 } derive(Debug, Eq)
+
+///|
+pub extend ProjectionJacobian with @debug.Debug::{to_repr}
+
+///|
+pub extend ProjectionJacobian with Eq::{equal, not_equal}
 
 ///|
 pub fn projection_jacobian(
@@ -135,6 +147,12 @@ pub(all) struct ImagePyramidLevel {
 } derive(Debug, Eq)
 
 ///|
+pub extend ImagePyramidLevel with @debug.Debug::{to_repr}
+
+///|
+pub extend ImagePyramidLevel with Eq::{equal, not_equal}
+
+///|
 pub fn image_pyramid(
   size : ImageSize,
   intrinsics : CameraIntrinsics,
@@ -178,6 +196,12 @@ pub(all) struct Frustum {
   near : Double
   far : Double
 } derive(Debug, Eq)
+
+///|
+pub extend Frustum with @debug.Debug::{to_repr}
+
+///|
+pub extend Frustum with Eq::{equal, not_equal}
 
 ///|
 pub fn Frustum::from_intrinsics(

@@ -118,12 +118,17 @@ pub fn bounding_radius(points : ArrayView[Point3], center : Point3) -> Double {
 
 ///|
 pub fn finite_point2(p : Point2) -> Bool {
-  p.x == p.x && p.y == p.y
+  !p.x.is_nan() && !p.x.is_inf() && !p.y.is_nan() && !p.y.is_inf()
 }
 
 ///|
 pub fn finite_point3(p : Point3) -> Bool {
-  p.x == p.x && p.y == p.y && p.z == p.z
+  !p.x.is_nan() &&
+  !p.x.is_inf() &&
+  !p.y.is_nan() &&
+  !p.y.is_inf() &&
+  !p.z.is_nan() &&
+  !p.z.is_inf()
 }
 
 ///|

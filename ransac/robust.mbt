@@ -11,7 +11,9 @@ pub fn RansacConfig::validated(
       "RANSAC iterations must be positive",
     )
   }
-  if config.threshold <= 0.0 {
+  if config.threshold.is_nan() ||
+    config.threshold.is_inf() ||
+    config.threshold <= 0.0 {
     raise @core.GeometryError::DegenerateInput(
       "RANSAC threshold must be positive",
     )
@@ -65,31 +67,21 @@ pub fn adaptive_iteration_bound(
   sample_size~ : Int,
   confidence? : Double = 0.99,
 ) -> Int raise @core.GeometryError {
-  if inlier_ratio <= 0.0 ||
-    inlier_ratio > 1.0 ||
+  if !finite_probability(inlier_ratio) ||
+    inlier_ratio <= 0.0 ||
     sample_size <= 0 ||
+    !finite_probability(confidence) ||
     confidence <= 0.0 ||
     confidence >= 1.0 {
     raise @core.GeometryError::DegenerateInput(
       "invalid adaptive RANSAC parameters",
     )
   }
-  let mut success = 1.0
-  for _ in 0..<sample_size {
-    success *= inlier_ratio
-  }
-  let failure = 1.0 - success
-  if failure <= 0.000000000001 {
-    1
-  } else {
-    let mut probability = 1.0
-    let mut answer = 1
-    while answer < 1000000 && probability > 1.0 - confidence {
-      probability *= failure
-      answer += 1
-    }
-    answer
-  }
+  bounded_iterations(
+    sample_success(inlier_ratio, sample_size),
+    confidence,
+    1000000,
+  )
 }
 
 ///|

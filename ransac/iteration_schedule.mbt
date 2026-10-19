@@ -5,24 +5,12 @@ pub fn schedule_required_iterations(
   inlier_ratio : Double,
   confidence : Double,
 ) -> Int {
-  if sample_size <= 0 || inlier_ratio >= 1.0 {
-    return 1
-  }
-  if inlier_ratio <= 0.0 {
-    return 2147483647
-  }
-  let mut probability = 1.0
-  for _ in 0..<sample_size {
-    probability *= inlier_ratio
-  }
-  let target = confidence.max(0.0).min(0.999999999)
-  let mut failure = 1.0
-  let mut iterations = 0
-  while iterations < 2147483647 && 1.0 - failure < target {
-    failure *= 1.0 - probability
-    iterations += 1
-  }
-  iterations.max(1)
+  let target = bounded_probability(confidence).min(0.999999999)
+  bounded_iterations(
+    sample_success(inlier_ratio, sample_size),
+    target,
+    2147483647,
+  )
 }
 
 ///|
@@ -38,7 +26,7 @@ pub fn IterationSchedule::new(
 ) -> IterationSchedule {
   {
     max_iterations: max_iterations.max(1),
-    confidence: confidence.max(0.0).min(0.999999999),
+    confidence: bounded_probability(confidence).min(0.999999999),
   }
 }
 
@@ -62,25 +50,23 @@ pub(all) struct ScheduleProgress {
 } derive(Debug, Eq)
 
 ///|
+pub extend ScheduleProgress with @debug.Debug::{to_repr}
+
+///|
+pub extend ScheduleProgress with Eq::{equal, not_equal}
+
+///|
 pub fn IterationSchedule::progress(
   schedule : IterationSchedule,
   iteration~ : Int,
   observed_inlier_ratio~ : Double,
   sample_size~ : Int,
 ) -> ScheduleProgress {
-  let ratio = observed_inlier_ratio.max(0.0).min(1.0)
+  let ratio = bounded_probability(observed_inlier_ratio)
   let limit = schedule.limit_for(ratio, sample_size)
   let used = iteration.max(0).min(schedule.max_iterations)
   let remain = (limit - used).max(0)
-  let mut one_sample = 1.0
-  for _ in 0..<sample_size {
-    one_sample *= ratio
-  }
-  let mut failure = 1.0
-  for _ in 0..<used {
-    failure *= 1.0 - one_sample
-  }
-  let success = 1.0 - failure
+  let success = success_after(sample_success(ratio, sample_size), used)
   {
     iteration: used,
     iterations_remaining: remain,
@@ -99,8 +85,11 @@ pub fn schedule_checkpoints(
   if count <= 0 {
     return result
   }
-  for i in 1..<(count + 1) {
-    result.push((schedule.max_iterations * i / count).max(1))
+  for index in 0..<count {
+    let checkpoint = schedule.max_iterations.to_int64() *
+      (index + 1).to_int64() /
+      count.to_int64()
+    result.push(checkpoint.to_int().max(1))
   }
   result
 }

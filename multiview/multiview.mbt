@@ -4,6 +4,12 @@ pub(all) struct Homography {
 } derive(Debug, Eq)
 
 ///|
+pub extend Homography with @debug.Debug::{to_repr}
+
+///|
+pub extend Homography with Eq::{equal, not_equal}
+
+///|
 pub fn Homography::new(matrix~ : @core.Mat3) -> Homography {
   { matrix, }
 }
@@ -12,6 +18,12 @@ pub fn Homography::new(matrix~ : @core.Mat3) -> Homography {
 pub(all) struct FundamentalMatrix {
   matrix : @core.Mat3
 } derive(Debug, Eq)
+
+///|
+pub extend FundamentalMatrix with @debug.Debug::{to_repr}
+
+///|
+pub extend FundamentalMatrix with Eq::{equal, not_equal}
 
 ///|
 pub fn FundamentalMatrix::new(matrix~ : @core.Mat3) -> FundamentalMatrix {
@@ -24,10 +36,22 @@ pub(all) struct EssentialMatrix {
 } derive(Debug, Eq)
 
 ///|
+pub extend EssentialMatrix with @debug.Debug::{to_repr}
+
+///|
+pub extend EssentialMatrix with Eq::{equal, not_equal}
+
+///|
 pub(all) struct TriangulatedPoint {
   point : @core.Point3
   separation : Double
 } derive(Debug, Eq)
+
+///|
+pub extend TriangulatedPoint with @debug.Debug::{to_repr}
+
+///|
+pub extend TriangulatedPoint with Eq::{equal, not_equal}
 
 ///|
 pub fn EssentialMatrix::new(matrix~ : @core.Mat3) -> EssentialMatrix {
@@ -40,12 +64,16 @@ pub fn Homography::apply(
   p : @core.Point2,
 ) -> @core.Point2 raise @core.GeometryError {
   let q = h.matrix.mul_vec3(@core.Vec3::new(x=p.x, y=p.y, z=1.0))
-  if @core.abs(q.z) <= 0.000000000001 {
+  if !@core.finite_vec3(q) || @core.abs(q.z) <= 0.000000000001 {
     raise @core.GeometryError::DegenerateInput(
       "homography maps point to infinity",
     )
   }
-  @core.Point2::new(x=q.x / q.z, y=q.y / q.z)
+  let point = @core.Point2::new(x=q.x / q.z, y=q.y / q.z)
+  if !@core.finite_point2(point) {
+    raise @core.GeometryError::DegenerateInput("homography division overflows")
+  }
+  point
 }
 
 ///|

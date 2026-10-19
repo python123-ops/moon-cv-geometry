@@ -6,6 +6,12 @@ pub(all) struct PointMatch {
 } derive(Debug, Eq)
 
 ///|
+pub extend PointMatch with @debug.Debug::{to_repr}
+
+///|
+pub extend PointMatch with Eq::{equal, not_equal}
+
+///|
 pub fn nearest_point(
   point : @core.Point2,
   candidates : ArrayView[@core.Point2],

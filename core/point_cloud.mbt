@@ -4,6 +4,12 @@ pub(all) struct PointCloud {
 } derive(Debug, Eq)
 
 ///|
+pub extend PointCloud with @debug.Debug::{to_repr}
+
+///|
+pub extend PointCloud with Eq::{equal, not_equal}
+
+///|
 pub fn PointCloud::from_points(points : ArrayView[Point3]) -> PointCloud {
   { points: points.to_owned(), }
 }

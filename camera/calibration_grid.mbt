@@ -6,6 +6,12 @@ pub(all) struct CalibrationGrid {
 } derive(Debug, Eq)
 
 ///|
+pub extend CalibrationGrid with @debug.Debug::{to_repr}
+
+///|
+pub extend CalibrationGrid with Eq::{equal, not_equal}
+
+///|
 pub fn CalibrationGrid::new(
   columns~ : Int,
   rows~ : Int,

@@ -19,6 +19,13 @@ fixed-size numeric tools needed by the public camera and multi-view APIs.
 - Homogeneous 2D points are represented as `Vec3(x, y, w)`.
 - `point2_from_homogeneous` rejects values with very small `w` to avoid silent
   division by an unstable scale.
+- Finite-coordinate predicates and filters reject both NaN and infinity. Checked
+  homogeneous conversion, camera projection, and homography application reject
+  non-finite mapped results, including floating-point overflow during division.
+- Checked camera projection/bearing entry points require finite intrinsics and
+  positive focal lengths. `focal_from_fov` requires a finite positive sensor
+  extent and a finite angle strictly between zero and pi. Non-raising algebra
+  helpers such as `pixel_to_normalized` remain unchecked transformations.
 
 ## Distortion
 
@@ -32,6 +39,10 @@ fixed-size numeric tools needed by the public camera and multi-view APIs.
 
 - RANSAC sampling uses an explicit seed so tests, examples, and CI runs are
   reproducible.
+- Four-point samples contain four distinct indices. Invalid estimator configuration
+  and non-finite input coordinates are errors; singular sampled models are skipped
+  within the configured iteration budget. No eager full-data/prefix fallback
+  solve is needed before robust sampling.
 - Scores are the sum of inlier residuals; `RansacResult::inlier_ratio` exposes
   the corresponding ratio separately.
 - Homography RANSAC thresholds are pixel/projective reprojection distances.
@@ -43,3 +54,21 @@ fixed-size numeric tools needed by the public camera and multi-view APIs.
 - The linear eight-point API fixes the bottom-right coefficient to one. It is
   useful for stable, testable small inputs, but does not perform the optional
   rank-two SVD projection.
+
+## Confidence and iteration budgets
+
+Confidence helpers use `-expm1(n * log1p(-p))` for `1 - (1 - p)^n` so tiny
+positive sample probabilities remain informative. Iteration estimates find the
+smallest sufficient count by bounded bisection, requiring at most 31 steps.
+Sample probabilities use exponentiation rather than loops over sample size.
+The confidence/count APIs described here reject NaN, infinity, and values outside
+their stated ranges when they expose a throwing interface.
+
+`required_iterations` and `adaptive_iteration_bound` retain their historical
+1,000,000 cap. `schedule_required_iterations` caps at 2,147,483,647;
+`adaptive_required_iterations` uses the caller's positive budget (at least one).
+Returning the cap does not guarantee the requested confidence is reachable.
+Non-throwing schedule helpers clamp ratios/confidences, map NaN to zero,
+and retain the schedule confidence ceiling of 0.999999999. A zero target needs
+one trial; an impossible positive target returns the cap. Non-positive sample
+sizes retain their existing zero-size-sample success convention.

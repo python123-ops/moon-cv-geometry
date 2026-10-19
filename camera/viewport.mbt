@@ -5,6 +5,12 @@ pub(all) struct ImageSize {
 } derive(Debug, Eq)
 
 ///|
+pub extend ImageSize with @debug.Debug::{to_repr}
+
+///|
+pub extend ImageSize with Eq::{equal, not_equal}
+
+///|
 pub fn ImageSize::new(
   width~ : Int,
   height~ : Int,

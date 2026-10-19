@@ -6,6 +6,12 @@ pub(all) struct CameraView {
 } derive(Debug, Eq)
 
 ///|
+pub extend CameraView with @debug.Debug::{to_repr}
+
+///|
+pub extend CameraView with Eq::{equal, not_equal}
+
+///|
 pub fn CameraView::new(
   id~ : Int,
   intrinsics~ : CameraIntrinsics,
@@ -21,9 +27,21 @@ pub(all) struct ProjectedObservation {
 } derive(Debug, Eq)
 
 ///|
+pub extend ProjectedObservation with @debug.Debug::{to_repr}
+
+///|
+pub extend ProjectedObservation with Eq::{equal, not_equal}
+
+///|
 pub(all) struct CameraRig {
   views : Array[CameraView]
 } derive(Debug, Eq)
+
+///|
+pub extend CameraRig with @debug.Debug::{to_repr}
+
+///|
+pub extend CameraRig with Eq::{equal, not_equal}
 
 ///|
 pub fn CameraRig::new(views : ArrayView[CameraView]) -> CameraRig {

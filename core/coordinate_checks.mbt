@@ -1,22 +1,32 @@
 ///|
 /// Coordinate-system checks shared by camera and multiview entry points.
 pub fn finite_vec2(v : Vec2) -> Bool {
-  v.x == v.x && v.y == v.y
+  !v.x.is_nan() && !v.x.is_inf() && !v.y.is_nan() && !v.y.is_inf()
 }
 
 ///|
 pub fn finite_vec3(v : Vec3) -> Bool {
-  v.x == v.x && v.y == v.y && v.z == v.z
+  !v.x.is_nan() &&
+  !v.x.is_inf() &&
+  !v.y.is_nan() &&
+  !v.y.is_inf() &&
+  !v.z.is_nan() &&
+  !v.z.is_inf()
 }
 
 ///|
 pub fn coordinate_finite_point2(p : Point2) -> Bool {
-  p.x == p.x && p.y == p.y
+  !p.x.is_nan() && !p.x.is_inf() && !p.y.is_nan() && !p.y.is_inf()
 }
 
 ///|
 pub fn coordinate_finite_point3(p : Point3) -> Bool {
-  p.x == p.x && p.y == p.y && p.z == p.z
+  !p.x.is_nan() &&
+  !p.x.is_inf() &&
+  !p.y.is_nan() &&
+  !p.y.is_inf() &&
+  !p.z.is_nan() &&
+  !p.z.is_inf()
 }
 
 ///|

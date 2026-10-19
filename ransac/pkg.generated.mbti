@@ -421,12 +421,15 @@ pub(all) struct AdaptiveStopState {
   mut best_ratio : Double
   mut stable_iterations : Int
 } derive(Eq, @debug.Debug)
+pub fn AdaptiveStopState::equal(Self, Self) -> Bool
 pub fn AdaptiveStopState::is_stable(Self, Int) -> Bool
 pub fn AdaptiveStopState::new(minimum_iterations~ : Int, target_ratio~ : Double) -> Self
+pub fn AdaptiveStopState::not_equal(Self, Self) -> Bool
 pub fn AdaptiveStopState::observe(Self, inliers~ : Int, total~ : Int) -> Unit
 pub fn AdaptiveStopState::progress(Self, Int) -> Double
 pub fn AdaptiveStopState::remaining(Self, Int) -> Int
 pub fn AdaptiveStopState::should_stop(Self) -> Bool
+pub fn AdaptiveStopState::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ConsensusCandidate2 {
   inliers : Int
@@ -436,12 +439,18 @@ pub(all) struct ConsensusCandidate2 {
   residual_sum : Double
   threshold : Double
 } derive(Eq, @debug.Debug)
+pub fn ConsensusCandidate2::equal(Self, Self) -> Bool
+pub fn ConsensusCandidate2::not_equal(Self, Self) -> Bool
+pub fn ConsensusCandidate2::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ConsensusRecord {
   inlier_count : Int
   score : Double
   residual_sum : Double
 } derive(Eq, @debug.Debug)
+pub fn ConsensusRecord::equal(Self, Self) -> Bool
+pub fn ConsensusRecord::not_equal(Self, Self) -> Bool
+pub fn ConsensusRecord::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ConsensusReport {
   total : Int
@@ -451,7 +460,10 @@ pub(all) struct ConsensusReport {
   max_inlier_error : Double
 } derive(Eq, @debug.Debug)
 pub fn ConsensusReport::acceptable(Self, minimum_ratio~ : Double, maximum_mean_error~ : Double) -> Bool
+pub fn ConsensusReport::equal(Self, Self) -> Bool
+pub fn ConsensusReport::not_equal(Self, Self) -> Bool
 pub fn ConsensusReport::summary_score(Self) -> Double
+pub fn ConsensusReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ConsensusTable {
   threshold : Double
@@ -481,14 +493,20 @@ pub(all) struct DiagnosticReport {
   maximum : Double
   label : String
 } derive(Eq, @debug.Debug)
+pub fn DiagnosticReport::equal(Self, Self) -> Bool
+pub fn DiagnosticReport::not_equal(Self, Self) -> Bool
+pub fn DiagnosticReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct InlierMask {
   values : Array[Bool]
 } derive(Eq, @debug.Debug)
 pub fn InlierMask::count(Self) -> Int
+pub fn InlierMask::equal(Self, Self) -> Bool
 pub fn InlierMask::indices(Self) -> Array[Int]
 pub fn InlierMask::is_inlier(Self, Int) -> Bool raise @core.GeometryError
 pub fn InlierMask::length(Self) -> Int
+pub fn InlierMask::not_equal(Self, Self) -> Bool
+pub fn InlierMask::to_repr(Self) -> @debug.Repr
 
 pub(all) struct IterationSchedule {
   max_iterations : Int
@@ -502,7 +520,10 @@ pub(all) struct MlesacConfig {
   inlier_scale : Double
   outlier_scale : Double
 } derive(Eq, @debug.Debug)
+pub fn MlesacConfig::equal(Self, Self) -> Bool
 pub fn MlesacConfig::new(inlier_scale~ : Double, outlier_scale~ : Double) -> Self
+pub fn MlesacConfig::not_equal(Self, Self) -> Bool
+pub fn MlesacConfig::to_repr(Self) -> @debug.Repr
 pub fn MlesacConfig::valid(Self) -> Bool
 
 pub(all) struct ModelReport {
@@ -514,7 +535,10 @@ pub(all) struct ModelReport {
   converged : Bool
 } derive(Eq, @debug.Debug)
 pub fn ModelReport::confidence(Self) -> Double
+pub fn ModelReport::equal(Self, Self) -> Bool
 pub fn ModelReport::is_usable(Self, Double, Int) -> Bool
+pub fn ModelReport::not_equal(Self, Self) -> Bool
+pub fn ModelReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ModelSelectionSummary {
   candidates : Int
@@ -524,6 +548,9 @@ pub(all) struct ModelSelectionSummary {
   mean_ratio : Double
   mean_iterations : Double
 } derive(Eq, @debug.Debug)
+pub fn ModelSelectionSummary::equal(Self, Self) -> Bool
+pub fn ModelSelectionSummary::not_equal(Self, Self) -> Bool
+pub fn ModelSelectionSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct RansacConfig {
   iterations : Int
@@ -531,7 +558,10 @@ pub(all) struct RansacConfig {
   min_inliers : Int
   seed : UInt
 } derive(Eq, @debug.Debug)
+pub fn RansacConfig::equal(Self, Self) -> Bool
 pub fn RansacConfig::new(iterations? : Int, threshold? : Double, min_inliers? : Int, seed? : UInt) -> Self
+pub fn RansacConfig::not_equal(Self, Self) -> Bool
+pub fn RansacConfig::to_repr(Self) -> @debug.Repr
 pub fn RansacConfig::validated(Self, data_size~ : Int) -> Self raise @core.GeometryError
 
 pub(all) struct RansacResult[T] {
@@ -540,9 +570,12 @@ pub(all) struct RansacResult[T] {
   inlier_count : Int
   score : Double
 } derive(Eq, @debug.Debug)
+pub fn[T : Eq] RansacResult::equal(Self[T], Self[T]) -> Bool
 pub fn[T] RansacResult::inlier_ratio(Self[T]) -> Double
 pub fn[T] RansacResult::is_confident(Self[T], minimum_ratio? : Double) -> Bool
+pub fn[T : Eq] RansacResult::not_equal(Self[T], Self[T]) -> Bool
 pub fn[T] RansacResult::outlier_count(Self[T]) -> Int
+pub fn[T : @debug.Debug] RansacResult::to_repr(Self[T]) -> @debug.Repr
 
 pub(all) struct SampleBatchSummary {
   samples : Int
@@ -552,6 +585,9 @@ pub(all) struct SampleBatchSummary {
   coverage : Double
   score : Double
 } derive(Eq, @debug.Debug)
+pub fn SampleBatchSummary::equal(Self, Self) -> Bool
+pub fn SampleBatchSummary::not_equal(Self, Self) -> Bool
+pub fn SampleBatchSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ScheduleProgress {
   iteration : Int
@@ -559,6 +595,9 @@ pub(all) struct ScheduleProgress {
   best_ratio : Double
   expected_success : Double
 } derive(Eq, @debug.Debug)
+pub fn ScheduleProgress::equal(Self, Self) -> Bool
+pub fn ScheduleProgress::not_equal(Self, Self) -> Bool
+pub fn ScheduleProgress::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ThresholdSweepResult {
   threshold : Double
@@ -566,7 +605,10 @@ pub(all) struct ThresholdSweepResult {
   score : Double
 } derive(Eq, @debug.Debug)
 pub fn ThresholdSweepResult::acceptable(Self, Int, minimum_ratio~ : Double) -> Bool
+pub fn ThresholdSweepResult::equal(Self, Self) -> Bool
+pub fn ThresholdSweepResult::not_equal(Self, Self) -> Bool
 pub fn ThresholdSweepResult::ratio(Self, Int) -> Double
+pub fn ThresholdSweepResult::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 

@@ -6,6 +6,12 @@ pub(all) struct Triangle3 {
 } derive(Debug, Eq)
 
 ///|
+pub extend Triangle3 with @debug.Debug::{to_repr}
+
+///|
+pub extend Triangle3 with Eq::{equal, not_equal}
+
+///|
 pub fn Triangle3::new(a~ : Point3, b~ : Point3, c~ : Point3) -> Triangle3 {
   { a, b, c, }
 }
@@ -118,6 +124,12 @@ pub(all) struct Aabb3 {
   min : Point3
   max : Point3
 } derive(Debug, Eq)
+
+///|
+pub extend Aabb3 with @debug.Debug::{to_repr}
+
+///|
+pub extend Aabb3 with Eq::{equal, not_equal}
 
 ///|
 pub fn Aabb3::from_points(

@@ -8,6 +8,12 @@ pub(all) struct ConsensusReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend ConsensusReport with @debug.Debug::{to_repr}
+
+///|
+pub extend ConsensusReport with Eq::{equal, not_equal}
+
+///|
 pub fn report_from_residuals(
   residuals : ArrayView[Double],
   threshold~ : Double,

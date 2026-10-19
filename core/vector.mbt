@@ -10,10 +10,14 @@ pub fn Point2::to_homogeneous(p : Point2) -> Vec3 {
 
 ///|
 pub fn point2_from_homogeneous(v : Vec3) -> Point2 raise GeometryError {
-  if abs(v.z) <= 0.000000000001 {
+  if !finite_vec3(v) || abs(v.z) <= 0.000000000001 {
     raise GeometryError::DegenerateInput("homogeneous point has zero scale")
   }
-  Point2::new(x=v.x / v.z, y=v.y / v.z)
+  let point = Point2::new(x=v.x / v.z, y=v.y / v.z)
+  if !finite_point2(point) {
+    raise GeometryError::DegenerateInput("homogeneous division overflows")
+  }
+  point
 }
 
 ///|

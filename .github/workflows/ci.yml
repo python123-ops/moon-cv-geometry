@@ -26,6 +26,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup verification Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup JavaScript backend runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Setup MoonBit on Unix
         if: runner.os != 'Windows'
         run: |
@@ -36,31 +46,22 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
           irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
-          "$HOME\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+          "$HOME\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Setup native compiler on Ubuntu
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc libssl-dev
+          cc --version
 
       - name: Setup native compiler on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install gcc openssl
+          cc --version
 
       - name: Setup native compiler on Windows
         if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          path-type: inherit
-          install: >-
-            mingw-w64-ucrt-x86_64-gcc
-            mingw-w64-ucrt-x86_64-openssl
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Post install
         run: |
@@ -75,27 +76,16 @@ jobs:
             throw "Unable to parse Moonc version: $versionLine"
           }
           $version = [version]::new([int]$Matches.major, [int]$Matches.minor, [int]$Matches.patch)
-          $minimum = [version]'0.10.9'
+          $minimum = [version]'0.10.14'
           Write-Host "Moonc $versionLine"
           if ($version -lt $minimum) {
             throw "Moonc $version is older than the supported minimum $minimum"
           }
 
-      - name: Format gate
-        run: |
-          moon fmt --check
+      - name: Strict four-backend tests, numerical examples, interfaces, and package
+        run: python scripts/verify.py --report _build/verification.json
 
-      - name: Check all targets
-        run: |
-          # Existing source uses pre-0.10.14 implicit test-package imports and
-          # derived trait methods; keep other warnings fatal until migration.
-          moon check --target all --deny-warn --warn-list '-25-79'
-
-      - name: Test all targets
-        run: |
-          moon test --target all --deny-warn --warn-list '-25-79' --enable-coverage
-
-      - name: Native coverage summary
+      - name: Coverage summary
         if: runner.os == 'Linux'
         run: |
           moon coverage report -f summary
@@ -103,17 +93,4 @@ jobs:
 
       - name: Interface gate
         run: |
-          moon info
-          # Toolchain versions may normalize the final blank line in generated
-          # interfaces; keep the gate focused on public API content changes.
-          git diff --ignore-blank-lines --exit-code -- '*.mbti'
-
-      - name: Package gate
-        run: |
-          moon package
-
-      - name: Reproducible CLI smoke check
-        run: |
-          moon run --warn-list '-25-79' examples/project_point
-          moon run --warn-list '-25-79' examples/homography
-          moon run --warn-list '-25-79' examples/detection_bounds
+          git diff --exit-code -- '*.mbti'

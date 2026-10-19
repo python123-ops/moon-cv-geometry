@@ -1,6 +1,6 @@
 ///|
 test "track graph connects views through shared tracks" {
-  let graph = TrackGraph::new(view_count=4)
+  let graph = @multiview.TrackGraph::new(view_count=4)
   graph.add_track([0, 1])
   graph.add_track([1, 2])
   graph.add_track([3])
@@ -11,7 +11,7 @@ test "track graph connects views through shared tracks" {
 
 ///|
 test "track graph ignores invalid view ids" {
-  let graph = TrackGraph::new(view_count=2)
+  let graph = @multiview.TrackGraph::new(view_count=2)
   graph.add_track([-1, 0, 9])
   assert_eq(graph.edge_count(), 0)
   assert_eq(graph.component_count(), 2)

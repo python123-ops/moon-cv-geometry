@@ -19,6 +19,12 @@ pub(all) struct Mat4 {
 } derive(Debug, Eq)
 
 ///|
+pub extend Mat4 with @debug.Debug::{to_repr}
+
+///|
+pub extend Mat4 with Eq::{equal, not_equal}
+
+///|
 pub fn mat4_from_rows(
   r0 : (Double, Double, Double, Double),
   r1 : (Double, Double, Double, Double),
@@ -145,6 +151,12 @@ pub(all) struct Quaternion {
 } derive(Debug, Eq)
 
 ///|
+pub extend Quaternion with @debug.Debug::{to_repr}
+
+///|
+pub extend Quaternion with Eq::{equal, not_equal}
+
+///|
 pub fn Quaternion::new(
   w~ : Double,
   x~ : Double,
@@ -229,6 +241,12 @@ pub(all) struct RigidTransform {
   rotation : Mat3
   translation : Vec3
 } derive(Debug, Eq)
+
+///|
+pub extend RigidTransform with @debug.Debug::{to_repr}
+
+///|
+pub extend RigidTransform with Eq::{equal, not_equal}
 
 ///|
 pub fn RigidTransform::identity() -> RigidTransform {

@@ -9,6 +9,12 @@ pub(all) struct ImageSupport {
 } derive(Debug, Eq)
 
 ///|
+pub extend ImageSupport with @debug.Debug::{to_repr}
+
+///|
+pub extend ImageSupport with Eq::{equal, not_equal}
+
+///|
 pub fn image_support_mask(
   size : ImageSize,
   pixels : ArrayView[@core.Point2],
@@ -90,6 +96,12 @@ pub(all) struct DepthHistogram {
   minimum : Double
   maximum : Double
 } derive(Debug, Eq)
+
+///|
+pub extend DepthHistogram with @debug.Debug::{to_repr}
+
+///|
+pub extend DepthHistogram with Eq::{equal, not_equal}
 
 ///|
 pub fn depth_histogram(

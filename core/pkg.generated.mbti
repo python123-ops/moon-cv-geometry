@@ -809,6 +809,9 @@ pub(all) suberror GeometryError {
   DegenerateInput(String)
   NotEnoughPoints(String)
 } derive(Eq, @debug.Debug)
+pub fn GeometryError::equal(Self, Self) -> Bool
+pub fn GeometryError::not_equal(Self, Self) -> Bool
+pub fn GeometryError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
 pub(all) struct Aabb3 {
@@ -817,8 +820,11 @@ pub(all) struct Aabb3 {
 } derive(Eq, @debug.Debug)
 pub fn Aabb3::center(Self) -> Point3
 pub fn Aabb3::contains(Self, Point3) -> Bool
+pub fn Aabb3::equal(Self, Self) -> Bool
 pub fn Aabb3::expand(Self, Double) -> Self
 pub fn Aabb3::from_points(ArrayView[Point3]) -> Self raise GeometryError
+pub fn Aabb3::not_equal(Self, Self) -> Bool
+pub fn Aabb3::to_repr(Self) -> @debug.Repr
 pub fn Aabb3::volume(Self) -> Double
 
 pub(all) struct Circle2 {
@@ -826,17 +832,23 @@ pub(all) struct Circle2 {
   radius : Double
 } derive(Eq, @debug.Debug)
 pub fn Circle2::contains(Self, Point2) -> Bool
+pub fn Circle2::equal(Self, Self) -> Bool
 pub fn Circle2::new(center~ : Point2, radius~ : Double) -> Self raise GeometryError
+pub fn Circle2::not_equal(Self, Self) -> Bool
 pub fn Circle2::signed_distance(Self, Point2) -> Double
+pub fn Circle2::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Line2 {
   normal : Vec2
   offset : Double
 } derive(Eq, @debug.Debug)
+pub fn Line2::equal(Self, Self) -> Bool
 pub fn Line2::from_points(Point2, Point2) -> Self raise GeometryError
 pub fn Line2::intersect(Self, Self) -> Point2?
+pub fn Line2::not_equal(Self, Self) -> Bool
 pub fn Line2::project(Self, Point2) -> Point2
 pub fn Line2::signed_distance(Self, Point2) -> Double
+pub fn Line2::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Mat3 {
   m00 : Double
@@ -852,6 +864,7 @@ pub(all) struct Mat3 {
 pub fn Mat3::add(Self, Self) -> Self
 pub fn Mat3::det(Self) -> Double
 pub fn Mat3::diagonal(Self) -> Vec3
+pub fn Mat3::equal(Self, Self) -> Bool
 pub fn Mat3::frobenius_norm(Self) -> Double
 pub fn Mat3::hadamard(Self, Self) -> Self
 pub fn Mat3::inverse(Self) -> Self raise GeometryError
@@ -859,10 +872,12 @@ pub fn Mat3::is_orthonormal(Self, tolerance? : Double) -> Bool
 pub fn Mat3::is_symmetric(Self, tolerance? : Double) -> Bool
 pub fn Mat3::mul(Self, Self) -> Self
 pub fn Mat3::mul_vec3(Self, Vec3) -> Vec3
+pub fn Mat3::not_equal(Self, Self) -> Bool
 pub fn Mat3::off_diagonal_norm(Self) -> Double
 pub fn Mat3::power(Self, Int) -> Self
 pub fn Mat3::scale(Self, Double) -> Self
 pub fn Mat3::sub(Self, Self) -> Self
+pub fn Mat3::to_repr(Self) -> @debug.Repr
 pub fn Mat3::trace(Self) -> Double
 pub fn Mat3::transpose(Self) -> Self
 
@@ -880,6 +895,9 @@ pub(all) struct Mat34 {
   m22 : Double
   m23 : Double
 } derive(Eq, @debug.Debug)
+pub fn Mat34::equal(Self, Self) -> Bool
+pub fn Mat34::not_equal(Self, Self) -> Bool
+pub fn Mat34::to_repr(Self) -> @debug.Repr
 pub fn Mat34::transform_point(Self, Point3) -> Point3
 
 pub(all) struct Mat4 {
@@ -900,7 +918,10 @@ pub(all) struct Mat4 {
   m32 : Double
   m33 : Double
 } derive(Eq, @debug.Debug)
+pub fn Mat4::equal(Self, Self) -> Bool
 pub fn Mat4::mul(Self, Self) -> Self
+pub fn Mat4::not_equal(Self, Self) -> Bool
+pub fn Mat4::to_repr(Self) -> @debug.Repr
 pub fn Mat4::transform_point(Self, Point3) -> Point3 raise GeometryError
 pub fn Mat4::transpose(Self) -> Self
 
@@ -908,23 +929,32 @@ pub(all) struct NumericRange {
   min : Double
   max : Double
 } derive(Eq, @debug.Debug)
+pub fn NumericRange::equal(Self, Self) -> Bool
+pub fn NumericRange::not_equal(Self, Self) -> Bool
+pub fn NumericRange::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Plane3 {
   normal : Vec3
   offset : Double
 } derive(Eq, @debug.Debug)
+pub fn Plane3::equal(Self, Self) -> Bool
 pub fn Plane3::from_points(Point3, Point3, Point3) -> Self raise GeometryError
+pub fn Plane3::not_equal(Self, Self) -> Bool
 pub fn Plane3::project(Self, Point3) -> Point3
 pub fn Plane3::ray_hit(Self, Ray3) -> Double?
 pub fn Plane3::signed_distance(Self, Point3) -> Double
+pub fn Plane3::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Point2 {
   x : Double
   y : Double
 } derive(Eq, @debug.Debug)
+pub fn Point2::equal(Self, Self) -> Bool
 pub fn Point2::minus(Self, Self) -> Vec2
 pub fn Point2::new(x~ : Double, y~ : Double) -> Self
+pub fn Point2::not_equal(Self, Self) -> Bool
 pub fn Point2::to_homogeneous(Self) -> Vec3
+pub fn Point2::to_repr(Self) -> @debug.Repr
 pub fn Point2::to_vec(Self) -> Vec2
 pub fn Point2::translate(Self, Vec2) -> Self
 
@@ -933,8 +963,11 @@ pub(all) struct Point3 {
   y : Double
   z : Double
 } derive(Eq, @debug.Debug)
+pub fn Point3::equal(Self, Self) -> Bool
 pub fn Point3::minus(Self, Self) -> Vec3
 pub fn Point3::new(x~ : Double, y~ : Double, z~ : Double) -> Self
+pub fn Point3::not_equal(Self, Self) -> Bool
+pub fn Point3::to_repr(Self) -> @debug.Repr
 pub fn Point3::to_vec(Self) -> Vec3
 pub fn Point3::translate(Self, Vec3) -> Self
 
@@ -944,12 +977,15 @@ pub(all) struct PointCloud {
 pub fn PointCloud::bounds(Self) -> Aabb3 raise GeometryError
 pub fn PointCloud::centroid(Self) -> Point3 raise GeometryError
 pub fn PointCloud::depth_range(Self) -> (Double, Double) raise GeometryError
+pub fn PointCloud::equal(Self, Self) -> Bool
 pub fn PointCloud::filter_depth(Self, minimum~ : Double, maximum~ : Double) -> Self raise GeometryError
 pub fn PointCloud::from_points(ArrayView[Point3]) -> Self
 pub fn PointCloud::is_empty(Self) -> Bool
 pub fn PointCloud::length(Self) -> Int
+pub fn PointCloud::not_equal(Self, Self) -> Bool
 pub fn PointCloud::positive_depth_ratio(Self) -> Double
 pub fn PointCloud::rms_radius(Self) -> Double raise GeometryError
+pub fn PointCloud::to_repr(Self) -> @debug.Repr
 pub fn PointCloud::valid_depth_count(Self) -> Int
 
 pub(all) struct PointCloudPipelineSummary {
@@ -961,6 +997,9 @@ pub(all) struct PointCloudPipelineSummary {
   mean_distance : Double
   maximum_distance : Double
 } derive(Eq, @debug.Debug)
+pub fn PointCloudPipelineSummary::equal(Self, Self) -> Bool
+pub fn PointCloudPipelineSummary::not_equal(Self, Self) -> Bool
+pub fn PointCloudPipelineSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Quadratic {
   a : Double
@@ -968,9 +1007,12 @@ pub(all) struct Quadratic {
   c : Double
 } derive(Eq, @debug.Debug)
 pub fn Quadratic::derivative(Self, Double) -> Double
+pub fn Quadratic::equal(Self, Self) -> Bool
 pub fn Quadratic::evaluate(Self, Double) -> Double
 pub fn Quadratic::new(a~ : Double, b~ : Double, c~ : Double) -> Self
+pub fn Quadratic::not_equal(Self, Self) -> Bool
 pub fn Quadratic::roots(Self) -> Array[Double] raise GeometryError
+pub fn Quadratic::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Quaternion {
   w : Double
@@ -979,13 +1021,16 @@ pub(all) struct Quaternion {
   z : Double
 } derive(Eq, @debug.Debug)
 pub fn Quaternion::conjugate(Self) -> Self
+pub fn Quaternion::equal(Self, Self) -> Bool
 pub fn Quaternion::identity() -> Self
 pub fn Quaternion::mul(Self, Self) -> Self
 pub fn Quaternion::new(w~ : Double, x~ : Double, y~ : Double, z~ : Double) -> Self
 pub fn Quaternion::norm(Self) -> Double
 pub fn Quaternion::normalize(Self) -> Self raise GeometryError
+pub fn Quaternion::not_equal(Self, Self) -> Bool
 pub fn Quaternion::rotate(Self, Vec3) -> Vec3
 pub fn Quaternion::to_mat3(Self) -> Mat3
+pub fn Quaternion::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Ray3 {
   origin : Point3
@@ -993,8 +1038,11 @@ pub(all) struct Ray3 {
 } derive(Eq, @debug.Debug)
 pub fn Ray3::closest_midpoint(Self, Self) -> Point3 raise GeometryError
 pub fn Ray3::closest_separation(Self, Self) -> Double raise GeometryError
+pub fn Ray3::equal(Self, Self) -> Bool
 pub fn Ray3::new(origin~ : Point3, direction~ : Vec3) -> Self raise GeometryError
+pub fn Ray3::not_equal(Self, Self) -> Bool
 pub fn Ray3::point_at(Self, Double) -> Point3
+pub fn Ray3::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Rect2 {
   min : Point2
@@ -1003,11 +1051,14 @@ pub(all) struct Rect2 {
 pub fn Rect2::area(Self) -> Double
 pub fn Rect2::center(Self) -> Point2
 pub fn Rect2::contains(Self, Point2) -> Bool
+pub fn Rect2::equal(Self, Self) -> Bool
 pub fn Rect2::expand(Self, Double) -> Self raise GeometryError
 pub fn Rect2::from_center_size(center~ : Point2, width~ : Double, height~ : Double) -> Self raise GeometryError
 pub fn Rect2::height(Self) -> Double
 pub fn Rect2::intersection(Self, Self) -> Self?
 pub fn Rect2::new(min~ : Point2, max~ : Point2) -> Self raise GeometryError
+pub fn Rect2::not_equal(Self, Self) -> Bool
+pub fn Rect2::to_repr(Self) -> @debug.Repr
 pub fn Rect2::union(Self, Self) -> Self
 pub fn Rect2::width(Self) -> Double
 
@@ -1017,9 +1068,12 @@ pub(all) struct RigidTransform {
 } derive(Eq, @debug.Debug)
 pub fn RigidTransform::apply(Self, Point3) -> Point3
 pub fn RigidTransform::compose(Self, Self) -> Self
+pub fn RigidTransform::equal(Self, Self) -> Bool
 pub fn RigidTransform::identity() -> Self
 pub fn RigidTransform::inverse(Self) -> Self
 pub fn RigidTransform::new(rotation~ : Mat3, translation~ : Vec3) -> Self
+pub fn RigidTransform::not_equal(Self, Self) -> Bool
+pub fn RigidTransform::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ScalarGrid {
   width : Int
@@ -1046,11 +1100,14 @@ pub(all) struct StreamingSummary {
   mut minimum : Double
   mut maximum : Double
 } derive(Eq, @debug.Debug)
+pub fn StreamingSummary::equal(Self, Self) -> Bool
 pub fn StreamingSummary::is_empty(Self) -> Bool
+pub fn StreamingSummary::not_equal(Self, Self) -> Bool
 pub fn StreamingSummary::population_variance(Self) -> Double
 pub fn StreamingSummary::range(Self) -> Double
 pub fn StreamingSummary::sample_variance(Self) -> Double
 pub fn StreamingSummary::standard_deviation(Self) -> Double
+pub fn StreamingSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TransformChain {
   transforms : Array[RigidTransform]
@@ -1058,10 +1115,13 @@ pub(all) struct TransformChain {
 pub fn TransformChain::append(Self, RigidTransform) -> Self
 pub fn TransformChain::apply(Self, Point3) -> Point3
 pub fn TransformChain::compose(Self) -> RigidTransform
+pub fn TransformChain::equal(Self, Self) -> Bool
 pub fn TransformChain::inverse(Self) -> Self
 pub fn TransformChain::is_empty(Self) -> Bool
 pub fn TransformChain::length(Self) -> Int
 pub fn TransformChain::new(ArrayView[RigidTransform]) -> Self
+pub fn TransformChain::not_equal(Self, Self) -> Bool
+pub fn TransformChain::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Triangle3 {
   a : Point3
@@ -1071,8 +1131,11 @@ pub(all) struct Triangle3 {
 pub fn Triangle3::area(Self) -> Double
 pub fn Triangle3::barycentric(Self, Point3) -> (Double, Double, Double) raise GeometryError
 pub fn Triangle3::centroid(Self) -> Point3
+pub fn Triangle3::equal(Self, Self) -> Bool
 pub fn Triangle3::new(a~ : Point3, b~ : Point3, c~ : Point3) -> Self
 pub fn Triangle3::normal(Self) -> Vec3 raise GeometryError
+pub fn Triangle3::not_equal(Self, Self) -> Bool
+pub fn Triangle3::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Vec2 {
   x : Double
@@ -1080,12 +1143,15 @@ pub(all) struct Vec2 {
 } derive(Eq, @debug.Debug)
 pub fn Vec2::add(Self, Self) -> Self
 pub fn Vec2::dot(Self, Self) -> Double
+pub fn Vec2::equal(Self, Self) -> Bool
 pub fn Vec2::new(x~ : Double, y~ : Double) -> Self
 pub fn Vec2::norm(Self) -> Double
 pub fn Vec2::norm2(Self) -> Double
 pub fn Vec2::normalize(Self) -> Self raise GeometryError
+pub fn Vec2::not_equal(Self, Self) -> Bool
 pub fn Vec2::scale(Self, Double) -> Self
 pub fn Vec2::sub(Self, Self) -> Self
+pub fn Vec2::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Vec3 {
   x : Double
@@ -1095,12 +1161,15 @@ pub(all) struct Vec3 {
 pub fn Vec3::add(Self, Self) -> Self
 pub fn Vec3::cross(Self, Self) -> Self
 pub fn Vec3::dot(Self, Self) -> Double
+pub fn Vec3::equal(Self, Self) -> Bool
 pub fn Vec3::new(x~ : Double, y~ : Double, z~ : Double) -> Self
 pub fn Vec3::norm(Self) -> Double
 pub fn Vec3::norm2(Self) -> Double
 pub fn Vec3::normalize(Self) -> Self raise GeometryError
+pub fn Vec3::not_equal(Self, Self) -> Bool
 pub fn Vec3::scale(Self, Double) -> Self
 pub fn Vec3::sub(Self, Self) -> Self
+pub fn Vec3::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 

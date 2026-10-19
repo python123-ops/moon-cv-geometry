@@ -9,6 +9,12 @@ pub(all) struct ReconstructionTrackReport {
 } derive(Debug, Eq)
 
 ///|
+pub extend ReconstructionTrackReport with @debug.Debug::{to_repr}
+
+///|
+pub extend ReconstructionTrackReport with Eq::{equal, not_equal}
+
+///|
 pub fn reconstruction_track_report(
   observations : ArrayView[TrackObservation],
   minimum_views~ : Int,
@@ -196,6 +202,12 @@ pub(all) struct TriangulationGate {
   minimum_baseline : Double
   maximum_reprojection : Double
 } derive(Debug, Eq)
+
+///|
+pub extend TriangulationGate with @debug.Debug::{to_repr}
+
+///|
+pub extend TriangulationGate with Eq::{equal, not_equal}
 
 ///|
 pub fn TriangulationGate::new(

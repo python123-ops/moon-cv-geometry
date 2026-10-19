@@ -425,8 +425,11 @@ pub(all) struct Affine2D {
 } derive(Eq, @debug.Debug)
 pub fn Affine2D::apply(Self, @core.Point2) -> @core.Point2
 pub fn Affine2D::determinant(Self) -> Double
+pub fn Affine2D::equal(Self, Self) -> Bool
 pub fn Affine2D::identity() -> Self
 pub fn Affine2D::inverse(Self) -> Self raise @core.GeometryError
+pub fn Affine2D::not_equal(Self, Self) -> Bool
+pub fn Affine2D::to_repr(Self) -> @debug.Repr
 
 pub(all) struct BaselineStatistics {
   count : Int
@@ -435,6 +438,9 @@ pub(all) struct BaselineStatistics {
   maximum : Double
   rms : Double
 } derive(Eq, @debug.Debug)
+pub fn BaselineStatistics::equal(Self, Self) -> Bool
+pub fn BaselineStatistics::not_equal(Self, Self) -> Bool
+pub fn BaselineStatistics::to_repr(Self) -> @debug.Repr
 
 pub(all) struct BundleStatistics {
   count : Int
@@ -450,23 +456,35 @@ pub(all) struct CameraPair {
   intrinsics_right : @camera.CameraIntrinsics
 } derive(Eq, @debug.Debug)
 pub fn CameraPair::bearings(Self, @core.Point2, @core.Point2) -> (@core.Ray3, @core.Ray3) raise @core.GeometryError
+pub fn CameraPair::equal(Self, Self) -> Bool
 pub fn CameraPair::new(left~ : @camera.CameraPose, right~ : @camera.CameraPose, intrinsics_left~ : @camera.CameraIntrinsics, intrinsics_right~ : @camera.CameraIntrinsics) -> Self
+pub fn CameraPair::not_equal(Self, Self) -> Bool
+pub fn CameraPair::to_repr(Self) -> @debug.Repr
 
 pub(all) struct EssentialMatrix {
   matrix : @core.Mat3
 } derive(Eq, @debug.Debug)
+pub fn EssentialMatrix::equal(Self, Self) -> Bool
 pub fn EssentialMatrix::new(matrix~ : @core.Mat3) -> Self
+pub fn EssentialMatrix::not_equal(Self, Self) -> Bool
+pub fn EssentialMatrix::to_repr(Self) -> @debug.Repr
 
 pub(all) struct FundamentalMatrix {
   matrix : @core.Mat3
 } derive(Eq, @debug.Debug)
+pub fn FundamentalMatrix::equal(Self, Self) -> Bool
 pub fn FundamentalMatrix::new(matrix~ : @core.Mat3) -> Self
+pub fn FundamentalMatrix::not_equal(Self, Self) -> Bool
+pub fn FundamentalMatrix::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Homography {
   matrix : @core.Mat3
 } derive(Eq, @debug.Debug)
 pub fn Homography::apply(Self, @core.Point2) -> @core.Point2 raise @core.GeometryError
+pub fn Homography::equal(Self, Self) -> Bool
 pub fn Homography::new(matrix~ : @core.Mat3) -> Self
+pub fn Homography::not_equal(Self, Self) -> Bool
+pub fn Homography::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ObservationMatrix {
   views : Int
@@ -489,21 +507,30 @@ pub(all) struct PointCloudReport {
   centroid : @core.Point3
 } derive(Eq, @debug.Debug)
 pub fn PointCloudReport::depth_span(Self) -> Double
+pub fn PointCloudReport::equal(Self, Self) -> Bool
 pub fn PointCloudReport::from_points(ArrayView[@core.Point3]) -> Self
 pub fn PointCloudReport::is_usable(Self, minimum_ratio? : Double) -> Bool
+pub fn PointCloudReport::not_equal(Self, Self) -> Bool
 pub fn PointCloudReport::positive_ratio(Self) -> Double
+pub fn PointCloudReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PointMatch {
   left_index : Int
   right_index : Int
   distance : Double
 } derive(Eq, @debug.Debug)
+pub fn PointMatch::equal(Self, Self) -> Bool
+pub fn PointMatch::not_equal(Self, Self) -> Bool
+pub fn PointMatch::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PointTrack {
   world : @core.Point3
   observations : Array[@camera.CalibrationObservation]
 } derive(Eq, @debug.Debug)
+pub fn PointTrack::equal(Self, Self) -> Bool
 pub fn PointTrack::new(world~ : @core.Point3, observations~ : Array[@camera.CalibrationObservation]) -> Self
+pub fn PointTrack::not_equal(Self, Self) -> Bool
+pub fn PointTrack::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ReconstructionReport {
   total : Int
@@ -511,6 +538,9 @@ pub(all) struct ReconstructionReport {
   median_depth : Double
   median_parallax : Double
 } derive(Eq, @debug.Debug)
+pub fn ReconstructionReport::equal(Self, Self) -> Bool
+pub fn ReconstructionReport::not_equal(Self, Self) -> Bool
+pub fn ReconstructionReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ReconstructionTrackReport {
   total_tracks : Int
@@ -519,6 +549,9 @@ pub(all) struct ReconstructionTrackReport {
   mean_views : Double
   maximum_views : Int
 } derive(Eq, @debug.Debug)
+pub fn ReconstructionTrackReport::equal(Self, Self) -> Bool
+pub fn ReconstructionTrackReport::not_equal(Self, Self) -> Bool
+pub fn ReconstructionTrackReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ReprojectionSummary {
   total : Int
@@ -527,8 +560,11 @@ pub(all) struct ReprojectionSummary {
   rms : Double
   mean_inlier : Double
 } derive(Eq, @debug.Debug)
+pub fn ReprojectionSummary::equal(Self, Self) -> Bool
 pub fn ReprojectionSummary::inlier_ratio(Self) -> Double
 pub fn ReprojectionSummary::is_good(Self, maximum_rms? : Double) -> Bool
+pub fn ReprojectionSummary::not_equal(Self, Self) -> Bool
+pub fn ReprojectionSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TrackAnalytics {
   track_count : Int
@@ -538,6 +574,9 @@ pub(all) struct TrackAnalytics {
   maximum_span : Double
   duplicate_observations : Int
 } derive(Eq, @debug.Debug)
+pub fn TrackAnalytics::equal(Self, Self) -> Bool
+pub fn TrackAnalytics::not_equal(Self, Self) -> Bool
+pub fn TrackAnalytics::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TrackGraph {
   view_count : Int
@@ -572,7 +611,10 @@ pub(all) struct TrackObservation {
   pixel : @core.Point2
   view_id : Int
 } derive(Eq, @debug.Debug)
+pub fn TrackObservation::equal(Self, Self) -> Bool
 pub fn TrackObservation::new(point_id~ : Int, pixel~ : @core.Point2, view_id~ : Int) -> Self
+pub fn TrackObservation::not_equal(Self, Self) -> Bool
+pub fn TrackObservation::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TrackQuality {
   unique_views : Int
@@ -580,6 +622,9 @@ pub(all) struct TrackQuality {
   has_unique_views : Bool
   centroid : @core.Point2
 } derive(Eq, @debug.Debug)
+pub fn TrackQuality::equal(Self, Self) -> Bool
+pub fn TrackQuality::not_equal(Self, Self) -> Bool
+pub fn TrackQuality::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TrackQualityBatchSummary {
   tracks : Int
@@ -589,6 +634,9 @@ pub(all) struct TrackQualityBatchSummary {
   mean_score : Double
   best_score : Double
 } derive(Eq, @debug.Debug)
+pub fn TrackQualityBatchSummary::equal(Self, Self) -> Bool
+pub fn TrackQualityBatchSummary::not_equal(Self, Self) -> Bool
+pub fn TrackQualityBatchSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TrackTable {
   observations : Array[TrackObservation]
@@ -608,26 +656,38 @@ pub(all) struct TrackWindowSummary {
   maximum_motion : Double
   temporal_span : Int
 } derive(Eq, @debug.Debug)
+pub fn TrackWindowSummary::equal(Self, Self) -> Bool
+pub fn TrackWindowSummary::not_equal(Self, Self) -> Bool
+pub fn TrackWindowSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TriangulatedPoint {
   point : @core.Point3
   separation : Double
 } derive(Eq, @debug.Debug)
+pub fn TriangulatedPoint::equal(Self, Self) -> Bool
+pub fn TriangulatedPoint::not_equal(Self, Self) -> Bool
+pub fn TriangulatedPoint::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TriangulationGate {
   minimum_views : Int
   minimum_baseline : Double
   maximum_reprojection : Double
 } derive(Eq, @debug.Debug)
+pub fn TriangulationGate::equal(Self, Self) -> Bool
 pub fn TriangulationGate::new(minimum_views~ : Int, minimum_baseline~ : Double, maximum_reprojection~ : Double) -> Self
+pub fn TriangulationGate::not_equal(Self, Self) -> Bool
+pub fn TriangulationGate::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ViewGraph {
   adjacency : Array[Array[Bool]]
 } derive(Eq, @debug.Debug)
 pub fn ViewGraph::add_edge(Self, Int, Int) -> Unit
 pub fn ViewGraph::component_count(Self) -> Int
+pub fn ViewGraph::equal(Self, Self) -> Bool
 pub fn ViewGraph::has_edge(Self, Int, Int) -> Bool
 pub fn ViewGraph::new(Int) -> Self
+pub fn ViewGraph::not_equal(Self, Self) -> Bool
+pub fn ViewGraph::to_repr(Self) -> @debug.Repr
 pub fn ViewGraph::view_count(Self) -> Int
 
 pub(all) struct WeightedPoseGraph {
